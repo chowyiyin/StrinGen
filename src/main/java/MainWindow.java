@@ -20,7 +20,6 @@ public class MainWindow extends AnchorPane {
     private BorderPane borderPane;
 
     private Generator generator;
-    private String moduleCode;
 
     public void setGen(Generator gen) {
         generator = gen;
@@ -28,8 +27,9 @@ public class MainWindow extends AnchorPane {
 
     @FXML
     private void handleUserInput() throws UnsupportedEncodingException {
-        moduleCode = userInput.getText();
-        EntryWindow entryWindow = new EntryWindow(moduleCode, generator, this);
+        String moduleCode = userInput.getText().toUpperCase();
+        Module module = new Module(moduleCode);
+        EntryWindow entryWindow = new EntryWindow(module, generator, this);
         borderPane.setCenter(entryWindow);
         userInput.clear();
     }

@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
@@ -13,36 +12,41 @@
 <fx:root fx:id="main" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox fx:id="dialogContainer" prefHeight="558.0" prefWidth="878.0" style="-fx-background-color: aliceblue;" />
-      <BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="880.0">
+      <BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="880.0" style="-fx-background-color: #585656;">
          <bottom>
-            <Button fx:id="sendButton1" mnemonicParsing="false" prefHeight="51.0" prefWidth="182.0" style="-fx-background-radius: 10; -fx-background-color: grey; -fx-font-size: 20; -fx-font-family: System; -fx-border-color: black; -fx-border-radius: 10;" text="Generate String" textFill="#000000" translateX="250.0" translateY="-5.0" BorderPane.alignment="CENTER">
+            <Button fx:id="sendButton1" mnemonicParsing="false" prefHeight="51.0" prefWidth="300.0" style="-fx-background-color: white; -fx-font-size: 20; -fx-font-family: System; -fx-border-color: black;" text="GENERATE STRING" textFill="#000000" translateX="250.0" translateY="-25.0" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Ink Free" size="30.0" />
                </font>
-               <effect>
-                  <DropShadow />
-               </effect>
             </Button>
          </bottom>
          <center>
-            <ScrollPane maxHeight="-Infinity" maxWidth="700.0" minHeight="-Infinity" minWidth="700.0" prefHeight="390.0" prefWidth="700.0" style="-fx-background-color: white; -fx-border-radius: 10;" BorderPane.alignment="CENTER">
+            <ScrollPane maxHeight="-Infinity" maxWidth="700.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 1px;" translateY="-10.0" BorderPane.alignment="CENTER">
                <content>
-                <AnchorPane fx:id="editingPane" minHeight="0.0" minWidth="0.0" prefHeight="390.0" prefWidth="684.0" style="-fx-border-radius: 10; -fx-border-color: black;">
+                <AnchorPane fx:id="editingPane" minHeight="0.0" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" style="-fx-border-radius: 2px; -fx-focus-traversable: false;">
                      <children>
-                        <ComboBox fx:id="comboBox" layoutX="68.0" layoutY="33.0" prefWidth="150.0" promptText="YEAR" />
-                        <ComboBox fx:id="comboBox1" layoutX="259.0" layoutY="35.0" prefWidth="150.0" promptText="YEAR" />
+                        <ComboBox fx:id="cohortStart" layoutX="63.0" layoutY="87.0" prefHeight="30.0" prefWidth="150.0" promptText="YEAR" translateY="-1.0" />
+                        <ComboBox fx:id="comboBox1" layoutX="262.0" layoutY="87.0" prefHeight="30.0" prefWidth="150.0" promptText="YEAR" translateY="-1.0" />
+                        <Label fx:id="header" focusTraversable="false" layoutX="55.0" layoutY="8.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="700.0" scaleShape="false" style="-fx-font-weight: bold; -fx-font-size: 20px; -fx-alignment: center;" text="Label" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="header1" focusTraversable="false" layoutX="63.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="128.0" scaleShape="false" style="-fx-font-weight: bold; -fx-font-size: 20px; -fx-alignment: center;" text="Cohort">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="header11" layoutX="211.0" layoutY="86.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="52.0" style="-fx-font-weight: bold; -fx-alignment: center; -fx-background-color: #767676;" text="TO" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                </content>
             </ScrollPane>
          </center>
-         <top>
-            <Label fx:id="header" prefHeight="50.0" prefWidth="700.0" style="-fx-font-weight: bold; -fx-alignment: center;" text="Label" textAlignment="CENTER" translateY="20.0" BorderPane.alignment="CENTER">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Label>
-         </top>
       </BorderPane>
    </children>
 </fx:root>
