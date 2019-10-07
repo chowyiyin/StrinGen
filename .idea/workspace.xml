@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a932881b-86d3-46e2-a275-492d79fd3577" name="Default Changelist" comment="" />
+    <list default="true" id="4e2820da-c41e-43b9-8084-6d4db2ccfffb" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +21,7 @@
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="StrinGen" type="f1a62948:ProjectNode" />
+                <item name="stringen" type="f1a62948:ProjectNode" />
               </path>
             </expand>
             <select />
@@ -40,14 +40,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1RHffXUV3lgrylbbDALRquX1M7W" />
+  <component name="ProjectId" id="1RHfoXLWcCacoooopzdQFOl70uh" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Year 2/Semester 1/fun" />
-    <property name="project.structure.last.edited" value="Artifacts" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
@@ -67,7 +65,7 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="StrinGen [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="stringen [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -88,7 +86,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.StrinGen [run]" />
+        <item itemvalue="Gradle.stringen [run]" />
       </list>
     </recent_temporary>
   </component>
@@ -97,11 +95,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a932881b-86d3-46e2-a275-492d79fd3577" name="Default Changelist" comment="" />
-      <created>1569329045264</created>
+      <changelist id="4e2820da-c41e-43b9-8084-6d4db2ccfffb" name="Default Changelist" comment="" />
+      <created>1569329116243</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1569329045264</updated>
+      <updated>1569329116243</updated>
     </task>
     <servers />
   </component>
