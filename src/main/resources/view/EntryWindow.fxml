@@ -23,7 +23,7 @@
          <center>
             <ScrollPane maxHeight="-Infinity" maxWidth="700.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 1px;" translateY="-10.0" BorderPane.alignment="CENTER">
                <content>
-                <AnchorPane fx:id="editingPane" minHeight="0.0" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" style="-fx-border-radius: 2px; -fx-focus-traversable: false;">
+                <AnchorPane fx:id="editingPane" minHeight="0.0" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" style="-fx-border-radius: 2px;">
                      <children>
                         <ComboBox fx:id="cohortStart" layoutX="63.0" layoutY="87.0" prefHeight="30.0" prefWidth="150.0" promptText="YEAR" translateY="-1.0" />
                         <ComboBox fx:id="comboBox1" layoutX="262.0" layoutY="87.0" prefHeight="30.0" prefWidth="150.0" promptText="YEAR" translateY="-1.0" />
