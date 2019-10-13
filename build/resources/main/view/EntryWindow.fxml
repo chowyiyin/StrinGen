@@ -37,7 +37,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="header11" layoutX="211.0" layoutY="86.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="52.0" style="-fx-font-weight: bold; -fx-alignment: center; -fx-background-color: #767676;" text="TO" textAlignment="CENTER">
+                        <Label fx:id="header11" focusTraversable="false" layoutX="211.0" layoutY="86.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="52.0" scaleShape="false" style="-fx-font-weight: bold; -fx-alignment: center; -fx-background-color: #767676;" text="TO" textAlignment="CENTER">
                            <font>
                               <Font size="20.0" />
                            </font>

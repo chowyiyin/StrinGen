@@ -28,9 +28,12 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() throws UnsupportedEncodingException {
         String moduleCode = userInput.getText().toUpperCase();
-        Module module = new Module(moduleCode);
-        EntryWindow entryWindow = new EntryWindow(module, generator, this);
-        borderPane.setCenter(entryWindow);
-        userInput.clear();
+        boolean isNotEmptyUserInput = !moduleCode.equals("");
+        if (isNotEmptyUserInput) {
+            Module module = new Module(moduleCode);
+            EntryWindow entryWindow = new EntryWindow(module, generator, this);
+            borderPane.setCenter(entryWindow);
+            userInput.clear();
+        }
     }
 }
