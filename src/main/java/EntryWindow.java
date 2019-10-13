@@ -1,26 +1,40 @@
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.Iterator;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ComboBox;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 public class EntryWindow extends AnchorPane {
 
     @FXML
-    private ComboBox<String> cohortStart;
+    private Label header;
 
     @FXML
-    private Label header;
+    private ScrollPane scrollPane;
+
+    @FXML
+    private AnchorPane editingPane;
+
+    @FXML
+    private VBox entryDialogs;
 
     private Module module;
     private Generator generator;
+    private CommandBox commandBox;
 
-    public EntryWindow(Module module, Generator generator, MainWindow mainWindow) {
+
+    public EntryWindow(Module module, Generator generator, CommandBox commandBox) {
         this.module = module;
+        this.generator = generator;
+        this.commandBox = commandBox;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/EntryWindow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(CommandBox.class.getResource("/view/EntryWindow.fxml"));
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
@@ -32,8 +46,19 @@ public class EntryWindow extends AnchorPane {
     @FXML
     public void initialize() {
         header.setText("Module Code : " + module.getModuleCode());
-        cohortStart.getItems().addAll("2011", "2012", "2013");
-        cohortStart.getSelectionModel().select("YEAR");
+        entryDialogs.getChildren().add(new EntryDialog());
+        scrollPane.vvalueProperty().bind(editingPane.heightProperty());
+    }
+
+    @FXML
+    private void generateString() throws UnsupportedEncodingException {
+        Iterator<Node> childrenIterator = entryDialogs.getChildren().iterator();
+        while (childrenIterator.hasNext()) {
+            Node child = childrenIterator.next();
+            EntryDialog childWindow = (EntryDialog) child;
+            module = childWindow.updateModule(module);
+        }
+        commandBox.changeScreen(new ResultWindow(generator, module));
     }
 
 }

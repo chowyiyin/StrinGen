@@ -10,27 +10,27 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private Generator generator = new Generator();
-
-    private static Stage stage;
+    private static Stage primaryStage;
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage primaryStage) {
         try {
-            this.stage = stage;
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
+            this.primaryStage = primaryStage;
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/CommandBox.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
-            stage.setScene(scene);
-            fxmlLoader.<MainWindow>getController().setGen(generator);
-            stage.setTitle("StrinGen");
-            stage.show();
+            primaryStage.setScene(scene);
+            fxmlLoader.<CommandBox>getController().setGen(generator);
+            primaryStage.setTitle("StrinGen");
+            primaryStage.setHeight(600);
+            primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static void setRoot(Parent node) {
-        stage.getScene().setRoot(node);
+        primaryStage.getScene().setRoot(node);
     }
 
 }
