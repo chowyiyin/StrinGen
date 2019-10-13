@@ -1,8 +1,9 @@
+import java.util.ArrayList;
+
 public class Module {
 
     private String moduleCode;
-    private String course;
-    private int totalMcs;
+    private ArrayList<Cohort> cohorts = new ArrayList<Cohort>();
 
     // TODO: add attributes for other components
 
@@ -12,6 +13,10 @@ public class Module {
 
     public String getModuleCode() {
         return moduleCode;
+    }
+
+    public void addNewCohort(String start, String end) {
+        cohorts.add(new Cohort(start, end));
     }
 
     // TODO: add setters and getters for other attributes

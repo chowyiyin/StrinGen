@@ -1,0 +1,18 @@
+.button {
+    -fx-background-color: white;
+    -fx-font-family: "System";
+    -fx-font-size: 20px;
+    -fx-border-color: black;
+    -fx-text-fill: black;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-focus-color: transparent;
+}
+
+.button:hover {
+	-fx-background-color: #cacaca;
+	-fx-cursor: hand;
+}
+
+.addButton {
+    -fx-font-size: 15px;
+}

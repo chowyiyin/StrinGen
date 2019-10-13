@@ -7,7 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-public class MainWindow extends AnchorPane {
+public class CommandBox extends AnchorPane {
     @FXML
     private AnchorPane enterField;
     @FXML
@@ -28,12 +28,16 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() throws UnsupportedEncodingException {
         String moduleCode = userInput.getText().toUpperCase();
-        boolean isNotEmptyUserInput = !moduleCode.equals("");
-        if (isNotEmptyUserInput) {
-            Module module = new Module(moduleCode);
-            EntryWindow entryWindow = new EntryWindow(module, generator, this);
-            borderPane.setCenter(entryWindow);
-            userInput.clear();
-        }
+        Module module = new Module(moduleCode);
+        EntryWindow entryWindow = new EntryWindow(module, generator, this);
+        entryWindow.maxHeightProperty().bind(borderPane.heightProperty());
+        borderPane.setCenter(entryWindow);
+        userInput.clear();
     }
+
+    void changeScreen(AnchorPane newScreen) {
+        newScreen.maxHeightProperty().bind(borderPane.heightProperty());
+        borderPane.setCenter(newScreen);
+    }
+
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="877.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CommandBox">
+   <children>
+      <BorderPane fx:id="borderPane" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="880.0" styleClass="base" stylesheets="@theme.css">
+         <top>
+            <AnchorPane fx:id="enterField" prefHeight="84.0" prefWidth="880.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TextField fx:id="userInput" focusTraversable="false" layoutX="-52.0" layoutY="-2.0" maxWidth="800.0" minWidth="0.0" onAction="#handleUserInput" prefHeight="58.0" prefWidth="700.0" promptText="Enter Module Code..." scaleShape="false" style="-fx-background-radius: 2.5; -fx-background-color: white; -fx-border-color: black;" stylesheets="@theme.css" translateX="90.0" translateY="18.5">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="sendButton" layoutX="647.0" layoutY="-4.0" mnemonicParsing="false" onAction="#handleUserInput" prefHeight="58.0" prefWidth="100.0" stylesheets="@button.css" text="Enter" textFill="#000000" translateX="90.0" translateY="20.5">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

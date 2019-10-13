@@ -1,0 +1,84 @@
+.base {
+    -fx-background-color:  #585656;
+    -fx-focus-color: transparent;
+}
+
+.label {
+    -fx-background-color: inherit;
+    -fx-font-family: "System";
+    -fx-font-size: 20px;
+    -fx-text-fill: black;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-focus-color: transparent;
+}
+
+.comboBox {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-focus-color: #cacaca;
+}
+
+.resultHolder {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+    -fx-focus-color: transparent;
+}
+
+#headerTo {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}
+
+#userInput {
+	-fx-background-color: transparent #383838 transparent #383838;
+	-fx-background-insets: 0;
+	-fx-border-color: black;
+	-fx-border-insets: 0;
+	-fx-border-width: 1;
+	-fx-font-family: "Segoe UI";
+	-fx-font-size: 13pt;
+	-fx-text-fill: black;
+}
+
+.pane {
+    -fx-focus-color: transparent;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+}
+
+.scroll-bar {
+    -fx-width: 2px;
+}
+
+.scroll-bar:vertical .track{
+    -fx-background-color: derive(grey,40.0%);
+    -fx-background-radius: 0.5;
+}
+
+.scroll-bar:vertical .increment-button, .scroll-bar:vertical .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 10.0 0.0 0.0;
+
+}
+
+ .scroll-bar .increment-arrow,
+ .scroll-bar .decrement-arrow{
+    -fx-shape: "";
+    -fx-padding: 0em;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: white;
+    -fx-background-insets: 2.0, 0.0, 0.0;
+    -fx-background-radius: 2.0em;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: derive(black,90.0%);
+    -fx-background-insets: 2;
+    -fx-background-radius: 2.0em;
+}
