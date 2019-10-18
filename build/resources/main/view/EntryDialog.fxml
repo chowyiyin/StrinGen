@@ -3,28 +3,74 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="330.0" prefWidth="798.0" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="330.0" prefWidth="798.0" style="-fx-border-color: black;" type="AnchorPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="headerTo" alignment="CENTER" layoutX="194.0" layoutY="54.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="52.0" stylesheets="@theme.css" text="TO" textAlignment="CENTER" translateY="-1.0">
+      <Label fx:id="headerTo" alignment="CENTER" layoutX="191.0" layoutY="47.0" minHeight="-Infinity" prefHeight="30.0" prefWidth="52.0" stylesheets="@theme.css" text="TO" textAlignment="CENTER" translateY="-1.0">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="addCohortButton" layoutX="46.0" layoutY="286.0" mnemonicParsing="false" onAction="#createNewPane" prefHeight="33.0" prefWidth="296.0" styleClass="addButton" stylesheets="@button.css" text="+ Add requirements for another cohort">
+      <ComboBox fx:id="cohortStart" layoutX="45.0" layoutY="45.0" prefHeight="30.0" prefWidth="150.0" promptText="YEAR" styleClass="comboBox" stylesheets="@theme.css" translateX="-3.0" translateY="1.0" />
+      <ComboBox fx:id="cohortEnd" layoutX="238.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="YEAR" styleClass="comboBox" stylesheets="@theme.css" translateX="4.0" />
+      <Label fx:id="header1" focusTraversable="false" layoutX="42.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="128.0" scaleShape="false" stylesheets="@theme.css" text="Cohort">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="addCohortButton" layoutX="43.0" layoutY="282.0" mnemonicParsing="false" onAction="#createNewPane" prefHeight="33.0" prefWidth="296.0" styleClass="addButton" stylesheets="@button.css" text="+ Add requirements for another cohort" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="43.0">
          <font>
             <Font size="10.0" />
          </font>
       </Button>
-      <ComboBox fx:id="cohortStart" layoutX="48.0" layoutY="52.0" prefHeight="30.0" prefWidth="150.0" promptText="YEAR" styleClass="comboBox" stylesheets="@theme.css" translateX="-3.0" translateY="1.0" />
-      <ComboBox fx:id="cohortEnd" layoutX="241.0" layoutY="53.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="YEAR" styleClass="comboBox" stylesheets="@theme.css" translateX="4.0" />
-      <Label fx:id="header1" focusTraversable="false" layoutX="53.0" layoutY="19.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="128.0" scaleShape="false" stylesheets="@theme.css" text="Cohort">
+      <Label fx:id="header2" focusTraversable="false" layoutX="417.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="157.0" scaleShape="false" stylesheets="@theme.css" text="Completed MCS">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
+      <Label fx:id="header21" focusTraversable="false" layoutX="417.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="157.0" scaleShape="false" stylesheets="@theme.css" text="Total MCS">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField layoutX="417.0" layoutY="78.0" prefHeight="30.0" prefWidth="149.0" promptText="MCs" styleClass="comboBox" stylesheets="@theme.css" />
+      <Label fx:id="header22" focusTraversable="false" layoutX="417.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="181.0" scaleShape="false" stylesheets="@theme.css" text="Sub-requirements">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="header3" focusTraversable="false" layoutX="42.0" layoutY="83.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="128.0" scaleShape="false" stylesheets="@theme.css" text="Course">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField layoutX="42.0" layoutY="116.0" prefHeight="30.0" prefWidth="149.0" promptText="Course" styleClass="comboBox" stylesheets="@theme.css" />
+      <Label fx:id="header221" focusTraversable="false" layoutX="42.0" layoutY="158.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="215.0" scaleShape="false" stylesheets="@theme.css" text="Other Requirements">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <VBox fx:id="mcSubRequirements" layoutX="417.0" layoutY="147.0" prefHeight="143.0" prefWidth="368.0" AnchorPane.bottomAnchor="39.66666666666666" AnchorPane.leftAnchor="417.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="147.0">
+         <children>
+            <Button fx:id="addSubRequirementButton" mnemonicParsing="false" onAction="#addSubRequirement" prefHeight="33.0" prefWidth="242.0" styleClass="addButton" stylesheets="@button.css" text="+ Add another sub-requirement">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <VBox fx:id="otherRequirements" layoutX="43.0" layoutY="190.0" prefHeight="89.0" prefWidth="334.0" AnchorPane.bottomAnchor="50.66666666666667" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="421.0" AnchorPane.topAnchor="190.0">
+         <children>
+            <Button fx:id="addOtherSubRequirementButton" mnemonicParsing="false" onAction="#createNewOtherSubRequirement" prefHeight="33.0" prefWidth="242.0" styleClass="addButton" stylesheets="@button.css" text="+ Add another sub-requirement">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
    </children>
 </fx:root>

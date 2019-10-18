@@ -5,7 +5,7 @@
 
 .label {
     -fx-background-color: inherit;
-    -fx-font-family: "System";
+    -fx-font-family: "Open Sans";
     -fx-font-size: 20px;
     -fx-text-fill: black;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;

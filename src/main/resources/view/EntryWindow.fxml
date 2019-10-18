@@ -23,12 +23,12 @@
             </Button>
          </bottom>
          <center>
-            <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="700.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" styleClass="pane" stylesheets="@theme.css" translateY="-10.0" BorderPane.alignment="CENTER">
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="700.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="392.0" prefWidth="800.0" styleClass="pane" stylesheets="@theme.css" translateY="-10.0" BorderPane.alignment="CENTER">
                <content>
-                <AnchorPane id="editingPane" fx:id="editingPane" maxWidth="-Infinity" minHeight="0.0" minWidth="-Infinity" prefHeight="396.0" prefWidth="800.0" stylesheets="@theme.css">
+                <AnchorPane id="editingPane" fx:id="editingPane" prefHeight="388.0" prefWidth="796.0" stylesheets="@theme.css">
                      <children>
-                        <VBox fx:id="entryDialogs" layoutY="41.0" prefHeight="356.0" prefWidth="798.0" />
-                        <Label fx:id="header" alignment="CENTER" focusTraversable="false" layoutX="45.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="700.0" scaleShape="false" stylesheets="@theme.css" text="Label" textAlignment="CENTER">
+                        <VBox fx:id="entryDialogs" layoutX="-5.0" layoutY="51.0" prefHeight="338.0" prefWidth="804.0" />
+                        <Label fx:id="header" alignment="CENTER" focusTraversable="false" layoutX="45.0" layoutY="8.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.0" prefWidth="700.0" scaleShape="false" stylesheets="@theme.css" text="Label" textAlignment="CENTER">
                            <font>
                               <Font size="20.0" />
                            </font>
