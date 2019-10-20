@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import stringen.ui.CommandBox;
 
@@ -20,12 +21,13 @@ public class Main extends Application {
         try {
             this.primaryStage = primaryStage;
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/CommandBox.fxml"));
-            AnchorPane ap = fxmlLoader.load();
-            Scene scene = new Scene(ap);
+            GridPane gp = fxmlLoader.load();
+            Scene scene = new Scene(gp);
             primaryStage.setScene(scene);
             fxmlLoader.<CommandBox>getController().setGen(generator);
             primaryStage.setTitle("StrinGen");
-            primaryStage.setHeight(600);
+            primaryStage.setMinHeight(620);
+            primaryStage.setMinWidth(900);
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -36,4 +38,25 @@ public class Main extends Application {
         primaryStage.getScene().setRoot(node);
     }
 
+    /*
+    @Override
+    public void start(Stage primaryStage) {
+        try {
+            this.primaryStage = primaryStage;
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/CommandBox.fxml"));
+            AnchorPane ap = fxmlLoader.load();
+            Scene scene = new Scene(ap);
+            primaryStage.setScene(scene);
+            fxmlLoader.<CommandBox>getController().setGen(generator);
+            primaryStage.setTitle("StrinGen");
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setRoot(Parent node) {
+        primaryStage.getScene().setRoot(node);
+    }
+     */
 }

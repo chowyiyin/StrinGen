@@ -2,8 +2,10 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="stringen.main" target="11" />
       <module name="StrinGen.main" target="11" />
       <module name="StrinGen.test" target="11" />
+      <module name="stringen.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

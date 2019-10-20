@@ -10,10 +10,11 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import stringen.logic.Module;
 
-public class EntryWindow extends AnchorPane {
+public class EntryWindow extends GridPane {
 
     @FXML
     private Label header;
@@ -37,7 +38,7 @@ public class EntryWindow extends AnchorPane {
         this.generator = generator;
         this.commandBox = commandBox;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CommandBox.class.getResource("/view/EntryWindow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(CommandBox.class.getResource("/view/testEntryWindow.fxml"));
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);
             fxmlLoader.load();

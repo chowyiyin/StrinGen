@@ -7,13 +7,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import stringen.exceptions.ParseModuleException;
 import stringen.logic.Module;
 import stringen.logic.ParseModuleAlert;
 import stringen.logic.Parser;
 
-public class CommandBox extends AnchorPane {
+public class CommandBox extends GridPane {
     @FXML
     private AnchorPane enterField;
     @FXML
@@ -23,7 +25,7 @@ public class CommandBox extends AnchorPane {
     @FXML
     private Button sendButton;
     @FXML
-    private BorderPane borderPane;
+    private StackPane stackPane;
 
     private Generator generator;
 
@@ -46,8 +48,8 @@ public class CommandBox extends AnchorPane {
                 warningWasThrown = false;
             }
             EntryWindow entryWindow = new EntryWindow(module, generator, this);
-            entryWindow.maxHeightProperty().bind(borderPane.heightProperty());
-            borderPane.setCenter(entryWindow);
+            entryWindow.maxHeightProperty().bind(stackPane.heightProperty());
+            stackPane.getChildren().add(entryWindow);
             userInput.clear();
         } catch (ParseModuleException e) {
             ParseModuleAlert a = new ParseModuleAlert(e.getMessage(), Module.DATA_TYPE);
@@ -57,8 +59,8 @@ public class CommandBox extends AnchorPane {
     }
 
     void changeScreen(AnchorPane newScreen) {
-        newScreen.maxHeightProperty().bind(borderPane.heightProperty());
-        borderPane.setCenter(newScreen);
+        newScreen.maxHeightProperty().bind(stackPane.heightProperty());
+        stackPane.getChildren().add(newScreen);
     }
 
 }

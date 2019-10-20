@@ -1,15 +1,20 @@
 package stringen.ui;
 
 import java.io.IOException;
+import java.util.Iterator;
 
+import javax.print.attribute.standard.MediaSize;
+
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import stringen.logic.Module;
 
@@ -88,7 +93,15 @@ public class EntryDialog extends AnchorPane {
     @FXML
     private void createNewOtherSubRequirement() {
         otherRequirements.getChildren().remove(addOtherSubRequirementButton);
+        ObservableList<Node> children = otherRequirements.getChildren();
+        for (Node child : children) {
+            if (child instanceof OtherSubRequirement) {
+                OtherSubRequirement childRequirements = (OtherSubRequirement) child;
+                childRequirements.enableOptionBox();
+            }
+        }
         otherRequirements.getChildren().add(new OtherSubRequirement());
+        otherRequirements.getChildren().add(new StackPane());
         otherRequirements.getChildren().add(addOtherSubRequirementButton);
 
     }

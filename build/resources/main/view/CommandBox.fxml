@@ -3,28 +3,35 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="877.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stringen.ui.CommandBox">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="891.0" styleClass="base" stylesheets="@theme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="stringen.ui.CommandBox">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="169.0" minHeight="10.0" prefHeight="122.88889567057292" vgrow="NEVER" />
+    <RowConstraints maxHeight="431.3333536783855" minHeight="10.0" prefHeight="392.44443766276044" vgrow="SOMETIMES" />
+  </rowConstraints>
    <children>
-      <BorderPane fx:id="borderPane" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="880.0" styleClass="base" stylesheets="@theme.css">
-         <top>
-            <AnchorPane fx:id="enterField" prefHeight="84.0" prefWidth="880.0" BorderPane.alignment="CENTER">
-               <children>
-                  <TextField fx:id="userInput" focusTraversable="false" layoutX="-52.0" layoutY="-2.0" maxWidth="800.0" minWidth="0.0" onAction="#handleUserInput" prefHeight="58.0" prefWidth="700.0" promptText="Enter Module Code..." scaleShape="false" style="-fx-background-radius: 2.5; -fx-background-color: white; -fx-border-color: black;" stylesheets="@theme.css" translateX="90.0" translateY="18.5">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </TextField>
-                  <Button fx:id="sendButton" layoutX="647.0" layoutY="-4.0" mnemonicParsing="false" onAction="#handleUserInput" prefHeight="58.0" prefWidth="100.0" stylesheets="@button.css" text="Enter" textFill="#000000" translateX="90.0" translateY="20.5">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Button>
-               </children>
-            </AnchorPane>
-         </top>
-      </BorderPane>
+      <AnchorPane fx:id="enterField" minHeight="-Infinity" minWidth="-Infinity" prefHeight="82.0" prefWidth="891.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER">
+         <children>
+            <TextField fx:id="userInput" focusTraversable="false" layoutX="-45.0" layoutY="6.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleUserInput" prefHeight="45.0" prefWidth="799.0" promptText="Enter Module Code..." scaleShape="false" stylesheets="@theme.css" translateX="90.0" translateY="18.5" AnchorPane.leftAnchor="-45.0" AnchorPane.rightAnchor="137.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </TextField>
+            <Button fx:id="sendButton" layoutX="655.0" layoutY="4.0" mnemonicParsing="false" onAction="#handleUserInput" prefHeight="45.0" prefWidth="100.0" stylesheets="@button.css" text="Enter" textFill="#000000" translateX="90.0" translateY="20.0" AnchorPane.rightAnchor="136.33333333333337">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <StackPane fx:id="stackPane" prefHeight="417.0" prefWidth="880.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
    </children>
-</AnchorPane>
+</GridPane>

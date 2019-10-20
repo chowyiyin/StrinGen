@@ -22,6 +22,9 @@ public class OtherSubRequirement extends HBox {
     @FXML
     private ComboBox<String> requirementStandard;
 
+    @FXML
+    private ComboBox<String> optionOtherSubRequirement;
+
 
     public OtherSubRequirement() {
         try {
@@ -67,6 +70,12 @@ public class OtherSubRequirement extends HBox {
             }
         });
     }
+
+    public void enableOptionBox() {
+        optionOtherSubRequirement.disableProperty().setValue(false);
+        optionOtherSubRequirement.getItems().addAll("OR", "AND");
+    }
+
 }
 
 
