@@ -2,6 +2,9 @@ package stringen.logic;
 
 import java.util.ArrayList;
 
+import stringen.logic.prerequisites.McPrerequisite;
+import stringen.logic.prerequisites.ModulePrerequisite;
+
 public class Module {
 
     public static String FORMAT_MESSAGE = "%1$s is not a recognised module code.";
@@ -12,7 +15,7 @@ public class Module {
 
 
     private String moduleCode;
-    private ArrayList<Cohort> cohorts = new ArrayList<Cohort>();
+    private ArrayList<Cohort> cohorts = new ArrayList<>();
 
     // TODO: add attributes for other components
 
@@ -24,10 +27,17 @@ public class Module {
         return moduleCode;
     }
 
-    public void addNewCohort(String start, String end) {
-        cohorts.add(new Cohort(start, end));
+    public void addNewCohort(Cohort cohort) {
+        cohorts.add(cohort);
+    }
+
+    public ArrayList<Cohort> getCohorts() {
+        return cohorts;
     }
 
     // TODO: add setters and getters for other attributes
-
+    @Override
+    public String toString() {
+        return moduleCode;
+    }
 }

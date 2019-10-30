@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+
+
+<fx:root type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField fx:id="textBox" promptText="Module Code" styleClass="enterBox" stylesheets="@theme.css" />
+      <ComboBox fx:id="minimumGrade" promptText="Grade" styleClass="comboBox" stylesheets="@theme.css" />
+   </children>
+</fx:root>

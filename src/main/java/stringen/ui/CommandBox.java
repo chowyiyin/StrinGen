@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -29,7 +28,13 @@ public class CommandBox extends GridPane {
 
     private Generator generator;
 
+    private Parser parser;
+
     private boolean warningWasThrown = false;
+
+    public void setParser(Parser parser) {
+        this.parser = parser;
+    }
 
     public void setGen(Generator gen) {
         generator = gen;
@@ -47,9 +52,10 @@ public class CommandBox extends GridPane {
                 module = Parser.parseModuleOverridden(input);
                 warningWasThrown = false;
             }
-            EntryWindow entryWindow = new EntryWindow(module, generator, this);
-            entryWindow.maxHeightProperty().bind(stackPane.heightProperty());
+            EntryWindow entryWindow = new EntryWindow(module, generator, this, parser);
             stackPane.getChildren().add(entryWindow);
+            entryWindow.minHeightProperty().bind(stackPane.prefHeightProperty());
+            entryWindow.minWidthProperty().bind(stackPane.prefWidthProperty());
             userInput.clear();
         } catch (ParseModuleException e) {
             ParseModuleAlert a = new ParseModuleAlert(e.getMessage(), Module.DATA_TYPE);
