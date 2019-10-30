@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,7 +19,7 @@
     <RowConstraints maxHeight="431.3333536783855" minHeight="10.0" prefHeight="392.44443766276044" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <AnchorPane fx:id="enterField" minHeight="-Infinity" minWidth="-Infinity" prefHeight="82.0" prefWidth="891.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER">
+      <AnchorPane fx:id="enterField" GridPane.halignment="CENTER">
          <children>
             <TextField fx:id="userInput" focusTraversable="false" layoutX="-45.0" layoutY="6.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleUserInput" prefHeight="45.0" prefWidth="799.0" promptText="Enter Module Code..." scaleShape="false" stylesheets="@theme.css" translateX="90.0" translateY="18.5" AnchorPane.leftAnchor="-45.0" AnchorPane.rightAnchor="137.0">
                <font>
@@ -32,6 +33,9 @@
             </Button>
          </children>
       </AnchorPane>
-      <StackPane fx:id="stackPane" prefHeight="417.0" prefWidth="880.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
+      <StackPane fx:id="stackPane" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <padding>
+            <Insets bottom="5.0" left="45.0" right="45.0" top="5.0" />
+         </padding></StackPane>
    </children>
 </GridPane>

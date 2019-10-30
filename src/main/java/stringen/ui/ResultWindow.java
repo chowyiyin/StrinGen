@@ -26,6 +26,7 @@ public class ResultWindow extends AnchorPane {
 
     public ResultWindow(Generator generator, Module module) {
         this.generator = generator;
+        this.module = module;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(CommandBox.class.getResource("/view/ResultWindow.fxml"));
             fxmlLoader.setController(this);

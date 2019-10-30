@@ -1,9 +1,7 @@
 package stringen.ui;
 
 import java.io.IOException;
-import java.util.Iterator;
-
-import javax.print.attribute.standard.MediaSize;
+import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,41 +10,47 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import stringen.Util;
+import stringen.logic.Cohort;
 import stringen.logic.Module;
+import stringen.logic.Parser;
+import stringen.logic.prerequisites.McPrerequisite;
+import stringen.logic.prerequisites.ModulePrerequisite;
+import stringen.logic.prerequisites.ModulePrerequisiteList;
 
-public class EntryDialog extends AnchorPane {
+public class EntryDialog extends GridPane {
 
     @FXML
     private ComboBox<String> cohortStart;
-
     @FXML
     private ComboBox<String> cohortEnd;
-
     @FXML
     private ComboBox<String> otherRequirement;
-
     @FXML
     private ComboBox<String> modulePrefix;
-
     @FXML
     private Button addCohortButton;
-
     @FXML
     private Button addOtherSubRequirementButton;
-
     @FXML
     private Button addSubRequirementButton;
-
+    @FXML
+    private Button addModPrereqButton;
     @FXML
     private VBox mcSubRequirements;
-
     @FXML
     private VBox otherRequirements;
-
+    @FXML
+    private AnchorPane entryDialog;
+    @FXML
+    private TextField mcs;
+    @FXML
+    private VBox modulePrereqs;
 
     public EntryDialog() {
         try {
@@ -61,26 +65,42 @@ public class EntryDialog extends AnchorPane {
 
     @FXML
     public void initialize() {
-        cohortStart.getItems().addAll("2011", "2012", "2013");
+        cohortStart.getItems().addAll(Util.YEARS);
         cohortStart.getSelectionModel().select("YEAR");
-        cohortEnd.getItems().addAll("2011", "2012", "2013");
+        cohortEnd.getItems().addAll(Util.YEARS);
         cohortEnd.getSelectionModel().select("YEAR");
     }
 
-    public Module updateModule(Module module) {
+    public Module updateModule(Module module, Parser parser) {
+        // get cohort year range
         String startYear = cohortStart.getSelectionModel().getSelectedItem();
         String endYear = cohortEnd.getSelectionModel().getSelectedItem();
-        module.addNewCohort(startYear, endYear);
-        //...
+
+        Cohort cohort = parser.parseCohort(startYear, endYear);
+        updateCohort(cohort, parser);
+        module.addNewCohort(cohort);
         return module;
+    }
+
+    public void updateCohort(Cohort cohort, Parser parser) {
+        // get mc prerequisites
+        McPrerequisite mcPrerequisite = null;
+        if (!mcs.getText().equals("")) {
+            mcPrerequisite = parser.parseMcPrerequisite(mcs.getText(), cohort);
+        }
+
+        // get module prerequisites
+        ModulePrerequisiteList modPrereq = getModPrereqs(parser);
+        cohort.setMcPrerequisite(mcPrerequisite);
+        cohort.setModulePrerequisites(modPrereq);
     }
 
     @FXML
     private void createNewPane() {
         Parent parent = this.getParent();
         VBox entryDialogs = (VBox) parent;
+        entryDialog.getChildren().remove(addCohortButton);
         entryDialogs.getChildren().add(new EntryDialog());
-        this.getChildren().remove(addCohortButton);
     }
 
     @FXML
@@ -103,9 +123,32 @@ public class EntryDialog extends AnchorPane {
         otherRequirements.getChildren().add(new OtherSubRequirement());
         otherRequirements.getChildren().add(new StackPane());
         otherRequirements.getChildren().add(addOtherSubRequirementButton);
-
     }
 
+    @FXML
+    private void addModuleRequirement() {
+        modulePrereqs.getChildren().remove(addModPrereqButton);
+        modulePrereqs.getChildren().add(new ModuleRequirement());
+        modulePrereqs.getChildren().add(addModPrereqButton);
+    }
+
+    private ModulePrerequisiteList getModPrereqs(Parser parser) {
+        ArrayList<ModulePrerequisite> modules = new ArrayList<>();
+
+        // ignore the last child (button)
+        for (int i = 0; i < modulePrereqs.getChildren().size() - 1; i++) {
+            ModuleRequirement moduleRequirement = (ModuleRequirement) modulePrereqs.getChildren().get(i);
+            String moduleCode = "";
+            try {
+                moduleCode = moduleRequirement.getCode();
+            } catch (NullPointerException e) {
+                continue;
+            }
+            String grade = moduleRequirement.getMinimumGrade();
+            modules.add(parser.parseModulePrerequisite(moduleCode, grade));
+        }
+        return new ModulePrerequisiteList(modules);
+    }
 }
 
 

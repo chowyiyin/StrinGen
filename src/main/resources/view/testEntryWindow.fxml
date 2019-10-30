@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="891.0" styleClass="base" stylesheets="@theme.css" type="GridPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1">
+<fx:root fx:id="informationContainer" gridLinesVisible="true" styleClass="base" stylesheets="@theme.css" type="GridPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
       <ColumnConstraints hgrow="NEVER" maxWidth="89.6666259765625" minWidth="10.0" prefWidth="50.666748046875" />
     <ColumnConstraints hgrow="ALWAYS" maxWidth="792.2222086588541" minWidth="10.0" prefWidth="783.7777506510416" />
@@ -23,16 +23,16 @@
     <RowConstraints maxHeight="114.00004069010413" minHeight="10.0" prefHeight="90.00002034505206" vgrow="ALWAYS" />
   </rowConstraints>
    <children>
-      <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="365.0" prefWidth="788.0" stylesheets="@theme.css" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+      <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" stylesheets="@theme.css" vbarPolicy="ALWAYS" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <content>
-            <AnchorPane id="editingPane" fx:id="editingPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="363.0" prefWidth="780.0" styleClass="pane" stylesheets="@theme.css">
+            <AnchorPane id="editingPane" fx:id="editingPane" styleClass="pane" stylesheets="@theme.css">
                <children>
-                  <VBox fx:id="entryDialogs" layoutX="-9.0" layoutY="-3.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="367.0" prefWidth="788.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="2.0" />
+                  <VBox fx:id="entryDialogs" layoutX="-9.0" layoutY="-3.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="2.0" />
                </children>
             </AnchorPane>
          </content>
       </ScrollPane>
-      <Label fx:id="header" alignment="CENTER" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="781.0" scaleShape="false" stylesheets="@theme.css" text="Label" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+      <Label fx:id="header" alignment="CENTER" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" scaleShape="false" stylesheets="@theme.css" text="Label" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>

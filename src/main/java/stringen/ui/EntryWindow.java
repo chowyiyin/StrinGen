@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import stringen.logic.Module;
+import stringen.logic.Parser;
 
 public class EntryWindow extends GridPane {
 
@@ -28,15 +29,20 @@ public class EntryWindow extends GridPane {
     @FXML
     private VBox entryDialogs;
 
+    @FXML
+    private GridPane informationContainer;
+
     private Module module;
     private Generator generator;
     private CommandBox commandBox;
+    private Parser parser;
 
 
-    public EntryWindow(Module module, Generator generator, CommandBox commandBox) {
+    public EntryWindow(Module module, Generator generator, CommandBox commandBox, Parser parser) {
         this.module = module;
         this.generator = generator;
         this.commandBox = commandBox;
+        this.parser = parser;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(CommandBox.class.getResource("/view/testEntryWindow.fxml"));
             fxmlLoader.setController(this);
@@ -50,8 +56,11 @@ public class EntryWindow extends GridPane {
     @FXML
     public void initialize() {
         header.setText("Module Code : " + module.getModuleCode());
-        entryDialogs.getChildren().add(new EntryDialog());
+        EntryDialog entryDialog = new EntryDialog();
+        entryDialogs.getChildren().add(entryDialog);
         scrollPane.setVvalue(scrollPane.getVvalue());
+        scrollPane.prefHeightProperty().bind(informationContainer.prefHeightProperty());
+        scrollPane.prefWidthProperty().bind(informationContainer.prefWidthProperty());
     }
 
     @FXML
@@ -60,8 +69,9 @@ public class EntryWindow extends GridPane {
         while (childrenIterator.hasNext()) {
             Node child = childrenIterator.next();
             EntryDialog childWindow = (EntryDialog) child;
-            module = childWindow.updateModule(module);
+            module = childWindow.updateModule(module, parser);
         }
+        System.out.println("module " + module);
         commandBox.changeScreen(new ResultWindow(generator, module));
     }
 

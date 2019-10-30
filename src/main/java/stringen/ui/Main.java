@@ -6,14 +6,15 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import stringen.ui.CommandBox;
+import stringen.Util;
+import stringen.logic.Parser;
 
 public class Main extends Application {
 
     private Generator generator = new Generator();
+    private Parser parser = new Parser();
     private static Stage primaryStage;
 
     @Override
@@ -25,10 +26,12 @@ public class Main extends Application {
             Scene scene = new Scene(gp);
             primaryStage.setScene(scene);
             fxmlLoader.<CommandBox>getController().setGen(generator);
+            fxmlLoader.<CommandBox>getController().setParser(parser);
             primaryStage.setTitle("StrinGen");
             primaryStage.setMinHeight(620);
             primaryStage.setMinWidth(900);
             primaryStage.show();
+            Util.initialise();
         } catch (IOException e) {
             e.printStackTrace();
         }
