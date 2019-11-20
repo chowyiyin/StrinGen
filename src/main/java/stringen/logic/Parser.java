@@ -7,6 +7,7 @@ import java.util.HashSet;
 import stringen.exceptions.ParseModuleException;
 import stringen.logic.prerequisites.McPrerequisite;
 import stringen.logic.prerequisites.ModulePrerequisite;
+import stringen.logic.prerequisites.ModuleRequirement;
 
 public class Parser {
     private static String moduleValidationRegex = "[A-Z]{2,3}\\d{4}";
@@ -35,7 +36,7 @@ public class Parser {
         return mcPrerequisite;
     }
 
-    public ModulePrerequisite parseModulePrerequisite(String module, String grade) {
+    public ModuleRequirement parseModulePrerequisite(String module, String grade) {
         return new ModulePrerequisite(module, grade);
     }
 

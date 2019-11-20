@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import stringen.Util;
 
-public class ModuleRequirement extends HBox {
+public class ModulePrerequisiteEntry extends HBox {
 
     public static String defaultGrade = "D";
 
@@ -20,7 +20,7 @@ public class ModuleRequirement extends HBox {
     private ComboBox minimumGrade;
 
 
-    public ModuleRequirement() {
+    public ModulePrerequisiteEntry() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(CommandBox.class.
                     getResource("/view/ModulePrerequisite.fxml"));

@@ -21,7 +21,8 @@ import stringen.logic.Module;
 import stringen.logic.Parser;
 import stringen.logic.prerequisites.McPrerequisite;
 import stringen.logic.prerequisites.ModulePrerequisite;
-import stringen.logic.prerequisites.ModulePrerequisiteList;
+import stringen.logic.prerequisites.ModuleRequirement;
+import stringen.logic.prerequisites.ModuleRequirementList;
 
 public class EntryDialog extends GridPane {
 
@@ -90,7 +91,7 @@ public class EntryDialog extends GridPane {
         }
 
         // get module prerequisites
-        ModulePrerequisiteList modPrereq = getModPrereqs(parser);
+        ModuleRequirementList modPrereq = getModPrereqs(parser);
         cohort.setMcPrerequisite(mcPrerequisite);
         cohort.setModulePrerequisites(modPrereq);
     }
@@ -128,16 +129,16 @@ public class EntryDialog extends GridPane {
     @FXML
     private void addModuleRequirement() {
         modulePrereqs.getChildren().remove(addModPrereqButton);
-        modulePrereqs.getChildren().add(new ModuleRequirement());
+        modulePrereqs.getChildren().add(new ModulePrerequisiteEntry());
         modulePrereqs.getChildren().add(addModPrereqButton);
     }
 
-    private ModulePrerequisiteList getModPrereqs(Parser parser) {
-        ArrayList<ModulePrerequisite> modules = new ArrayList<>();
+    private ModuleRequirementList getModPrereqs(Parser parser) {
+        ArrayList<ModuleRequirement> modules = new ArrayList<>();
 
         // ignore the last child (button)
         for (int i = 0; i < modulePrereqs.getChildren().size() - 1; i++) {
-            ModuleRequirement moduleRequirement = (ModuleRequirement) modulePrereqs.getChildren().get(i);
+            ModulePrerequisiteEntry moduleRequirement = (ModulePrerequisiteEntry) modulePrereqs.getChildren().get(i);
             String moduleCode = "";
             try {
                 moduleCode = moduleRequirement.getCode();
@@ -147,7 +148,7 @@ public class EntryDialog extends GridPane {
             String grade = moduleRequirement.getMinimumGrade();
             modules.add(parser.parseModulePrerequisite(moduleCode, grade));
         }
-        return new ModulePrerequisiteList(modules);
+        return new ModuleRequirementList(modules, ModulePrerequisite.PREFIX);
     }
 }
 
