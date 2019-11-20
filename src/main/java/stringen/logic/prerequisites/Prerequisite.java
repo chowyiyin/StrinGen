@@ -4,8 +4,6 @@ import stringen.logic.Cohort;
 
 public interface Prerequisite {
 
-    void addCohort(Cohort cohort);
-
     String generateString();
 
     default String appendBrackets(String value) {
