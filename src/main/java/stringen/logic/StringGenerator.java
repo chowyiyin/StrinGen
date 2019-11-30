@@ -1,24 +1,46 @@
 package stringen.logic;
 
-
 import java.util.ArrayList;
+
+import stringen.logic.prerequisites.Prerequisite;
 
 public class StringGenerator {
 
-    private Module module;
-
-    public StringGenerator(Module module) {
-        this.module = module;
+    public static String generateStringForCohorts(ArrayList<Group> groups) {
+        StringBuilder string = new StringBuilder();
+        groups.stream()
+                .forEach(group -> {if (string.length() != 0) { string.append(Logic.OPERATOR_AND);}
+                                                string.append(group.generateString());});
+        return string.toString();
     }
 
-    public String generateString() {
+    public static String generateStringForGroups(Group group) {
         StringBuilder string = new StringBuilder();
-        ArrayList<Cohort> cohorts = module.getCohorts();
-        string.append(cohorts.get(0).toString());
-        for (int i = 1; i < cohorts.size(); i++) {
-            string.append("&" + cohorts.get(i).toString());
-        }
+        ArrayList<Prerequisite> lonePrerequisites = group.getLonePrerequisites();
+        ArrayList<Group> groupsInGroup = group.getGroups();
+
+        boolean isEmptyString = string.length() == 0;
+        lonePrerequisites.stream().forEach(prerequisite -> {
+            if (!isEmptyString) {
+                string.append(prerequisite.generateString() + Logic.OPERATOR_OR);
+            } else {
+                string.append(prerequisite.generateString());
+            }
+        });
+
+        groupsInGroup.stream().forEach(grp -> {
+            if (!isEmptyString) {
+                string.append(grp.generateString() + Logic.OPERATOR_OR);
+            } else {
+                string.append(grp.generateString());
+            }
+        });
+
         return string.toString();
+    }
+
+    public static String combine(Cohort firstCohort, Cohort secondCohort) {
+        return appendBrackets(firstCohort.generateString() + Logic.OPERATOR_OR + secondCohort.generateString());
     }
 
     public static String appendBrackets(String value) {

@@ -1,13 +1,13 @@
 package stringen.ui;
 
+import stringen.logic.Logic;
 import stringen.logic.Module;
-import stringen.logic.StringGenerator;
 
 public class Generator {
 
     public String generateString(Module module) {
         //TODO IMPLEMENT
-        return new StringGenerator(module).generateString();
+        return Logic.generateString(module.getCohorts());
     }
 
     public String generateDetails(Module module) {

@@ -2,26 +2,15 @@ package stringen.logic;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Optional;
-
-import stringen.logic.prerequisites.ALevelPrerequisiteList;
-import stringen.logic.prerequisites.CapPrerequisite;
-import stringen.logic.prerequisites.MajorRequirementList;
-import stringen.logic.prerequisites.McPrerequisite;
-import stringen.logic.prerequisites.ModuleRequirementList;
+import java.util.ArrayList;
 
 public class Cohort {
     public static String PREFIX = "YEAR_PR";
 
     private String startYear;
     private String endYear;
-    private Optional<McPrerequisite> mcPrerequisite = Optional.empty();
-    private ModuleRequirementList modulePrerequisites;
-    private ModuleRequirementList moduleAntiRequisites;
-    private MajorRequirementList majorAntiRequisites;
-    private MajorRequirementList majorPrerequisites;
-    private CapPrerequisite capPrerequisite;
-    private ALevelPrerequisiteList aLevelPrerequisites;
+
+    private ArrayList<Group> groups = new ArrayList<>();
 
     public Cohort(String startYear, String endYear) {
         requireNonNull(startYear, endYear);
@@ -37,46 +26,49 @@ public class Cohort {
         return endYear;
     }
 
-    public void setMcPrerequisite(McPrerequisite mcPrerequisite) {
-        this.mcPrerequisite = Optional.of(mcPrerequisite);
-    }
-
-    public void setModulePrerequisites(ModuleRequirementList modulePrerequisites) {
-        this.modulePrerequisites = modulePrerequisites;
-    }
-
-    public void setModuleAntiRequisites(ModuleRequirementList moduleAntiRequisites) {
-        this.moduleAntiRequisites = moduleAntiRequisites;
-    }
-
-    public void setCapPrerequisite(CapPrerequisite capPrerequisite) {
-        this.capPrerequisite = capPrerequisite;
-    }
-
-    public void setMajorPrerequisites(MajorRequirementList majorPrerequisites) {
-        this.majorPrerequisites = majorPrerequisites;
-    }
-
-    public void setMajorAntiRequisites(MajorRequirementList majorAntiRequisites) {
-        this.majorAntiRequisites = majorAntiRequisites;
-    }
-
-    public void setALevelPrerequisites (ALevelPrerequisiteList aLevelPrerequisites) {
-        this.aLevelPrerequisites = aLevelPrerequisites;
-    }
-
     public String getFormattedYearRange() {
         return PREFIX + "(" + startYear + "," + endYear + ")";
     }
 
+    public ArrayList<Group> getSimilarities(Cohort otherCohort) {
+        ArrayList<Group> similarities = new ArrayList<>();
+        for (int i = 0; i < groups.size(); i++) {
+            Group group = groups.get(i);
+            if (otherCohort.getGroups().contains(group)) {
+                similarities.add(group);
+            }
+        }
+        return similarities;
+    }
+
+    public ArrayList<Group> getGroups() {
+        return groups;
+    }
+
+    public void extract(Group group) {
+        for (int i = 0; i < groups.size(); i++) {
+            if (group.equals(groups.get(i))) {
+                groups.remove(group);
+            }
+        }
+    }
+
+    public String generateString() {
+        return StringGenerator.generateStringForCohorts(groups);
+    }
+
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getFormattedYearRange())
-                .append("&")
-                .append(mcPrerequisite.isEmpty() ? "" : mcPrerequisite.get().generateString())
-                .append("&" + modulePrerequisites.generateString());
-        return sb.toString();
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (o instanceof  Cohort) {
+            Cohort other = (Cohort) o;
+            return startYear.equals(other.startYear)
+                    && endYear.equals(other.endYear)
+                    && groups.equals(other.groups);
+        } else {
+            return false;
+        }
     }
 
 }

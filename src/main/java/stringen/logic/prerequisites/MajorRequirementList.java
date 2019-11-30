@@ -14,6 +14,13 @@ public class MajorRequirementList implements Prerequisite {
         this.majorRequirements.addAll(majorRequirements);
     }
 
+    public MajorRequirementList() {
+    }
+
+    public boolean isEmpty() {
+        return majorRequirements.size() == 0;
+    }
+
     @Override
     public String generateString() {
         StringBuilder string = new StringBuilder();
@@ -23,6 +30,7 @@ public class MajorRequirementList implements Prerequisite {
         return PREFIX + appendBrackets(string.toString());
     }
 
+    @Override
     public boolean equals(Object o) {
         if (o == this) {
             return true;

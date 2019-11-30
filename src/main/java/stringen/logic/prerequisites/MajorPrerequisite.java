@@ -6,7 +6,7 @@ public class MajorPrerequisite extends MajorRequirement {
     private String major;
 
     public MajorPrerequisite(String major) {
-        super(PREFIX);
+        super(PREFIX, major);
         this.major = major;
     }
 
