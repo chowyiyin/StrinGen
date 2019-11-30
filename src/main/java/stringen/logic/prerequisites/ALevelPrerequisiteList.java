@@ -14,6 +14,9 @@ public class ALevelPrerequisiteList implements Prerequisite {
         this.aLevelPrerequisites.addAll(aLevelPrerequisites);
     }
 
+    public ALevelPrerequisiteList() {
+    }
+
     @Override
     public String generateString() {
         StringBuilder string = new StringBuilder();
@@ -21,6 +24,10 @@ public class ALevelPrerequisiteList implements Prerequisite {
         string.append("1");
         aLevelPrerequisites.stream().forEach(sub -> string.append("," + sub.generateString()));
         return PREFIX + appendBrackets(string.toString());
+    }
+
+    public boolean isEmpty() {
+        return aLevelPrerequisites.size() == 0;
     }
 
     public boolean equals(Object o) {

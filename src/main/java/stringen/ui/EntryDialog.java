@@ -88,12 +88,14 @@ public class EntryDialog extends GridPane {
         McPrerequisite mcPrerequisite = null;
         if (!mcs.getText().equals("")) {
             mcPrerequisite = parser.parseMcPrerequisite(mcs.getText(), cohort);
+            cohort.setMcPrerequisite(mcPrerequisite);
         }
 
         // get module prerequisites
         ModuleRequirementList modPrereq = getModPrereqs(parser);
-        cohort.setMcPrerequisite(mcPrerequisite);
-        cohort.setModulePrerequisites(modPrereq);
+        if (!modPrereq.isEmpty()) {
+            cohort.setModulePrerequisites(modPrereq);
+        }
     }
 
     @FXML
@@ -136,16 +138,17 @@ public class EntryDialog extends GridPane {
     private ModuleRequirementList getModPrereqs(Parser parser) {
         ArrayList<ModuleRequirement> modules = new ArrayList<>();
 
+        int numberOfModules = modulePrereqs.getChildren().size() - 1;
+
         // ignore the last child (button)
-        for (int i = 0; i < modulePrereqs.getChildren().size() - 1; i++) {
+        assert(modulePrereqs.getChildren().get(numberOfModules) instanceof Button);
+        for (int i = 0; i < numberOfModules; i++) {
             ModulePrerequisiteEntry moduleRequirement = (ModulePrerequisiteEntry) modulePrereqs.getChildren().get(i);
-            String moduleCode = "";
-            try {
-                moduleCode = moduleRequirement.getCode();
-            } catch (NullPointerException e) {
+            String moduleCode = moduleRequirement.getCode();
+            String grade = moduleRequirement.getMinimumGrade();
+            if (moduleCode.length() == 0) {
                 continue;
             }
-            String grade = moduleRequirement.getMinimumGrade();
             modules.add(parser.parseModulePrerequisite(moduleCode, grade));
         }
         return new ModuleRequirementList(modules, ModulePrerequisite.PREFIX);

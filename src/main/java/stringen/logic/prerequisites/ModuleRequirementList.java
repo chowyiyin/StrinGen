@@ -7,19 +7,28 @@ import stringen.logic.Cohort;
 public class ModuleRequirementList implements Prerequisite {
 
     private ArrayList<ModuleRequirement> moduleRequirements = new ArrayList<>();
+    private int numberOfModules;
     private String prefix;
     private ArrayList<Cohort> cohorts = new ArrayList<>();
 
-    public ModuleRequirementList(ArrayList<ModuleRequirement> moduleRequirements, String prefix) {
+    public ModuleRequirementList(ArrayList<? extends ModuleRequirement> moduleRequirements,
+                                 int numberOfModules, String prefix) {
         this.moduleRequirements.addAll(moduleRequirements);
+        this.numberOfModules = numberOfModules;
         this.prefix = prefix;
+    }
+
+    public ModuleRequirementList() {
+    }
+
+    public boolean isEmpty() {
+        return moduleRequirements.size() == 0;
     }
 
     @Override
     public String generateString() {
         StringBuilder string = new StringBuilder();
-        //TODO: implement the number
-        string.append("1");
+        string.append(numberOfModules);
         moduleRequirements.stream().forEach(mod -> string.append("," + mod.generateString()));
         return prefix + appendBrackets(string.toString());
     }

@@ -7,7 +7,7 @@ public class ModuleAntirequisite extends ModuleRequirement {
     private String moduleCode;
 
     public ModuleAntirequisite(String moduleCode, String minimumGrade) {
-        super(PREFIX);
+        super(PREFIX, moduleCode, minimumGrade);
         this.moduleCode = moduleCode;
         this.minimumGrade = minimumGrade;
     }

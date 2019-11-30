@@ -4,15 +4,17 @@ public class ALevelPrerequisite implements Prerequisite {
 
     public static String PREFIX = "ASUB_PR";
 
-    String minimumGrade;
+    private String subject;
+    private String minimumGrade;
 
-    public ALevelPrerequisite(String minimumGrade) {
+    public ALevelPrerequisite(String subject, String minimumGrade) {
+        this.subject = subject;
         this.minimumGrade = minimumGrade;
     }
 
     @Override
     public String generateString() {
-        return PREFIX + appendSquareBrackets(minimumGrade);
+        return subject + appendSquareBrackets(minimumGrade);
     }
 
     public String appendSquareBrackets(String value) {

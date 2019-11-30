@@ -1,7 +1,5 @@
 package stringen.logic.prerequisites;
 
-import stringen.logic.Module;
-
 public class ModulePrerequisite extends ModuleRequirement {
     public final static String PREFIX = "MOD_PR";
 
@@ -9,14 +7,9 @@ public class ModulePrerequisite extends ModuleRequirement {
     private String moduleCode;
 
     public ModulePrerequisite(String moduleCode, String minimumGrade) {
-        super(PREFIX);
+        super(PREFIX, moduleCode, minimumGrade);
         this.moduleCode = moduleCode;
         this.minimumGrade = minimumGrade;
-    }
-
-    public ModulePrerequisite(String moduleCode) {
-        super(PREFIX);
-        this.moduleCode = moduleCode;
     }
 
     @Override public String getRequirementType() {

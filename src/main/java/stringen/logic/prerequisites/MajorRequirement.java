@@ -3,16 +3,16 @@ package stringen.logic.prerequisites;
 public class MajorRequirement implements Prerequisite {
 
     private String prefix;
-    private String minimumGrade;
-    private String moduleCode;
+    private String major;
 
-    public MajorRequirement(String prefix) {
+    public MajorRequirement(String prefix, String major) {
         this.prefix = prefix;
+        this.major = major;
     }
 
     @Override
     public String generateString() {
-        return moduleCode + appendSquareBrackets(minimumGrade);
+        return major;
     }
 
     public String appendSquareBrackets(String value) {
@@ -29,8 +29,8 @@ public class MajorRequirement implements Prerequisite {
         } else {
             if (o instanceof MajorRequirement) {
                 MajorRequirement other = (MajorRequirement) o;
-                return minimumGrade.equals(other.minimumGrade)
-                        && moduleCode.equals(other.moduleCode);
+                return major.equals(other.major)
+                        && prefix.equals(other.prefix);
             } else {
                 return false;
             }

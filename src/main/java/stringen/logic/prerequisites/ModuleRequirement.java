@@ -6,8 +6,10 @@ public class ModuleRequirement implements Prerequisite {
     private String minimumGrade;
     private String moduleCode;
 
-    public ModuleRequirement(String prefix) {
+    public ModuleRequirement(String prefix, String moduleCode, String minimumGrade) {
         this.prefix = prefix;
+        this.moduleCode = moduleCode;
+        this.minimumGrade = minimumGrade;
     }
 
     @Override

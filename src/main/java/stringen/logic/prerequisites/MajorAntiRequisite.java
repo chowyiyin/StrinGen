@@ -6,8 +6,7 @@ public class MajorAntiRequisite extends MajorRequirement {
     private String major;
 
     public MajorAntiRequisite(String major) {
-        super(PREFIX);
-        this.major = major;
+        super(PREFIX, major);
     }
 
     public boolean equals(Object o) {
