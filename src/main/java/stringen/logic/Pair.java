@@ -39,10 +39,6 @@ public class Pair<K,V> {
         return similarities;
     }
 
-    public String generateString() {
-        return StringGenerator.generateString(similarities);
-    }
-
     public boolean contains(Pair<Cohort, Cohort> otherPair) {
         Cohort otherPairFirstCohort = otherPair.getFirstElement();
         Cohort otherPairSecondCohort = otherPair.getSecondElement();

@@ -2,49 +2,39 @@ package stringen.ui;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import stringen.logic.Module;
 import stringen.logic.Parser;
 
-public class EntryWindow extends GridPane {
+public class EntryWindow extends VBox {
 
     @FXML
-    private Label header;
-
-    @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
-    private AnchorPane editingPane;
-
-    @FXML
-    private VBox entryDialogs;
-
-    @FXML
-    private GridPane informationContainer;
-
-    private Module module;
+    private ListView<HBox> entryListView;
+    
     private Generator generator;
-    private CommandBox commandBox;
+    private MainWindow mainWindow;
     private Parser parser;
 
-
-    public EntryWindow(Module module, Generator generator, CommandBox commandBox, Parser parser) {
-        this.module = module;
+    public EntryWindow(Generator generator, MainWindow mainWindow, Parser parser) {
         this.generator = generator;
-        this.commandBox = commandBox;
+        this.mainWindow = mainWindow;
         this.parser = parser;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CommandBox.class.getResource("/view/testEntryWindow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(EntryWindow.class.getResource("/view/EntryWindow.fxml"));
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
@@ -55,24 +45,40 @@ public class EntryWindow extends GridPane {
 
     @FXML
     public void initialize() {
-        header.setText("Module Code : " + module.getModuleCode());
-        EntryDialog entryDialog = new EntryDialog();
-        entryDialogs.getChildren().add(entryDialog);
-        scrollPane.setVvalue(scrollPane.getVvalue());
-        scrollPane.prefHeightProperty().bind(informationContainer.prefHeightProperty());
-        scrollPane.prefWidthProperty().bind(informationContainer.prefWidthProperty());
+        List<HBox> cards = new ArrayList<HBox>();
+        cards.add(new TitleListCard("Cohort"));
+        cards.add(new CohortListCard());
+        cards.add(new TitleListCard("Requirements"));
+        cards.add(new EntryFieldCard());
+        ObservableList<HBox> observableCards = FXCollections.observableArrayList(cards);
+        entryListView.setItems(observableCards);
+        entryListView.setCellFactory(lst ->
+                new ListCell<HBox>() {
+                    @Override
+                    protected void updateItem(HBox item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setPrefHeight(45.0);
+                            setGraphic(null);
+                        } else {
+                            setPrefHeight(Region.USE_COMPUTED_SIZE);
+                            setGraphic(item);
+                        }
+                    }
+                });
     }
 
+
+
+    /*
     @FXML
     private void generateString() throws UnsupportedEncodingException {
         Iterator<Node> childrenIterator = entryDialogs.getChildren().iterator();
         while (childrenIterator.hasNext()) {
             Node child = childrenIterator.next();
             EntryDialog childWindow = (EntryDialog) child;
-            module = childWindow.updateModule(module, parser);
         }
-        System.out.println("module " + module);
-        commandBox.changeScreen(new ResultWindow(generator, module));
+        //mainWindow.changeScreen(new ResultWindow(generator, module));
     }
-
+    */
 }

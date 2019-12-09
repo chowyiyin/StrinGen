@@ -28,7 +28,7 @@ public class OtherSubRequirement extends HBox {
 
     public OtherSubRequirement() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CommandBox.class.
+            FXMLLoader fxmlLoader = new FXMLLoader(OtherSubRequirement.class.
                     getResource("/view/OtherSubRequirement.fxml"));
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);

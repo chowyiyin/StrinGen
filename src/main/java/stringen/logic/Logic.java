@@ -68,9 +68,6 @@ public class Logic {
         Cohort firstCohort = cohortPair.getFirstElement();
         Cohort secondCohort = cohortPair.getSecondElement();
         StringBuilder string = new StringBuilder();
-        string.append(cohortPair.generateString())
-                .append(OPERATOR_AND)
-                .append(StringGenerator.combine(firstCohort, secondCohort));
         return string.toString();
     }
 
