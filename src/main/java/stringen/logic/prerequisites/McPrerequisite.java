@@ -1,9 +1,5 @@
 package stringen.logic.prerequisites;
 
-import java.util.ArrayList;
-
-import stringen.logic.Cohort;
-
 public class McPrerequisite implements Prerequisite {
 
     public static String PREFIX = "MC_PR";

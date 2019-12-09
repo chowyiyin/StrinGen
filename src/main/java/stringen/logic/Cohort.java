@@ -1,73 +1,48 @@
 package stringen.logic;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.ArrayList;
 
 public class Cohort {
-    public static String PREFIX = "YEAR_PR";
 
     private String startYear;
     private String endYear;
-
-    private ArrayList<Group> groups = new ArrayList<>();
+    private ArrayList<OrGroup> orGroups = new ArrayList<>();
 
     public Cohort(String startYear, String endYear) {
-        requireNonNull(startYear, endYear);
         this.startYear = startYear;
         this.endYear = endYear;
     }
 
-    public String getStartYear() {
-        return startYear;
+    public void addOrGroup(OrGroup orGroup) {
+        orGroups.add(orGroup);
     }
 
-    public String getEndYear() {
-        return endYear;
-    }
-
-    public String getFormattedYearRange() {
-        return PREFIX + "(" + startYear + "," + endYear + ")";
-    }
-
-    public ArrayList<Group> getSimilarities(Cohort otherCohort) {
-        ArrayList<Group> similarities = new ArrayList<>();
-        for (int i = 0; i < groups.size(); i++) {
-            Group group = groups.get(i);
-            if (otherCohort.getGroups().contains(group)) {
-                similarities.add(group);
-            }
-        }
-        return similarities;
-    }
-
-    public ArrayList<Group> getGroups() {
-        return groups;
-    }
-
-    public void extract(Group group) {
-        for (int i = 0; i < groups.size(); i++) {
-            if (group.equals(groups.get(i))) {
-                groups.remove(group);
-            }
-        }
+    public ArrayList<OrGroup> getOrGroups() {
+        return orGroups;
     }
 
     public String generateString() {
-        return StringGenerator.generateStringForCohorts(groups);
+        return StringGenerator.appendOrGroups(orGroups);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        } else if (o instanceof  Cohort) {
-            Cohort other = (Cohort) o;
-            return startYear.equals(other.startYear)
-                    && endYear.equals(other.endYear)
-                    && groups.equals(other.groups);
-        } else {
-            return false;
+    public boolean contains(OrGroup group) {
+        return orGroups.stream().anyMatch(orGroup -> orGroup.contains(group));
+    }
+
+    public void removeOrGroups(ArrayList<OrGroup> similarOrGroups) {
+        for (int i = 0; i < similarOrGroups.size(); i++) {
+            OrGroup similarOrGroup = (OrGroup) similarOrGroups.get(i);
+            assert(orGroups.contains(similarOrGroup));
+            orGroups.remove(similarOrGroup);
+        }
+    }
+
+    public void removeAndGroupsFromOrGroup(OrGroup orGroup, ArrayList<AndGroup> andGroups) {
+        assert(orGroups.contains(orGroup));
+        for (int i = 0; i < orGroups.size(); i++) {
+            if (orGroups.get(i).equals(orGroup)) {
+                orGroups.get(i).removeAndGroups(andGroups);
+            }
         }
     }
 

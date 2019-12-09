@@ -1,8 +1,5 @@
 package stringen.ui;
 
-import stringen.logic.Logic;
-import stringen.logic.Module;
-
 public class Generator {
 
     public String generateString(Module module) {

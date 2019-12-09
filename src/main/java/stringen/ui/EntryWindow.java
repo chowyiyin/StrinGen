@@ -1,24 +1,18 @@
 package stringen.ui;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import stringen.logic.Parser;
 
 public class EntryWindow extends VBox {
 
@@ -27,12 +21,10 @@ public class EntryWindow extends VBox {
     
     private Generator generator;
     private MainWindow mainWindow;
-    private Parser parser;
 
-    public EntryWindow(Generator generator, MainWindow mainWindow, Parser parser) {
+    public EntryWindow(Generator generator, MainWindow mainWindow) {
         this.generator = generator;
         this.mainWindow = mainWindow;
-        this.parser = parser;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(EntryWindow.class.getResource("/view/EntryWindow.fxml"));
             fxmlLoader.setController(this);

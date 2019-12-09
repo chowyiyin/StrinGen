@@ -2,8 +2,6 @@ package stringen.logic.prerequisites;
 
 import java.util.ArrayList;
 
-import stringen.logic.Cohort;
-
 public class MajorRequirementList implements Prerequisite {
     public static String PREFIX = "MAJ_PR";
 
