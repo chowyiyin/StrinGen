@@ -2,8 +2,6 @@ package stringen.logic.prerequisites;
 
 import java.util.ArrayList;
 
-import stringen.logic.Cohort;
-
 public class ALevelPrerequisiteList implements Prerequisite {
     public static String PREFIX = "ASUB_PR";
 

@@ -1,50 +1,43 @@
 package stringen.logic;
 
 import java.util.ArrayList;
-
-import stringen.logic.prerequisites.Prerequisite;
+import java.util.Arrays;
 
 public class StringGenerator {
 
-    public static String generateStringForCohorts(ArrayList<Group> groups) {
+    public static String appendOrGroups(ArrayList<OrGroup> orGroups) {
+        return append(orGroups, LogicManager.OPERATOR_AND);
+    }
+
+    public static String appendAndGroups(ArrayList<AndGroup> andGroups) {
+        return append(andGroups, LogicManager.OPERATOR_OR);
+    }
+
+    public static String or(String... strings) {
+        return appendStrings(strings, LogicManager.OPERATOR_AND);
+    }
+
+    private static String append(ArrayList<? extends Group> groups, String operator) {
         StringBuilder string = new StringBuilder();
-        groups.stream()
-                .forEach(group -> {if (string.length() != 0) { string.append(Logic.OPERATOR_AND);}
-                                                string.append(group.generateString());});
+        groups.stream().forEach(group -> {
+            if (string.length() == 0) {
+                string.append(group.generateString());
+            } else {
+                string.append(operator + group.generateString());
+            }
+        });
         return string.toString();
     }
 
-    public static String generateStringForGroups(Group group) {
+    private static String appendStrings(String[] strings, String operator) {
         StringBuilder string = new StringBuilder();
-        ArrayList<Prerequisite> lonePrerequisites = group.getLonePrerequisites();
-        ArrayList<Group> groupsInGroup = group.getGroups();
-
-        boolean isEmptyString = string.length() == 0;
-        lonePrerequisites.stream().forEach(prerequisite -> {
-            if (!isEmptyString) {
-                string.append(prerequisite.generateString() + Logic.OPERATOR_OR);
+        Arrays.stream(strings).forEach(str -> {
+            if (string.length() == 0) {
+                string.append(str);
             } else {
-                string.append(prerequisite.generateString());
+                string.append(operator + str);
             }
         });
-
-        groupsInGroup.stream().forEach(grp -> {
-            if (!isEmptyString) {
-                string.append(grp.generateString() + Logic.OPERATOR_OR);
-            } else {
-                string.append(grp.generateString());
-            }
-        });
-
         return string.toString();
     }
-
-    public static String combine(Cohort firstCohort, Cohort secondCohort) {
-        return appendBrackets(firstCohort.generateString() + Logic.OPERATOR_OR + secondCohort.generateString());
-    }
-
-    public static String appendBrackets(String value) {
-        return "(" + value + ")";
-    }
-
 }

@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.AnchorPane;
-import stringen.logic.Module;
 
 public class ResultWindow extends AnchorPane {
 

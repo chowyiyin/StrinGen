@@ -2,8 +2,6 @@ package stringen.logic.prerequisites;
 
 import java.util.ArrayList;
 
-import stringen.logic.Cohort;
-
 public class ModuleRequirementList implements Prerequisite {
 
     private ArrayList<ModuleRequirement> moduleRequirements = new ArrayList<>();

@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import stringen.Util;
-import stringen.logic.Parser;
 
 public class Main extends Application {
 

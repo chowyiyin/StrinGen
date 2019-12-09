@@ -10,9 +10,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import stringen.exceptions.ParseModuleException;
-import stringen.logic.Module;
-import stringen.logic.ParseModuleAlert;
-import stringen.logic.Parser;
 
 public class CommandBox extends GridPane {
     @FXML
