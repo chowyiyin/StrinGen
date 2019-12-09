@@ -18,7 +18,7 @@ public class McSubRequirement extends HBox {
 
     public McSubRequirement() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CommandBox.class.getResource("/view/McSubRequirement.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(McSubRequirement.class.getResource("/view/McSubRequirement.fxml"));
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);
             fxmlLoader.load();

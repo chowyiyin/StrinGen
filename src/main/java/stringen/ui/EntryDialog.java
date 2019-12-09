@@ -52,7 +52,7 @@ public class EntryDialog extends GridPane {
 
     public EntryDialog() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CommandBox.class.getResource("/view/EntryDialog.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(EntryDialog.class.getResource("/view/EntryDialog.fxml"));
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
@@ -85,14 +85,12 @@ public class EntryDialog extends GridPane {
         McPrerequisite mcPrerequisite = null;
         if (!mcs.getText().equals("")) {
             mcPrerequisite = parser.parseMcPrerequisite(mcs.getText(), cohort);
-            cohort.setMcPrerequisite(mcPrerequisite);
         }
 
         // get module prerequisites
-        ModuleRequirementList modPrereq = getModPrereqs(parser);
-        if (!modPrereq.isEmpty()) {
-            cohort.setModulePrerequisites(modPrereq);
-        }
+        //ModuleRequirementList modPrereq = getModPrereqs(parser);
+        //if (!modPrereq.isEmpty()) {
+        //}
     }
 
     @FXML
@@ -128,10 +126,11 @@ public class EntryDialog extends GridPane {
     @FXML
     private void addModuleRequirement() {
         modulePrereqs.getChildren().remove(addModPrereqButton);
-        modulePrereqs.getChildren().add(new ModulePrerequisiteEntry());
+        //modulePrereqs.getChildren().add(new ModulePrerequisiteEntry());
         modulePrereqs.getChildren().add(addModPrereqButton);
     }
 
+    /*
     private ModuleRequirementList getModPrereqs(Parser parser) {
         ArrayList<ModuleRequirement> modules = new ArrayList<>();
 
@@ -150,6 +149,7 @@ public class EntryDialog extends GridPane {
         }
         return new ModuleRequirementList(modules, ModulePrerequisite.PREFIX);
     }
+     */
 }
 
 

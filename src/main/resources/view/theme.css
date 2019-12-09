@@ -12,6 +12,18 @@
     -fx-focus-color: transparent;
 }
 
+.list-view {
+    -fx-background-insets: 0;
+    -fx-padding: 1;
+    -fx-background-color: transparent;
+}
+
+.list-cell {
+    -fx-padding: 0px 5px 5px 0px;
+    -fx-background-color: inherit, -fx-background ;
+    -fx-background-insets: 0px, 5px;
+}
+
 .comboBox {
     -fx-background-color: derive(#252525, 10%);
     -fx-focus-color: derive(#252525, 10%);
@@ -20,6 +32,7 @@
 .comboBox .list-cell {
     -fx-background-color: derive(#252525, 10%);
     -fx-text-fill: white;
+    -fx-text-size: 12px;
     -fx-font-family: "Segoe UI";
 }
 
@@ -111,4 +124,47 @@
     -fx-border-color: black;
     -fx-border-width: 1;
     -fx-background-color: derive(#252525, 30%);
+}
+
+.button {
+    -fx-background-color: derive(#252525, 10%);
+    -fx-font-family: "Segoe Ui Semibold";
+    -fx-font-size: 12px;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+    -fx-text-fill: white;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-focus-color: transparent;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+}
+
+.button:hover {
+	-fx-background-color: derive(#252525, 50%);
+	-fx-cursor: hand;
+}
+
+.addButton {
+    -fx-background-color: transparent;
+    -fx-font-family: "Segoe Ui Semibold";
+    -fx-border-color: transparent;
+    -fx-font-size: 13px;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-padding: -5;
+}
+
+#sendButton {
+    -fx-background-radius: 0 25 25 0;
+    -fx-border-radius: 0 25 25 0;
+}
+
+#addCohortButton {
+    -fx-background-color: derive(#252525, 10%);
+    -fx-border-color: black;
+}
+
+#addCohortButton:hover {
+	-fx-background-color: derive(#252525, 50%);
+	-fx-cursor: hand;
 }
