@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.HBox?>
+
+
+<fx:root fx:id="cardPlaceholder" type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ComboBox fx:id="requirementOptions" onAction="#showEntries" prefWidth="150.0" promptText="REQUIREMENT" styleClass="comboBox" stylesheets="@theme.css" />
+   </children>
+</fx:root>
