@@ -4,11 +4,10 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.HBox?>
 
-
 <fx:root stylesheets="@theme.css" type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ComboBox fx:id="subjectDropdown" prefHeight="25.0" prefWidth="183.0" promptText="A-Level Subject Code" styleClass="comboBox" />
-      <ComboBox fx:id="gradeDropdown" prefWidth="150.0" promptText="Grade" styleClass="comboBox" />
-      <Button mnemonicParsing="false" onAction="#addNewEntry" stylesheets="@theme.css" text="add OR" />
+      <ComboBox fx:id="subjectDropdown" prefHeight="27.0" prefWidth="183.0" promptText="A-Level Subject Code" styleClass="comboBox" />
+      <ComboBox fx:id="gradeDropdown" prefHeight="27.0" prefWidth="150.0" promptText="Grade" styleClass="comboBox" />
+      <Button mnemonicParsing="false" onAction="#addNewEntry" prefHeight="27.0" stylesheets="@theme.css" text="add OR" />
    </children>
 </fx:root>

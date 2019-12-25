@@ -5,8 +5,8 @@
 
 <fx:root type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ComboBox fx:id="requirement" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#setStandard" prefHeight="30.0" prefWidth="150.0" promptText="REQUIREMENT" styleClass="comboBox" stylesheets="@theme.css" />
-      <ComboBox fx:id="requirementStandard" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#changeSelected" prefHeight="30.0" prefWidth="150.0" promptText="STANDARD" styleClass="comboBox" stylesheets="@theme.css" />
-      <ComboBox fx:id="optionOtherSubRequirement" disable="true" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="64.0" styleClass="comboBox" stylesheets="@theme.css" />
+      <ComboBox fx:id="requirement" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#setStandard" prefHeight="27.0" prefWidth="150.0" promptText="REQUIREMENT" styleClass="comboBox" stylesheets="@theme.css" />
+      <ComboBox fx:id="requirementStandard" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#changeSelected" prefHeight="27.0" prefWidth="150.0" promptText="STANDARD" styleClass="comboBox" stylesheets="@theme.css" />
+      <ComboBox fx:id="optionOtherSubRequirement" disable="true" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="64.0" styleClass="comboBox" stylesheets="@theme.css" />
    </children>
 </fx:root>

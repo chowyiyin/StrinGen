@@ -16,12 +16,17 @@ import javafx.scene.layout.VBox;
 
 public class EntryWindow extends VBox {
 
+    private int numOfRequirements = 1;
+
+    private final int REQ_START_INDEX = 4;
+
     @FXML
     private ListView<HBox> entryListView;
 
     private Generator generator;
     private MainWindow mainWindow;
     private List<HBox> cards = new ArrayList<HBox>();
+    private ArrayList<Integer> indexPositions = new ArrayList<Integer>();
 
     public EntryWindow(Generator generator, MainWindow mainWindow) {
         this.generator = generator;
@@ -41,8 +46,9 @@ public class EntryWindow extends VBox {
         cards.add(new TitleListCard("Cohort", false));
         cards.add(new CohortListCard());
         cards.add(new TitleListCard("Requirements", true));
-        cards.add(new EntryFieldCard(this, true));
-        ObservableList<HBox> observableCards= FXCollections.observableArrayList(cards);
+        cards.add(new EntryFieldCard(this, true, numOfRequirements));
+        ObservableList<HBox> observableCards = FXCollections.observableArrayList(cards);
+        indexPositions.add(0, REQ_START_INDEX);
         updateScreen(observableCards);
     }
 
@@ -64,22 +70,32 @@ public class EntryWindow extends VBox {
                 });
     }
 
-    public void addAndEntryFieldCard() {
-        EntryFieldCard entryFieldCard = new EntryFieldCard(this, false);
+    public void addAndEntryFieldCard(int index) {
+        EntryFieldCard entryFieldCard = new EntryFieldCard(this, false, numOfRequirements);
         entryFieldCard.setConjunctionLabel();
-        cards.add(entryFieldCard);
+        cards.add(indexPositions.get(index - 1), entryFieldCard);
+        for (int i = index - 1; i < indexPositions.size(); i++) {
+            indexPositions.set(i, indexPositions.get(i) + 1);
+        }
         updateScreen(FXCollections.observableArrayList(cards));
     }
 
-    public void addOrEntryFieldCard() {
-        EntryFieldCard entryFieldCard = new EntryFieldCard(this, false);
-        cards.add(entryFieldCard);
+    public void addOrEntryFieldCard(int index) {
+        EntryFieldCard entryFieldCard = new EntryFieldCard(this, false, numOfRequirements);
+        cards.add(indexPositions.get(index - 1), entryFieldCard);
         updateScreen(FXCollections.observableArrayList(cards));
     }
 
     public void addNewRequirement() {
-        EntryFieldCard entryFieldCard = new EntryFieldCard(this, true);
+        numOfRequirements++;
+        EntryFieldCard entryFieldCard = new EntryFieldCard(this, true, numOfRequirements);
         cards.add(entryFieldCard);
+        if (entryFieldCard.getRequirementNumber() != 1) {
+            indexPositions.add(entryFieldCard.getRequirementNumber() - 1,
+                    indexPositions.get(entryFieldCard.getRequirementNumber() - 2) + 1);
+        } else {
+            indexPositions.add(entryFieldCard.getRequirementNumber() - 1, 1);
+        }
         updateScreen(FXCollections.observableArrayList(cards));
     }
 
@@ -87,15 +103,4 @@ public class EntryWindow extends VBox {
         return entryListView;
     }
 
-    /*
-    @FXML
-    private void generateString() throws UnsupportedEncodingException {
-        Iterator<Node> childrenIterator = entryDialogs.getChildren().iterator();
-        while (childrenIterator.hasNext()) {
-            Node child = childrenIterator.next();
-            EntryDialog childWindow = (EntryDialog) child;
-        }
-        //mainWindow.changeScreen(new ResultWindow(generator, module));
-    }
-    */
 }

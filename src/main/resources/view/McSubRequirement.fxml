@@ -6,8 +6,8 @@
 
 <fx:root type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ComboBox fx:id="modulePrefix" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="MODULE PREFIX" styleClass="comboBox" stylesheets="@theme.css" />
-      <TextField fx:id="credits" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="149.0" promptText="Number Of MCs" styleClass="enterBox" stylesheets="@theme.css" />
-      <ComboBox fx:id="optionMcSubRequirement" disable="true" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="64.0" styleClass="comboBox" stylesheets="@theme.css" />
+      <ComboBox fx:id="modulePrefix" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="150.0" promptText="MODULE PREFIX" styleClass="comboBox" stylesheets="@theme.css" />
+      <TextField fx:id="credits" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="149.0" promptText="Number Of MCs" styleClass="enterBox" stylesheets="@theme.css" />
+      <ComboBox fx:id="optionMcSubRequirement" disable="true" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="64.0" styleClass="comboBox" stylesheets="@theme.css" />
    </children>
 </fx:root>
