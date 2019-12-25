@@ -13,7 +13,6 @@ import stringen.Util;
 public class Main extends Application {
 
     private Generator generator = new Generator();
-    private Parser parser = new Parser();
     private static Stage primaryStage;
 
     @Override

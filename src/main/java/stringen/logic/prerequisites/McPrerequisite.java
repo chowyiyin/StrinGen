@@ -1,19 +1,23 @@
 package stringen.logic.prerequisites;
 
+import stringen.logic.StringGenerator;
+
 public class McPrerequisite implements Prerequisite {
 
     public static String PREFIX = "MC_PR";
 
-    String numberOfMcs;
+    private String numberOfMcs;
+    private String modulePrefix;
 
-    public McPrerequisite(String numberOfMcs) {
+    public McPrerequisite(String numberOfMcs, String modulePrefix) {
         this.numberOfMcs = numberOfMcs;
+        this.modulePrefix = modulePrefix;
     }
 
-
+    //todo: add module prefixes to generated string
     @Override
     public String generateString() {
-        return PREFIX + appendBrackets(numberOfMcs);
+        return PREFIX + StringGenerator.appendBrackets(numberOfMcs);
     }
 
     public boolean equals(Object o) {

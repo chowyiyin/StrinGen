@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class Cohort {
 
+    public static final String PREFIX_YEAR = "YEAR_PR";
+    public static final String DEFAULT_DASH = "-";
+
     private String startYear;
     private String endYear;
     private ArrayList<OrGroup> orGroups = new ArrayList<>();
@@ -13,8 +16,8 @@ public class Cohort {
         this.endYear = endYear;
     }
 
-    public void addOrGroup(OrGroup orGroup) {
-        orGroups.add(orGroup);
+    public void addOrGroups(ArrayList<OrGroup> orGroups) {
+        this.orGroups.addAll(orGroups);
     }
 
     public ArrayList<OrGroup> getOrGroups() {
@@ -22,16 +25,12 @@ public class Cohort {
     }
 
     public String generateString() {
-        return StringGenerator.appendOrGroups(orGroups);
-    }
-
-    public boolean contains(OrGroup group) {
-        return orGroups.stream().anyMatch(orGroup -> orGroup.contains(group));
+        return StringGenerator.generateStringForCohorts(startYear, endYear, orGroups);
     }
 
     public void removeOrGroups(ArrayList<OrGroup> similarOrGroups) {
         for (int i = 0; i < similarOrGroups.size(); i++) {
-            OrGroup similarOrGroup = (OrGroup) similarOrGroups.get(i);
+            OrGroup similarOrGroup = similarOrGroups.get(i);
             assert(orGroups.contains(similarOrGroup));
             orGroups.remove(similarOrGroup);
         }
@@ -40,8 +39,12 @@ public class Cohort {
     public void removeAndGroupsFromOrGroup(OrGroup orGroup, ArrayList<AndGroup> andGroups) {
         assert(orGroups.contains(orGroup));
         for (int i = 0; i < orGroups.size(); i++) {
-            if (orGroups.get(i).equals(orGroup)) {
-                orGroups.get(i).removeAndGroups(andGroups);
+            OrGroup thisOrGroup = orGroups.get(i);
+            if (thisOrGroup.equals(orGroup)) {
+                thisOrGroup.removeAndGroups(andGroups);
+                if (thisOrGroup.isEmpty()) {
+                    orGroups.remove(thisOrGroup);
+                }
             }
         }
     }

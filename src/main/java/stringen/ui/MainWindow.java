@@ -1,28 +1,41 @@
 package stringen.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import stringen.Util;
-import stringen.logic.Parser;
 
 public class MainWindow extends Stage {
 
     @FXML
-    private VBox entryWindowPlaceHolder;
+    private ListView<EntryWindow> entryWindowPlaceholder;
 
     @FXML
-    private HBox buttonPlaceHolder;
+    private VBox windowPlaceholder;
+
+    @FXML
+    private HBox buttonPlaceholder;
+
+    @FXML
+    private Scene scene;
 
     private static final String LOCATION = "/view/MainWindow.fxml";
 
     private final FXMLLoader fxmlLoader = new FXMLLoader();
 
+    private ArrayList<EntryWindow> entryWindows = new ArrayList<>();
     private Stage primaryStage;
+    private Generator generator;
 
     public MainWindow(Stage primaryStage) {
         fxmlLoader.setController(this);
@@ -41,7 +54,32 @@ public class MainWindow extends Stage {
 
     void fillInnerParts() {
         Util.initialise();
-        entryWindowPlaceHolder.getChildren().add(new EntryWindow(new Generator(), this, new Parser()));
+        generator = new Generator();
+        EntryWindow entryWindow = new EntryWindow(generator, this);
+        entryWindow.prefHeightProperty().bind(this.heightProperty());
+        entryWindows.add(entryWindow);
+        entryWindowPlaceholder.setItems(FXCollections.observableArrayList(entryWindows));
+        entryWindowPlaceholder.setCellFactory(lst ->
+                new ListCell<EntryWindow>() {
+                    @Override
+                    protected void updateItem(EntryWindow item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setPrefHeight(0);
+                            setGraphic(null);
+                        } else {
+                            setPrefHeight(Region.USE_COMPUTED_SIZE);
+                            setGraphic(item);
+                        }
+                    }
+                });
+        //entryWindowPlaceHolder.getChildren().add(entryWindow);
+    }
+
+    @FXML
+    public void addCohort() {
+        entryWindows.add(new EntryWindow(generator, this));
+        entryWindowPlaceholder.setItems(FXCollections.observableArrayList(entryWindows));
     }
 
     /**
@@ -50,6 +88,18 @@ public class MainWindow extends Stage {
     @FXML
     private void handleExit() {
         primaryStage.hide();
+    }
+
+    @FXML
+    private void generateString() {
+        String generatedString = generator.generateString(entryWindows);
+        changeScreen(generatedString);
+    }
+
+    void changeScreen(String generatedString) {
+        windowPlaceholder.getChildren().remove(entryWindowPlaceholder);
+        windowPlaceholder.getChildren().remove(buttonPlaceholder);
+        windowPlaceholder.getChildren().add(new ResultWindow(generatedString));
     }
 
     /*

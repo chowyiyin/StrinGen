@@ -57,9 +57,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="stringen.logic.prerequisites" />
       <recent name="stringen.logic" />
       <recent name="stringen.ui" />
-      <recent name="stringen.logic.prerequisites" />
       <recent name="stringen.exceptions" />
       <recent name="" />
     </key>
@@ -135,5 +135,36 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/stringen/logic/StringGenerator.java</url>
+          <line>23</line>
+          <properties class="stringen.logic.StringGenerator" method="generateStringForCohorts">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/stringen/ui/Generator.java</url>
+          <line>130</line>
+          <properties class="stringen.ui.Generator" method="combineMajorOrModuleRequirements">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Remote">
+        <watch expression="firstCohort.orGroups.get(0).andGroups.get(0)" />
+        <watch expression="pairWithMostSimilarAndGroup" />
+        <watch expression="StringGenerator.appendOrGroups(similarOrGroupsCombined)" language="JAVA" />
+        <watch expression="firstCohort.generateString()" language="JAVA" />
+        <watch expression="secondCohort.generateString()" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

@@ -14,12 +14,13 @@
 
 .list-view {
     -fx-background-insets: 0;
-    -fx-padding: 1;
+    -fx-padding: 4;
     -fx-background-color: transparent;
+    -fx-border-color: white;
 }
 
 .list-cell {
-    -fx-padding: 0px 5px 5px 0px;
+    -fx-padding: 5px 5px 5px 5px;
     -fx-background-color: inherit, -fx-background ;
     -fx-background-insets: 0px, 5px;
 }

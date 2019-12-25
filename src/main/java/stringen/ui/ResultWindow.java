@@ -14,18 +14,10 @@ public class ResultWindow extends AnchorPane {
     @FXML
     private Label stringGenerated;
 
-    @FXML
-    private Label detailsLabel;
-
-    private Generator generator;
-    private Module module;
-
     private String generatedString;
-    private String generatedDetails;
 
-    public ResultWindow(Generator generator, Module module) {
-        this.generator = generator;
-        this.module = module;
+    public ResultWindow(String generatedString) {
+        this.generatedString = generatedString;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(ResultWindow.class.getResource("/view/ResultWindow.fxml"));
             fxmlLoader.setController(this);
@@ -38,10 +30,7 @@ public class ResultWindow extends AnchorPane {
 
     @FXML
     public void initialize() {
-        generatedString = generator.generateString(module);
-        generatedDetails = generator.generateDetails(module);
         stringGenerated.setText(generatedString);
-        detailsLabel.setText(generatedDetails);
     }
 
     @FXML

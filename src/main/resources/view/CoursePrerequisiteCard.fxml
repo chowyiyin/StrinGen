@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" stylesheets="@theme.css" type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField fx:id="courseCodeField" promptText="Enter course code..." styleClass="enterBox" HBox.hgrow="ALWAYS" />
+      <Button mnemonicParsing="false" onAction="#addNewEntry" stylesheets="@theme.css" text="add OR" />
+   </children>
+</fx:root>

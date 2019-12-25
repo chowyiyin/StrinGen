@@ -1,12 +1,12 @@
 package stringen.logic.prerequisites;
 
-public class ModuleAntirequisite extends ModuleRequirement {
+public class ModulePreclusion extends ModuleRequirement {
     public final static String PREFIX = "MOD_AR";
 
     private String minimumGrade;
     private String moduleCode;
 
-    public ModuleAntirequisite(String moduleCode, String minimumGrade) {
+    public ModulePreclusion(String moduleCode, String minimumGrade) {
         super(PREFIX, moduleCode, minimumGrade);
         this.moduleCode = moduleCode;
         this.minimumGrade = minimumGrade;
@@ -20,8 +20,8 @@ public class ModuleAntirequisite extends ModuleRequirement {
         if (o == this) {
             return true;
         } else {
-            if (o instanceof ModuleAntirequisite) {
-                ModuleAntirequisite other = (ModuleAntirequisite) o;
+            if (o instanceof ModulePreclusion) {
+                ModulePreclusion other = (ModulePreclusion) o;
                 return minimumGrade.equals(other.minimumGrade)
                         && moduleCode.equals(other.moduleCode);
             } else {

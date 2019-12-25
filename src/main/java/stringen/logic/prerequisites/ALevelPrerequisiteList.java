@@ -2,6 +2,9 @@ package stringen.logic.prerequisites;
 
 import java.util.ArrayList;
 
+import stringen.logic.Cohort;
+import stringen.logic.StringGenerator;
+
 public class ALevelPrerequisiteList implements Prerequisite {
     public static String PREFIX = "ASUB_PR";
 
@@ -21,7 +24,7 @@ public class ALevelPrerequisiteList implements Prerequisite {
         //TODO: implement the number
         string.append("1");
         aLevelPrerequisites.stream().forEach(sub -> string.append("," + sub.generateString()));
-        return PREFIX + appendBrackets(string.toString());
+        return PREFIX + StringGenerator.appendBrackets(string.toString());
     }
 
     public boolean isEmpty() {

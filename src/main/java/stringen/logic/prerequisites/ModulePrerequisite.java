@@ -12,7 +12,8 @@ public class ModulePrerequisite extends ModuleRequirement {
         this.minimumGrade = minimumGrade;
     }
 
-    @Override public String getRequirementType() {
+    @Override
+    public String getRequirementType() {
         return PREFIX;
     }
 

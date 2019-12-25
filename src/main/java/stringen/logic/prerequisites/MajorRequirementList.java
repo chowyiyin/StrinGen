@@ -2,30 +2,41 @@ package stringen.logic.prerequisites;
 
 import java.util.ArrayList;
 
+import stringen.logic.StringGenerator;
+
 public class MajorRequirementList implements Prerequisite {
-    public static String PREFIX = "MAJ_PR";
 
     private ArrayList<MajorRequirement> majorRequirements = new ArrayList<>();
-    private ArrayList<Cohort> cohorts = new ArrayList<>();
+    private int numberOfMajors;
+    private String prefix;
 
-    public MajorRequirementList(ArrayList<MajorRequirement> majorRequirements) {
+    public MajorRequirementList(ArrayList<MajorRequirement> majorRequirements, int numberOfMajors, String prefix) {
         this.majorRequirements.addAll(majorRequirements);
+        this.numberOfMajors = numberOfMajors;
+        this.prefix = prefix;
     }
 
     public MajorRequirementList() {
+    }
+
+    public ArrayList<MajorRequirement> getMajorRequirements() {
+        return majorRequirements;
     }
 
     public boolean isEmpty() {
         return majorRequirements.size() == 0;
     }
 
+    public String getPrefix() {
+        return prefix;
+    }
+
     @Override
     public String generateString() {
         StringBuilder string = new StringBuilder();
-        //TODO: implement the number
-        string.append("1");
+        string.append(numberOfMajors);
         majorRequirements.stream().forEach(major -> string.append("," + major.generateString()));
-        return PREFIX + appendBrackets(string.toString());
+        return prefix + StringGenerator.appendBrackets(string.toString());
     }
 
     @Override

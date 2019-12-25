@@ -1,5 +1,7 @@
 package stringen.logic.prerequisites;
 
+import stringen.logic.StringGenerator;
+
 public class CapPrerequisite implements Prerequisite {
 
     public static String PREFIX = "CAP_PR";
@@ -12,7 +14,7 @@ public class CapPrerequisite implements Prerequisite {
 
     @Override
     public String generateString() {
-        return PREFIX + appendBrackets(cap);
+        return PREFIX + StringGenerator.appendBrackets(cap);
     }
 
     public boolean equals(Object o) {

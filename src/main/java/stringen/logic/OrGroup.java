@@ -10,13 +10,30 @@ public class OrGroup extends Group {
         this.andGroups.addAll(andGroups);
     }
 
+    protected OrGroup() {}
+
     public String generateString() {
-        return StringGenerator.appendAndGroups(andGroups);
+        if (andGroups.size() == 1) {
+            return StringGenerator.appendAndGroups(andGroups);
+        } else {
+            return StringGenerator.appendBrackets(StringGenerator.appendAndGroups(andGroups));
+        }
     }
 
-    public boolean contains(OrGroup orGroup) {
-        return andGroups.stream().anyMatch(andGroup ->
-                orGroup.andGroups.stream().anyMatch(otherAndGroup -> otherAndGroup.equals(andGroup)));
+    public ArrayList<AndGroup> getEmbeddedAndGroups(OrGroup otherGroup) {
+        ArrayList<AndGroup> otherAndGroups = otherGroup.getAndGroups();
+        ArrayList<AndGroup> embeddedAndGroups = new ArrayList<>();
+        for (int i = 0; i < andGroups.size(); i++) {
+            for (int j = 0; j < otherAndGroups.size(); j++) {
+                AndGroup thisAndGroup = andGroups.get(i);
+                AndGroup otherAndGroup = otherAndGroups.get(j);
+                AndGroup embeddedAndGroup = thisAndGroup.getEmbeddedAndGroup(otherAndGroup);
+                if (embeddedAndGroup != null) {
+                    embeddedAndGroups.add(embeddedAndGroup);
+                }
+            }
+        }
+        return embeddedAndGroups;
     }
 
     public ArrayList<AndGroup> getAndGroups() {
@@ -24,8 +41,17 @@ public class OrGroup extends Group {
     }
 
     public void removeAndGroups(ArrayList<AndGroup> andGroupsToRemove) {
-        for (int i = 0; i < andGroupsToRemove.size(); i++) {
-            andGroups.remove(andGroupsToRemove.get(i));
+        for (int i = 0; i < andGroups.size(); i++) {
+            for (int j = 0; j < andGroupsToRemove.size(); j++) {
+                AndGroup andGroup = andGroups.get(i);
+                AndGroup andGroupToRemove = andGroupsToRemove.get(j);
+                if (andGroup.contains(andGroupToRemove)) {
+                    andGroup.remove(andGroupToRemove);
+                    if (andGroup.isEmpty()) {
+                        andGroups.remove(andGroup);
+                    }
+                }
+            }
         }
     }
 
@@ -38,6 +64,10 @@ public class OrGroup extends Group {
         } else {
             return false;
         }
+    }
+
+    public boolean isEmpty() {
+        return andGroups.isEmpty();
     }
 
 }

@@ -2,6 +2,9 @@ package stringen.logic.prerequisites;
 
 import java.util.ArrayList;
 
+import stringen.logic.Cohort;
+import stringen.logic.StringGenerator;
+
 public class ModuleRequirementList implements Prerequisite {
 
     private ArrayList<ModuleRequirement> moduleRequirements = new ArrayList<>();
@@ -9,8 +12,7 @@ public class ModuleRequirementList implements Prerequisite {
     private String prefix;
     private ArrayList<Cohort> cohorts = new ArrayList<>();
 
-    public ModuleRequirementList(ArrayList<? extends ModuleRequirement> moduleRequirements,
-                                 int numberOfModules, String prefix) {
+    public ModuleRequirementList(ArrayList<ModuleRequirement> moduleRequirements, int numberOfModules, String prefix) {
         this.moduleRequirements.addAll(moduleRequirements);
         this.numberOfModules = numberOfModules;
         this.prefix = prefix;
@@ -19,8 +21,16 @@ public class ModuleRequirementList implements Prerequisite {
     public ModuleRequirementList() {
     }
 
+    public ArrayList<ModuleRequirement> getModuleRequirements() {
+        return moduleRequirements;
+    }
+
     public boolean isEmpty() {
         return moduleRequirements.size() == 0;
+    }
+
+    public String getPrefix() {
+        return prefix;
     }
 
     @Override
@@ -28,7 +38,7 @@ public class ModuleRequirementList implements Prerequisite {
         StringBuilder string = new StringBuilder();
         string.append(numberOfModules);
         moduleRequirements.stream().forEach(mod -> string.append("," + mod.generateString()));
-        return prefix + appendBrackets(string.toString());
+        return prefix + StringGenerator.appendBrackets(string.toString());
     }
 
     public boolean equals(Object o) {

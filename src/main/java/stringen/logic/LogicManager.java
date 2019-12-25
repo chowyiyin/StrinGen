@@ -29,8 +29,9 @@ public class LogicManager {
 
         while (cohortsYetToBeProcessed.size() > 0) {
             Cohort cohort = cohortsYetToBeProcessed.get(0);
-            String cohortString = StringGenerator.appendOrGroups(cohort.getOrGroups());
+            String cohortString = cohort.generateString();
             string = new StringBuilder(StringGenerator.or(string.toString(), cohortString));
+            cohortsYetToBeProcessed.remove(cohort);
         }
 
         return string.toString();
@@ -97,9 +98,9 @@ public class LogicManager {
         ArrayList<OrGroup> remainingOrGroupsInSecondCohort = secondCohort.getOrGroups();
         remainingOrGroupsInSecondCohort.addAll(similarOrGroups);
 
-        return StringGenerator.or(StringGenerator.appendOrGroups(similarOrGroupsCombined),
-                StringGenerator.appendOrGroups(remainingOrGroupsInFirstCohort),
-                StringGenerator.appendOrGroups(remainingOrGroupsInSecondCohort));
+        return StringGenerator.and(StringGenerator.appendOrGroups(similarOrGroupsCombined),
+                StringGenerator.or(firstCohort.generateString(),
+                secondCohort.generateString()));
     }
 
     private static OrGroupPair findMostSimilarEmbeddedAndGroups(Cohort firstCohort, Cohort secondCohort) {
@@ -132,21 +133,13 @@ public class LogicManager {
             OrGroupPair pair = pairs.get(i);
             OrGroup firstGroup = (OrGroup) pair.getFirstElement();
             OrGroup secondGroup = (OrGroup) pair.getSecondElement();
-            pair.setSimilarities(getNumberOfEmbeddedSimilarities(firstGroup, secondGroup));
+            pair.setSimilarities(getEmbeddedSimilarities(firstGroup, secondGroup));
             sortedGroups.add(pair);
         }
         return sortedGroups;
     }
 
-    private static ArrayList<AndGroup> getNumberOfEmbeddedSimilarities(OrGroup firstOrGroup, OrGroup secondOrGroup) {
-        ArrayList<AndGroup> firstOrGroupAndGroups = firstOrGroup.getAndGroups();
-        ArrayList<AndGroup> similarities = new ArrayList<>();
-        for (int i = 0; i < firstOrGroupAndGroups.size(); i++) {
-            AndGroup andGroup = firstOrGroupAndGroups.get(i);
-            if (secondOrGroup.getAndGroups().contains(andGroup)) {
-                similarities.add(andGroup);
-            }
-        }
-        return similarities;
+    private static ArrayList<AndGroup> getEmbeddedSimilarities(OrGroup firstOrGroup, OrGroup secondOrGroup) {
+        return firstOrGroup.getEmbeddedAndGroups(secondOrGroup);
     }
 }

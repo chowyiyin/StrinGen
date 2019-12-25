@@ -2,6 +2,8 @@ package stringen.logic.prerequisites;
 
 public class ModuleRequirement implements Prerequisite {
 
+    public static final String DEFAULT_GRADE = "D";
+
     private String prefix;
     private String minimumGrade;
     private String moduleCode;

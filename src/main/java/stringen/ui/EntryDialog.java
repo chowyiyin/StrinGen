@@ -1,25 +1,16 @@
 package stringen.ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import stringen.Util;
-import stringen.logic.prerequisites.McPrerequisite;
-import stringen.logic.prerequisites.ModulePrerequisite;
-import stringen.logic.prerequisites.ModuleRequirement;
-import stringen.logic.prerequisites.ModuleRequirementList;
 
 public class EntryDialog extends GridPane {
 
@@ -69,6 +60,7 @@ public class EntryDialog extends GridPane {
         cohortEnd.getSelectionModel().select("YEAR");
     }
 
+    /*
     public Module updateModule(Module module, Parser parser) {
         // get cohort year range
         String startYear = cohortStart.getSelectionModel().getSelectedItem();

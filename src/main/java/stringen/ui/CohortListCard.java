@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
 import stringen.Util;
+import stringen.logic.Cohort;
 
 public class CohortListCard extends HBox {
 
@@ -33,5 +34,21 @@ public class CohortListCard extends HBox {
         cohortStart.getSelectionModel().select("YEAR");
         cohortEnd.getItems().addAll(Util.YEARS);
         cohortEnd.getSelectionModel().select("YEAR");
+    }
+
+    public String getStartYear() {
+        if (cohortStart.getValue() == "YEAR" || cohortStart.getValue().equals(Cohort.DEFAULT_DASH)) {
+            return "";
+        } else {
+            return cohortStart.getValue();
+        }
+    }
+
+    public String getEndYear() {
+        if (cohortEnd.getValue() == "YEAR" || cohortEnd.getValue().equals(Cohort.DEFAULT_DASH)) {
+            return "";
+        } else {
+            return cohortEnd.getValue();
+        }
     }
 }
