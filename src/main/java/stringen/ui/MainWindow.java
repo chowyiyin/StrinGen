@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -73,12 +74,13 @@ public class MainWindow extends Stage {
                         }
                     }
                 });
-        //entryWindowPlaceHolder.getChildren().add(entryWindow);
     }
 
     @FXML
     public void addCohort() {
-        entryWindows.add(new EntryWindow(generator, this));
+        EntryWindow newWindow = new EntryWindow(generator, this);
+        newWindow.prefHeightProperty().bind(this.heightProperty());
+        entryWindows.add(newWindow);
         entryWindowPlaceholder.setItems(FXCollections.observableArrayList(entryWindows));
     }
 

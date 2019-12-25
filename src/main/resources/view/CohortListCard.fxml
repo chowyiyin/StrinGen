@@ -5,14 +5,13 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 
-
 <fx:root styleClass="base" stylesheets="@theme.css" type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <FlowPane HBox.hgrow="ALWAYS">
          <children>
-            <ComboBox fx:id="cohortStart" prefWidth="150.0" promptText="YEAR" styleClass="comboBox" stylesheets="@theme.css" />
+            <ComboBox fx:id="cohortStart" prefHeight="27.0" prefWidth="150.0" promptText="YEAR" styleClass="comboBox" stylesheets="@theme.css" />
             <Label stylesheets="@theme.css" text="TO" />
-            <ComboBox fx:id="cohortEnd" prefWidth="150.0" promptText="YEAR" styleClass="comboBox" stylesheets="@theme.css" />
+            <ComboBox fx:id="cohortEnd" prefHeight="27.0" prefWidth="150.0" promptText="YEAR" styleClass="comboBox" stylesheets="@theme.css" />
          </children>
       </FlowPane>
    </children>

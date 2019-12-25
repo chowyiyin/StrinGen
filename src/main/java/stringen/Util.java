@@ -30,7 +30,7 @@ public class Util {
     }
 
     public static void initialiseCap() {
-        for (double i = 0; i <= 5; i = i + 0.1) {
+        for (double i = 5; i >= 0; i = i - 0.1) {
             CAP.add(String.format("%.1f", i));
         }
     }

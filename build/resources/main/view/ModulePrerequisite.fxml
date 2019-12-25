@@ -5,13 +5,12 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 
-
 <HBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <FlowPane>
+      <FlowPane HBox.hgrow="SOMETIMES">
          <children>
-            <TextField promptText="Enter module code..." styleClass="enterBox" stylesheets="@theme.css" />
-            <ComboBox prefWidth="150.0" promptText="Grade" styleClass="comboBox" stylesheets="@theme.css" />
+            <TextField prefHeight="27.0" promptText="Enter module code..." styleClass="enterBox" stylesheets="@theme.css" />
+            <ComboBox prefHeight="27.0" prefWidth="150.0" promptText="Grade" styleClass="comboBox" stylesheets="@theme.css" />
          </children>
       </FlowPane>
    </children>

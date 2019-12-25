@@ -6,31 +6,31 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <fx:root type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox spacing="6.0" HBox.hgrow="ALWAYS">
          <children>
             <Label fx:id="requirementIndexLabel" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="193.0" stylesheets="@theme.css" text="Label" VBox.vgrow="ALWAYS" />
-            <HBox fx:id="cardPlaceholder" VBox.vgrow="ALWAYS">
+            <HBox VBox.vgrow="ALWAYS">
                <children>
                   <Label fx:id="conjunctionLabel" minHeight="-Infinity" minWidth="-Infinity" prefHeight="21.0" prefWidth="43.0" stylesheets="@theme.css" text="AND" HBox.hgrow="ALWAYS" />
-                  <VBox fx:id="boxAndButtonPlaceholder" spacing="6.0" HBox.hgrow="ALWAYS">
+                  <VBox fx:id="boxAndButtonPlaceholder" spacing="6.0" HBox.hgrow="SOMETIMES">
                      <children>
-                        <ComboBox fx:id="requirementOptions" onAction="#showEntries" prefWidth="150.0" promptText="REQUIREMENT" styleClass="comboBox" stylesheets="@theme.css" VBox.vgrow="ALWAYS" />
-                        <Button fx:id="addAndButton" mnemonicParsing="false" onAction="#addAnd" stylesheets="@theme.css" text="add AND" VBox.vgrow="ALWAYS" />
+                        <ComboBox fx:id="requirementOptions" onAction="#showEntries" prefHeight="27.0" prefWidth="150.0" promptText="REQUIREMENT" styleClass="comboBox" stylesheets="@theme.css" VBox.vgrow="ALWAYS" />
+                        <Button fx:id="addAndButton" mnemonicParsing="false" onAction="#addAnd" prefHeight="27.0" stylesheets="@theme.css" text="add AND" VBox.vgrow="ALWAYS" />
                         <HBox fx:id="orButtonPlaceholder" alignment="CENTER" styleClass="addButton" stylesheets="@theme.css" VBox.vgrow="ALWAYS">
                            <children>
-                              <Button fx:id="addOrButton" mnemonicParsing="false" onAction="#addOr" text="add OR" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="addOrButton" mnemonicParsing="false" onAction="#addOr" prefHeight="27.0" text="add OR" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
+                  <HBox fx:id="cardPlaceholder" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox fx:id="newRequirementButtonPlaceholder">
                <children>
-                  <Button fx:id="newRequirementButton" mnemonicParsing="false" onAction="#addNewRequirement" stylesheets="@theme.css" text="Add new requirement" />
+                  <Button fx:id="newRequirementButton" mnemonicParsing="false" onAction="#addNewRequirement" prefHeight="27.0" stylesheets="@theme.css" text="Add new requirement" />
                </children>
             </HBox>
          </children>

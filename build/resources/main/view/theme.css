@@ -19,6 +19,10 @@
     -fx-border-color: white;
 }
 
+#entryWindowPlaceholder .scroll-bar:vertical {
+    -fx-scale-x: 0;
+}
+
 .list-cell {
     -fx-padding: 5px 5px 5px 5px;
     -fx-background-color: inherit, -fx-background ;

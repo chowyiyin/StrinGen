@@ -3,9 +3,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.HBox?>
 
-
 <fx:root stylesheets="@theme.css" type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ComboBox fx:id="capDropdown" prefWidth="150.0" promptText="CAP" styleClass="comboBox" />
+      <ComboBox fx:id="capDropdown" prefHeight="27.0" prefWidth="150.0" promptText="CAP" styleClass="comboBox" />
    </children>
 </fx:root>
