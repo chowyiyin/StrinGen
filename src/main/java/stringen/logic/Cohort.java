@@ -36,12 +36,14 @@ public class Cohort {
         }
     }
 
-    public void removeAndGroupsFromOrGroup(OrGroup orGroup, ArrayList<AndGroup> andGroups) {
+    public void removeAndGroupsFromOrGroup(OrGroup orGroup, ArrayList<AndGroup> ... andGroups) {
         assert(orGroups.contains(orGroup));
         for (int i = 0; i < orGroups.size(); i++) {
             OrGroup thisOrGroup = orGroups.get(i);
             if (thisOrGroup.equals(orGroup)) {
-                thisOrGroup.removeAndGroups(andGroups);
+                for (int j = 0; j < andGroups.length; j++) {
+                    thisOrGroup.removeAndGroups(andGroups[j]);
+                }
                 if (thisOrGroup.isEmpty()) {
                     orGroups.remove(thisOrGroup);
                 }

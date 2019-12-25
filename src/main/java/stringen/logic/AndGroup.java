@@ -30,7 +30,10 @@ public class AndGroup extends Group {
 
     public void remove(AndGroup otherAndGroup) {
         ArrayList<OrGroup> otherOrGroups = otherAndGroup.getOrGroups();
-        orGroups.removeAll(otherOrGroups);
+        for (int i = 0; i < otherOrGroups.size(); i++) {
+            orGroups.remove(otherOrGroups.get(i));
+        }
+        //this.orGroups.removeAll(otherOrGroups);
     }
 
     public AndGroup getEmbeddedAndGroup(AndGroup otherAndGroup) {

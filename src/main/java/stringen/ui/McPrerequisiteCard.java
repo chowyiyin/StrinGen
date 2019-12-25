@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import stringen.logic.prerequisites.McPrerequisite;
+import stringen.logic.requirements.McPrerequisite;
 
 public class McPrerequisiteCard extends HBox {
 

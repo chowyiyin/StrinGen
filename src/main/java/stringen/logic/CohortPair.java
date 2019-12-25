@@ -12,7 +12,7 @@ public class CohortPair extends Pair {
 
     public void setSimilarities(ArrayList<OrGroup> similarities) {
         this.similarities.addAll(similarities);
-        super.setNumberOfSimilarities(similarities.size());
+        super.incrementNumberOfSimilarities(similarities.size());
     }
 
     public ArrayList<OrGroup> getSimilarities() {

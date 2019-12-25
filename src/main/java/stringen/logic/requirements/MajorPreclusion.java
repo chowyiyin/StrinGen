@@ -1,12 +1,17 @@
-package stringen.logic.prerequisites;
+package stringen.logic.requirements;
 
-public class MajorPreclusion extends MajorRequirement {
+public class MajorPreclusion implements Requirement {
     public final static String PREFIX = "MAJ_AR";
 
     private String major;
 
     public MajorPreclusion(String major) {
-        super(PREFIX, major);
+        this.major = major;
+    }
+
+    @Override
+    public String generateString() {
+        return major;
     }
 
     public boolean equals(Object o) {

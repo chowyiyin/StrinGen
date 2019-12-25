@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
 import stringen.Util;
-import stringen.logic.prerequisites.CapPrerequisite;
+import stringen.logic.requirements.CapPrerequisite;
 
 public class CapPrerequisiteCard extends HBox {
 

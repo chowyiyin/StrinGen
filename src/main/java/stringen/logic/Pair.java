@@ -20,8 +20,8 @@ public class Pair<K, V> {
         return element2;
     }
 
-    public void setNumberOfSimilarities(int numberOfSimilarities) {
-        this.numberOfSimilarities = numberOfSimilarities;
+    public void incrementNumberOfSimilarities(int numberOfSimilarities) {
+        this.numberOfSimilarities += numberOfSimilarities;
     }
 
     public int getNumberOfSimilarities() {

@@ -28,12 +28,32 @@ public class OrGroup extends Group {
                 AndGroup thisAndGroup = andGroups.get(i);
                 AndGroup otherAndGroup = otherAndGroups.get(j);
                 AndGroup embeddedAndGroup = thisAndGroup.getEmbeddedAndGroup(otherAndGroup);
-                if (embeddedAndGroup != null) {
+                if (embeddedAndGroup != null && !embeddedAndGroup.equals(thisAndGroup)) {
                     embeddedAndGroups.add(embeddedAndGroup);
                 }
             }
         }
         return embeddedAndGroups;
+    }
+
+
+    public ArrayList<AndGroup> getEqualAndGroups(OrGroup otherGroup) {
+        ArrayList<AndGroup> otherAndGroups = otherGroup.getAndGroups();
+        ArrayList<AndGroup> equalAndGroups = new ArrayList<>();
+        for (int i = 0; i < andGroups.size(); i++) {
+            for (int j = 0; j < otherAndGroups.size(); j++) {
+                AndGroup thisAndGroup = andGroups.get(i);
+                AndGroup otherAndGroup = otherAndGroups.get(j);
+                if (thisAndGroup.equals(otherAndGroup)) {
+                    equalAndGroups.add(copyAndGroup(thisAndGroup));
+                }
+            }
+        }
+        return equalAndGroups;
+    }
+
+    public AndGroup copyAndGroup(AndGroup andGroup) {
+        return new AndGroup(andGroup.getOrGroups());
     }
 
     public ArrayList<AndGroup> getAndGroups() {

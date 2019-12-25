@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import stringen.logic.prerequisites.CoursePrerequisite;
+import stringen.logic.requirements.CoursePrerequisite;
 
 public class CoursePrerequisiteCard extends HBox {
 

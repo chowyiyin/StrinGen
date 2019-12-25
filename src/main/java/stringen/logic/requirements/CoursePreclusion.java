@@ -1,8 +1,8 @@
-package stringen.logic.prerequisites;
+package stringen.logic.requirements;
 
 import stringen.logic.StringGenerator;
 
-public class CoursePreclusion implements Prerequisite {
+public class CoursePreclusion implements Requirement {
 
     public static String PREFIX = "CRSE_AR";
 
@@ -14,7 +14,7 @@ public class CoursePreclusion implements Prerequisite {
 
     @Override
     public String generateString() {
-        return PREFIX + StringGenerator.appendBrackets(courseCode);
+        return courseCode;
     }
 
     public boolean equals(Object o) {

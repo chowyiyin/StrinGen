@@ -1,22 +1,22 @@
 package stringen.logic;
 
-import stringen.logic.prerequisites.Prerequisite;
+import stringen.logic.requirements.Requirement;
 
 public class SingleOrGroup extends OrGroup {
-    private Prerequisite prerequisite;
+    private Requirement requirement;
 
-    public SingleOrGroup(Prerequisite prerequisite) {
+    public SingleOrGroup(Requirement requirement) {
         super();
-        this.prerequisite = prerequisite;
+        this.requirement = requirement;
     }
 
-    public Prerequisite getPrerequisite() {
-        return prerequisite;
+    public Requirement getRequirement() {
+        return requirement;
     }
 
     @Override
     public String generateString() {
-        return prerequisite.generateString();
+        return requirement.generateString();
     }
 
     @Override
@@ -25,7 +25,7 @@ public class SingleOrGroup extends OrGroup {
             return true;
         } else if (o instanceof SingleOrGroup) {
             SingleOrGroup other = (SingleOrGroup) o;
-            return prerequisite.equals(other.prerequisite);
+            return requirement.equals(other.requirement);
         } else {
             return false;
         }

@@ -1,22 +1,22 @@
 package stringen.logic;
 
-import stringen.logic.prerequisites.Prerequisite;
+import stringen.logic.requirements.Requirement;
 
 public class SingleAndGroup extends AndGroup {
-    private Prerequisite prerequisite;
+    private Requirement requirement;
 
-    public SingleAndGroup(Prerequisite prerequisite) {
+    public SingleAndGroup(Requirement requirement) {
         super();
-        this.prerequisite = prerequisite;
+        this.requirement = requirement;
     }
 
-    public Prerequisite getPrerequisite() {
-        return prerequisite;
+    public Requirement getRequirement() {
+        return requirement;
     }
 
     @Override
     public String generateString() {
-        return prerequisite.generateString();
+        return requirement.generateString();
     }
 
     @Override
@@ -25,7 +25,7 @@ public class SingleAndGroup extends AndGroup {
             return true;
         } else if (o instanceof SingleAndGroup) {
             SingleAndGroup other = (SingleAndGroup) o;
-            return prerequisite.equals(other.prerequisite);
+            return requirement.equals(other.requirement);
         } else {
             return false;
         }

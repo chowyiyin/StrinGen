@@ -1,13 +1,17 @@
-package stringen.logic.prerequisites;
+package stringen.logic.requirements;
 
-public class MajorPrerequisite extends MajorRequirement {
+public class MajorPrerequisite implements Requirement {
     public final static String PREFIX = "MAJ_PR";
 
     private String major;
 
     public MajorPrerequisite(String major) {
-        super(PREFIX, major);
         this.major = major;
+    }
+
+    @Override
+    public String generateString() {
+        return major;
     }
 
     public boolean equals(Object o) {

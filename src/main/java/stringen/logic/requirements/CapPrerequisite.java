@@ -1,8 +1,8 @@
-package stringen.logic.prerequisites;
+package stringen.logic.requirements;
 
 import stringen.logic.StringGenerator;
 
-public class CapPrerequisite implements Prerequisite {
+public class CapPrerequisite implements Requirement {
 
     public static String PREFIX = "CAP_PR";
 

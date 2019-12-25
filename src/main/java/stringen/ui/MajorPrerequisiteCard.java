@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import stringen.logic.prerequisites.MajorPrerequisite;
+import stringen.logic.requirements.MajorPrerequisite;
 
 public class MajorPrerequisiteCard extends HBox {
 

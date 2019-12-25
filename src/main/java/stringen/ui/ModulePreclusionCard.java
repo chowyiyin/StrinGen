@@ -9,8 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import stringen.Util;
-import stringen.logic.prerequisites.ModulePreclusion;
-import stringen.logic.prerequisites.ModuleRequirement;
+import stringen.logic.requirements.ModulePreclusion;
 
 public class ModulePreclusionCard extends HBox {
 
@@ -51,7 +50,7 @@ public class ModulePreclusionCard extends HBox {
 
     public ModulePreclusion getModulePreclusion() {
         String moduleCode = moduleCodeField.getText();
-        String grade = gradeDropdown.getValue() == null ? ModuleRequirement.DEFAULT_GRADE : gradeDropdown.getValue();
+        String grade = gradeDropdown.getValue() == null ? ModulePreclusion.DEFAULT_GRADE : gradeDropdown.getValue();
         return new ModulePreclusion(moduleCode, grade);
     }
 
