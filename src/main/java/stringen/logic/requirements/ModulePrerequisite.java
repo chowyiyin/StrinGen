@@ -1,20 +1,20 @@
-package stringen.logic.prerequisites;
+package stringen.logic.requirements;
 
-public class ModulePrerequisite extends ModuleRequirement {
-    public final static String PREFIX = "MOD_PR";
+public class ModulePrerequisite implements Requirement {
+    public static final String PREFIX = "MOD_PR";
+    public static final String DEFAULT_GRADE = "D";
 
     private String minimumGrade = "D";
     private String moduleCode;
 
     public ModulePrerequisite(String moduleCode, String minimumGrade) {
-        super(PREFIX, moduleCode, minimumGrade);
         this.moduleCode = moduleCode;
         this.minimumGrade = minimumGrade;
     }
 
     @Override
-    public String getRequirementType() {
-        return PREFIX;
+    public String generateString() {
+        return moduleCode + appendSquareBrackets(minimumGrade);
     }
 
     public boolean equals(Object o) {

@@ -12,20 +12,15 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import stringen.logic.prerequisites.ALevelPrerequisite;
-import stringen.logic.prerequisites.CapPrerequisite;
-import stringen.logic.prerequisites.CoursePreclusion;
-import stringen.logic.prerequisites.CoursePrerequisite;
-import stringen.logic.prerequisites.MajorPreclusion;
-import stringen.logic.prerequisites.MajorPrerequisite;
-import stringen.logic.prerequisites.MajorRequirement;
-import stringen.logic.prerequisites.MajorRequirementList;
-import stringen.logic.prerequisites.McPrerequisite;
-import stringen.logic.prerequisites.ModulePreclusion;
-import stringen.logic.prerequisites.ModulePrerequisite;
-import stringen.logic.prerequisites.ModuleRequirement;
-import stringen.logic.prerequisites.ModuleRequirementList;
-import stringen.logic.prerequisites.Prerequisite;
+import stringen.logic.requirements.ALevelPrerequisite;
+import stringen.logic.requirements.CoursePreclusion;
+import stringen.logic.requirements.CoursePrerequisite;
+import stringen.logic.requirements.MajorPreclusion;
+import stringen.logic.requirements.MajorPrerequisite;
+import stringen.logic.requirements.ModulePreclusion;
+import stringen.logic.requirements.ModulePrerequisite;
+import stringen.logic.requirements.Requirement;
+import stringen.logic.requirements.RequirementList;
 
 public class EntryFieldCard extends HBox {
 
@@ -99,7 +94,7 @@ public class EntryFieldCard extends HBox {
     public void showEntries() {
         String entryTypeString = requirementOptions.getValue();
         entryType = EntryType.getEntryType(entryTypeString);
-        if (cardPlaceholder.getChildren().size() > 2) {
+        if (cardPlaceholder.getChildren().size() > 0) {
             ObservableList<Node> children = cardPlaceholder.getChildren();
             for (int i = children.size() - 1; i > 1; i--) {
                 cardPlaceholder.getChildren().remove(children.get(i));
@@ -177,19 +172,21 @@ public class EntryFieldCard extends HBox {
         return isNewRequirement;
     }
 
-    public ArrayList<? extends Prerequisite> getResponses() {
+    public ArrayList<Requirement> getResponses() {
+        ArrayList<Requirement> requirements = new ArrayList<>();
+        if (entryType == null) {
+            return requirements;
+        }
         switch(entryType) {
         case MOD_PREREQ:
-            ArrayList<ModuleRequirementList> modulePrerequisiteLists = new ArrayList<>();
-            ArrayList<ModuleRequirement> modulePrerequisites = new ArrayList<>();
+            ArrayList<ModulePrerequisite> modulePrerequisites = new ArrayList<>();
             for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
                 ModulePrerequisiteCard modulePrerequisiteCard = (ModulePrerequisiteCard) cardPlaceholder
                         .getChildren().get(i);
                 modulePrerequisites.add(modulePrerequisiteCard.getModulePrerequisite());
             }
-            modulePrerequisiteLists.add(new ModuleRequirementList(modulePrerequisites, 1,
-                    ModulePrerequisite.PREFIX));
-            return modulePrerequisiteLists;
+            requirements.add(new RequirementList(modulePrerequisites, ModulePrerequisite.PREFIX));
+            return requirements;
         case COURSE_PREREQ:
             ArrayList<CoursePrerequisite> coursePrerequisites = new ArrayList<>();
             for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
@@ -197,9 +194,10 @@ public class EntryFieldCard extends HBox {
                         .getChildren().get(i);
                 coursePrerequisites.add(coursePrerequisiteCard.getCoursePrerequisite());
             }
-            return coursePrerequisites;
+            requirements.add(new RequirementList(coursePrerequisites, CoursePrerequisite.PREFIX));
+            return requirements;
         case MC_PREREQ:
-            ArrayList<McPrerequisite> mcPrerequisites = new ArrayList<>();
+            ArrayList<Requirement> mcPrerequisites = new ArrayList<>();
             for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
                 McPrerequisiteCard mcPrerequisiteCard = (McPrerequisiteCard) cardPlaceholder
                         .getChildren().get(i);
@@ -207,18 +205,16 @@ public class EntryFieldCard extends HBox {
             }
             return mcPrerequisites;
         case MAJOR_PREREQ:
-            ArrayList<MajorRequirementList> majorPrequisiteLists = new ArrayList<>();
-            ArrayList<MajorRequirement> majorPrerequisites = new ArrayList<>();
+            ArrayList<MajorPrerequisite> majorPrerequisites = new ArrayList<>();
             for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
                 MajorPrerequisiteCard majorPrerequisiteCard = (MajorPrerequisiteCard) cardPlaceholder
                         .getChildren().get(i);
                 majorPrerequisites.add(majorPrerequisiteCard.getMajorPrerequisite());
             }
-            majorPrequisiteLists.add(new MajorRequirementList(majorPrerequisites, 1,
-                    MajorPrerequisite.PREFIX));
-            return majorPrequisiteLists;
+            requirements.add(new RequirementList(majorPrerequisites, MajorPrerequisite.PREFIX));
+            return requirements;
         case CAP_PREREQ:
-            ArrayList<CapPrerequisite> capPrerequisites = new ArrayList<>();
+            ArrayList<Requirement> capPrerequisites = new ArrayList<>();
             for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
                 CapPrerequisiteCard capPrerequisiteCard = (CapPrerequisiteCard) cardPlaceholder
                         .getChildren().get(i);
@@ -232,7 +228,8 @@ public class EntryFieldCard extends HBox {
                         .getChildren().get(i);
                 aLevelPrerequisites.add(aLevelPrerequisiteCard.getALevelPrerequisite());
             }
-            return aLevelPrerequisites;
+            requirements.add(new RequirementList(aLevelPrerequisites, ALevelPrerequisite.PREFIX));
+            return requirements;
         case COURSE_PRECLUSION:
             ArrayList<CoursePreclusion> coursePreclusions = new ArrayList<>();
             for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
@@ -240,31 +237,28 @@ public class EntryFieldCard extends HBox {
                         .getChildren().get(i);
                 coursePreclusions.add(coursePreclusionCard.getCoursePreclusion());
             }
-            return coursePreclusions;
+            requirements.add(new RequirementList(coursePreclusions, CoursePreclusion.PREFIX));
+            return requirements;
         case MODULE_PRECLUSION:
-            ArrayList<ModuleRequirementList> modulePreclusionLists = new ArrayList<>();
-            ArrayList<ModuleRequirement> modulePreclusions = new ArrayList<>();
+            ArrayList<ModulePreclusion> modulePreclusions = new ArrayList<>();
             for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
                 ModulePreclusionCard modulePreclusionCard = (ModulePreclusionCard) cardPlaceholder
                         .getChildren().get(i);
                 modulePreclusions.add(modulePreclusionCard.getModulePreclusion());
             }
-            modulePreclusionLists.add(new ModuleRequirementList(modulePreclusions, 1,
-                    ModulePreclusion.PREFIX));
-            return modulePreclusionLists;
+            requirements.add(new RequirementList(modulePreclusions, ModulePreclusion.PREFIX));
+            return requirements;
         case MAJOR_PRECLUSION:
-            ArrayList<MajorRequirementList> majorPreclusionLists = new ArrayList<>();
-            ArrayList<MajorRequirement> majorPreclusions = new ArrayList<>();
+            ArrayList<MajorPreclusion> majorPreclusions = new ArrayList<>();
             for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
                 MajorPreclusionCard majorPreclusionCard = (MajorPreclusionCard) cardPlaceholder
                         .getChildren().get(i);
                 majorPreclusions.add(majorPreclusionCard.getMajorPreclusion());
             }
-            majorPreclusionLists.add(new MajorRequirementList(majorPreclusions, 1,
-                    MajorPreclusion.PREFIX));
-            return majorPreclusions;
+            requirements.add(new RequirementList(majorPreclusions, MajorPreclusion.PREFIX));
+            return requirements;
         default:
-            throw new IllegalArgumentException("Invalid requirement type");
+            return requirements;
         }
     }
 

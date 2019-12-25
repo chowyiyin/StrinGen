@@ -1,7 +1,7 @@
 package stringen.ui;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.HashMap;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
@@ -13,15 +13,8 @@ import stringen.logic.LogicManager;
 import stringen.logic.OrGroup;
 import stringen.logic.SingleAndGroup;
 import stringen.logic.SingleOrGroup;
-import stringen.logic.prerequisites.MajorPreclusion;
-import stringen.logic.prerequisites.MajorPrerequisite;
-import stringen.logic.prerequisites.MajorRequirement;
-import stringen.logic.prerequisites.MajorRequirementList;
-import stringen.logic.prerequisites.ModulePreclusion;
-import stringen.logic.prerequisites.ModulePrerequisite;
-import stringen.logic.prerequisites.ModuleRequirement;
-import stringen.logic.prerequisites.ModuleRequirementList;
-import stringen.logic.prerequisites.Prerequisite;
+import stringen.logic.requirements.Requirement;
+import stringen.logic.requirements.RequirementList;
 
 public class Generator {
 
@@ -85,14 +78,18 @@ public class Generator {
 
         while (i < endingIndexForRequirement) {
             EntryFieldCard entryFieldCard = (EntryFieldCard) items.get(i);
+            OrGroup newOrGroup = createOrGroup(entryFieldCard);
+            if (newOrGroup == null) {
+                continue;
+            }
             if (isNewConjunction) {
                 ArrayList<OrGroup> newOrGroupList = new ArrayList<>();
-                newOrGroupList.add(createOrGroup(entryFieldCard));
+                newOrGroupList.add(newOrGroup);
                 listOfOrGroups.add(newOrGroupList);
                 isNewConjunction = false;
             } else {
                 ArrayList<OrGroup> currentOrGroup = listOfOrGroups.get(listOfOrGroups.size() - 1);
-                currentOrGroup.add(createOrGroup(entryFieldCard));
+                currentOrGroup.add(newOrGroup);
             }
 
             if (entryFieldCard.containsOrLabel()) {
@@ -105,7 +102,7 @@ public class Generator {
         ArrayList<ArrayList<OrGroup>> listOfOrGroupsAfterCombining = new ArrayList<>();
         for (int j = 0; j < listOfOrGroups.size(); j++) {
             ArrayList<OrGroup> group = listOfOrGroups.get(j);
-            listOfOrGroupsAfterCombining.add(combineMajorOrModuleRequirements(group));
+            listOfOrGroupsAfterCombining.add(combineSinglesIntoLists(group));
         }
 
         ArrayList<AndGroup> andGroups = new ArrayList<>();
@@ -116,7 +113,10 @@ public class Generator {
     }
 
     private OrGroup createOrGroup(EntryFieldCard entry) {
-        ArrayList<? extends Prerequisite> requirements = entry.getResponses();
+        ArrayList<Requirement> requirements = entry.getResponses();
+        if (requirements.isEmpty()) {
+            return null;
+        }
         if (requirements.size() == 1) {
             return new SingleOrGroup(requirements.get(0));
         } else {
@@ -128,134 +128,40 @@ public class Generator {
         }
     }
 
-    private ArrayList<OrGroup> combineMajorOrModuleRequirements(
-           ArrayList<OrGroup> orGroups) {
-        if (hasMoreThanOneSingleMajorPrerequisite(orGroups)) {
-            orGroups = combineMajorPrerequisites(orGroups);
-        }
-        if (hasMoreThanOneSingleMajorPreclusion(orGroups)) {
-            orGroups = combineMajorPreclusions(orGroups);
-        }
-        if (hasMoreThanOneSingleModulePrerequisite(orGroups)) {
-            orGroups = combineModulePrerequisites(orGroups);
-        }
-        if (hasMoreThanOneSingleModulePreclusion(orGroups)) {
-            orGroups = combineModulePreclusions(orGroups);
-        }
-        return orGroups;
-    }
-
-    private boolean isSingleMajorRequirement(OrGroup orGroup) {
+    private boolean isSingleRequirementList(OrGroup orGroup) {
         return orGroup instanceof SingleOrGroup &&
-                ((SingleOrGroup) orGroup).getPrerequisite() instanceof MajorRequirementList &&
-                ((MajorRequirementList)((SingleOrGroup) orGroup).getPrerequisite())
-                        .getMajorRequirements().size() == 1;
+                ((SingleOrGroup) orGroup).getRequirement() instanceof RequirementList &&
+                ((RequirementList)((SingleOrGroup) orGroup).getRequirement()).getRequirements().size() == 1;
     }
 
-    private boolean isSingleModuleRequirement(OrGroup orGroup) {
-        return orGroup instanceof SingleOrGroup &&
-                ((SingleOrGroup) orGroup).getPrerequisite() instanceof ModuleRequirementList &&
-                ((ModuleRequirementList)((SingleOrGroup) orGroup).getPrerequisite())
-                        .getModuleRequirements().size() == 1;
-    }
-
-    private boolean hasMoreThanOneSingleMajorPrerequisite(ArrayList<OrGroup> orGroups) {
-        return orGroups.stream().filter(orGroup -> isSingleMajorRequirement(orGroup) &&
-                ((MajorRequirementList)((SingleOrGroup) orGroup).getPrerequisite()).getPrefix()
-                .equals(MajorPrerequisite.PREFIX))
-                .collect(Collectors.toList()).size() > 1;
-    }
-
-    private boolean hasMoreThanOneSingleMajorPreclusion(ArrayList<OrGroup> orGroups) {
-        return orGroups.stream().filter(orGroup -> isSingleMajorRequirement(orGroup) &&
-                ((MajorRequirementList)((SingleOrGroup) orGroup).getPrerequisite()).getPrefix()
-                        .equals(MajorPreclusion.PREFIX))
-                .collect(Collectors.toList()).size() > 1;
-    }
-
-    private boolean hasMoreThanOneSingleModulePrerequisite(ArrayList<OrGroup> orGroups) {
-        return orGroups.stream().filter(orGroup -> isSingleModuleRequirement(orGroup) &&
-                ((ModuleRequirementList)((SingleOrGroup) orGroup).getPrerequisite()).getPrefix()
-                        .equals(ModulePrerequisite.PREFIX))
-                .collect(Collectors.toList()).size() > 1;
-    }
-
-    private boolean hasMoreThanOneSingleModulePreclusion(ArrayList<OrGroup> orGroups) {
-        return orGroups.stream().filter(orGroup -> isSingleModuleRequirement(orGroup) &&
-                ((ModuleRequirementList)((SingleOrGroup) orGroup).getPrerequisite()).getPrefix()
-                        .equals(ModulePreclusion.PREFIX))
-                .collect(Collectors.toList()).size() > 1;
-    }
-
-    private ArrayList<OrGroup> combineMajorPrerequisites(ArrayList<OrGroup> orGroups) {
-        ArrayList<MajorRequirement> majorPrerequisites = new ArrayList<>();
-        ArrayList<OrGroup> orGroupsToBeRemoved = new ArrayList<>();
+    public ArrayList<OrGroup> combineSinglesIntoLists(ArrayList<OrGroup> orGroups) {
+        HashMap<String, ArrayList<RequirementList>> requirementListHashMap = new HashMap<>();
+        ArrayList<OrGroup> singles = new ArrayList<>();
         for (int i = 0; i < orGroups.size(); i++) {
             OrGroup orGroup = orGroups.get(i);
-            if (isSingleMajorRequirement(orGroup)) {
-                MajorRequirementList majorPrerequisiteList = (MajorRequirementList) ((SingleOrGroup) orGroup).getPrerequisite();
-                majorPrerequisites.addAll(majorPrerequisiteList.getMajorRequirements());
-                orGroupsToBeRemoved.add(orGroup);
+            if (isSingleRequirementList(orGroup)) {
+                RequirementList requirementList = ((RequirementList)((SingleOrGroup) orGroup).getRequirement());
+                String prefix = requirementList.getPrefix();
+                if (requirementListHashMap.containsKey(prefix)) {
+                    requirementListHashMap.get(prefix).add(requirementList);
+                } else {
+                    ArrayList<RequirementList> requirementLists = new ArrayList<>();
+                    requirementLists.add(requirementList);
+                    requirementListHashMap.put(prefix, requirementLists);
+                }
+                singles.add(orGroup);
             }
         }
-        orGroups.removeAll(orGroupsToBeRemoved);
-        MajorRequirementList newMajorPrerequisiteList = new MajorRequirementList(majorPrerequisites,
-                majorPrerequisites.size(), MajorPrerequisite.PREFIX);
-        orGroups.add(new SingleOrGroup(newMajorPrerequisiteList));
-        return orGroups;
-    }
+        orGroups.removeAll(singles);
 
-    private ArrayList<OrGroup> combineMajorPreclusions(ArrayList<OrGroup> orGroups) {
-        ArrayList<MajorRequirement> majorPreclusions = new ArrayList<>();
-        ArrayList<OrGroup> orGroupsToBeRemoved = new ArrayList<>();
-        for (int i = 0; i < orGroups.size(); i++) {
-            OrGroup orGroup = orGroups.get(i);
-            if (isSingleMajorRequirement(orGroup)) {
-                MajorRequirementList majorPreclusionList = (MajorRequirementList) ((SingleOrGroup) orGroup).getPrerequisite();
-                majorPreclusions.addAll(majorPreclusionList.getMajorRequirements());
-                orGroupsToBeRemoved.add(orGroup);
+        for (String prefix : requirementListHashMap.keySet()) {
+            ArrayList<RequirementList> requirementLists = requirementListHashMap.get(prefix);
+            ArrayList<Requirement> requirements = new ArrayList<>();
+            for (int i = 0; i < requirementLists.size(); i++) {
+                requirements.addAll(requirementLists.get(i).getRequirements());
             }
+            orGroups.add(new SingleOrGroup(new RequirementList(requirements, requirements.size(), prefix)));
         }
-        orGroups.removeAll(orGroupsToBeRemoved);
-        MajorRequirementList newMajorPreclusionList = new MajorRequirementList(majorPreclusions,
-                majorPreclusions.size(), MajorPreclusion.PREFIX);
-        orGroups.add(new SingleOrGroup(newMajorPreclusionList));
-        return orGroups;
-    }
-
-    private ArrayList<OrGroup> combineModulePrerequisites(ArrayList<OrGroup> orGroups) {
-        ArrayList<ModuleRequirement> modulePrerequisites = new ArrayList<>();
-        ArrayList<OrGroup> orGroupsToBeRemoved = new ArrayList<>();
-        for (int i = 0; i < orGroups.size(); i++) {
-            OrGroup orGroup = orGroups.get(i);
-            if (isSingleModuleRequirement(orGroup)) {
-                ModuleRequirementList modulePrerequisiteList = (ModuleRequirementList) ((SingleOrGroup) orGroup).getPrerequisite();
-                modulePrerequisites.addAll(modulePrerequisiteList.getModuleRequirements());
-                orGroupsToBeRemoved.add(orGroup);
-            }
-        }
-        orGroups.removeAll(orGroupsToBeRemoved);
-        ModuleRequirementList newModulePrerequisiteList = new ModuleRequirementList(modulePrerequisites,
-                modulePrerequisites.size(), ModulePrerequisite.PREFIX);
-        orGroups.add(new SingleOrGroup(newModulePrerequisiteList));
-        return orGroups;
-    }
-
-    private ArrayList<OrGroup> combineModulePreclusions(ArrayList<OrGroup> orGroups) {
-        ArrayList<ModuleRequirement> modulePreclusions = new ArrayList<>();
-        ArrayList<OrGroup> orGroupsToBeRemoved = new ArrayList<>();
-        for (int i = 0; i < orGroups.size(); i++) {
-            OrGroup orGroup = orGroups.get(i);
-            if (isSingleModuleRequirement(orGroup)) {
-                ModuleRequirementList modulePreclusionList = (ModuleRequirementList) ((SingleOrGroup) orGroup).getPrerequisite();
-                modulePreclusions.addAll(modulePreclusionList.getModuleRequirements());
-                orGroupsToBeRemoved.add(orGroup);
-            }
-        }
-        orGroups.removeAll(orGroupsToBeRemoved);
-        ModuleRequirementList newModulePreclusionList = new ModuleRequirementList(modulePreclusions,
-                modulePreclusions.size(), ModulePreclusion.PREFIX);
-        orGroups.add(new SingleOrGroup(newModulePreclusionList));
         return orGroups;
     }
 
@@ -268,7 +174,6 @@ public class Generator {
         }
         return false;
     }
-
 
     private boolean isNewRequirement(HBox hBox) {
         if (hBox.getChildren().size() == 1) {

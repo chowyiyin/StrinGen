@@ -1,15 +1,13 @@
-package stringen.logic.prerequisites;
+package stringen.logic.requirements;
 
-public class ModuleRequirement implements Prerequisite {
-
+public class ModulePreclusion implements Requirement {
+    public final static String PREFIX = "MOD_AR";
     public static final String DEFAULT_GRADE = "D";
 
-    private String prefix;
     private String minimumGrade;
     private String moduleCode;
 
-    public ModuleRequirement(String prefix, String moduleCode, String minimumGrade) {
-        this.prefix = prefix;
+    public ModulePreclusion(String moduleCode, String minimumGrade) {
         this.moduleCode = moduleCode;
         this.minimumGrade = minimumGrade;
     }
@@ -19,20 +17,12 @@ public class ModuleRequirement implements Prerequisite {
         return moduleCode + appendSquareBrackets(minimumGrade);
     }
 
-    public String appendSquareBrackets(String value) {
-        return "[" + value + "]";
-    }
-
-    public String getRequirementType() {
-        return prefix;
-    }
-
     public boolean equals(Object o) {
         if (o == this) {
             return true;
         } else {
-            if (o instanceof ModuleRequirement) {
-                ModuleRequirement other = (ModuleRequirement) o;
+            if (o instanceof ModulePreclusion) {
+                ModulePreclusion other = (ModulePreclusion) o;
                 return minimumGrade.equals(other.minimumGrade)
                         && moduleCode.equals(other.moduleCode);
             } else {

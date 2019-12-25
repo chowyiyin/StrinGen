@@ -1,6 +1,6 @@
-package stringen.logic.prerequisites;
+package stringen.logic.requirements;
 
-public class ALevelPrerequisite implements Prerequisite {
+public class ALevelPrerequisite implements Requirement {
 
     public static String PREFIX = "ASUB_PR";
 

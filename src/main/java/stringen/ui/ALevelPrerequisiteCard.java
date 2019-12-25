@@ -8,7 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import stringen.Util;
-import stringen.logic.prerequisites.ALevelPrerequisite;
+import stringen.logic.requirements.ALevelPrerequisite;
 
 public class ALevelPrerequisiteCard extends HBox {
 

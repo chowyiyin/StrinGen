@@ -34,6 +34,7 @@ public class LogicManager {
             cohortsYetToBeProcessed.remove(cohort);
         }
 
+        System.out.println(string.toString());
         return string.toString();
     }
 
@@ -84,23 +85,28 @@ public class LogicManager {
         OrGroupPair pairWithMostSimilarAndGroup =
                 findMostSimilarEmbeddedAndGroups(firstCohort, secondCohort);
         ArrayList<AndGroup> similarAndGroups = pairWithMostSimilarAndGroup.getSimilarities();
+        ArrayList<AndGroup> equalAndGroups = pairWithMostSimilarAndGroup.getEqualities();
         firstCohort.removeAndGroupsFromOrGroup((OrGroup) pairWithMostSimilarAndGroup.getFirstElement(),
-                similarAndGroups);
+                similarAndGroups, equalAndGroups);
         secondCohort.removeAndGroupsFromOrGroup((OrGroup) pairWithMostSimilarAndGroup.getSecondElement(),
-                similarAndGroups);
+                similarAndGroups, equalAndGroups);
 
         OrGroup similarAndGroupsCombined = new OrGroup(similarAndGroups);
-        ArrayList<OrGroup> similarOrGroupsCombined = new ArrayList<>(similarOrGroups);
-        similarOrGroupsCombined.add(similarAndGroupsCombined);
+        OrGroup equalAndGroupsCombined = new OrGroup(equalAndGroups);
 
         ArrayList<OrGroup> remainingOrGroupsInFirstCohort = firstCohort.getOrGroups();
         remainingOrGroupsInFirstCohort.addAll(similarOrGroups);
         ArrayList<OrGroup> remainingOrGroupsInSecondCohort = secondCohort.getOrGroups();
         remainingOrGroupsInSecondCohort.addAll(similarOrGroups);
 
-        return StringGenerator.and(StringGenerator.appendOrGroups(similarOrGroupsCombined),
-                StringGenerator.or(firstCohort.generateString(),
-                secondCohort.generateString()));
+        return StringGenerator.and(StringGenerator.appendOrGroups(similarOrGroups),
+                StringGenerator.or(
+                        StringGenerator.and(
+                                similarAndGroupsCombined.generateString(),
+                                StringGenerator.or(firstCohort.generateString(),
+                                        secondCohort.generateString())),
+                        equalAndGroupsCombined.generateString()
+                        ));
     }
 
     private static OrGroupPair findMostSimilarEmbeddedAndGroups(Cohort firstCohort, Cohort secondCohort) {
@@ -134,6 +140,7 @@ public class LogicManager {
             OrGroup firstGroup = (OrGroup) pair.getFirstElement();
             OrGroup secondGroup = (OrGroup) pair.getSecondElement();
             pair.setSimilarities(getEmbeddedSimilarities(firstGroup, secondGroup));
+            pair.setEqualities(getEqualities(firstGroup, secondGroup));
             sortedGroups.add(pair);
         }
         return sortedGroups;
@@ -141,5 +148,9 @@ public class LogicManager {
 
     private static ArrayList<AndGroup> getEmbeddedSimilarities(OrGroup firstOrGroup, OrGroup secondOrGroup) {
         return firstOrGroup.getEmbeddedAndGroups(secondOrGroup);
+    }
+
+    private static ArrayList<AndGroup> getEqualities(OrGroup firstOrGroup, OrGroup secondOrGroup) {
+        return firstOrGroup.getEqualAndGroups(secondOrGroup);
     }
 }

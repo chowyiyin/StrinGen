@@ -1,7 +1,6 @@
 package stringen.ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import stringen.Util;
-import stringen.logic.prerequisites.ModulePrerequisite;
-import stringen.logic.prerequisites.ModuleRequirement;
+import stringen.logic.requirements.ModulePrerequisite;
 
 public class ModulePrerequisiteCard extends HBox {
 
@@ -52,7 +50,7 @@ public class ModulePrerequisiteCard extends HBox {
 
     public ModulePrerequisite getModulePrerequisite() {
         String moduleCode = moduleCodeField.getText();
-        String grade = gradeDropdown.getValue() == null ? ModuleRequirement.DEFAULT_GRADE : gradeDropdown.getValue();
+        String grade = gradeDropdown.getValue() == null ? ModulePrerequisite.DEFAULT_GRADE : gradeDropdown.getValue();
         return new ModulePrerequisite(moduleCode, grade);
     }
 
