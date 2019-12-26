@@ -12,7 +12,7 @@
       <VBox layoutX="41.0" spacing="5.0">
          <children>
             <Label stylesheets="@theme.css" text="GENERATED STRING" />
-            <Label fx:id="stringGenerated" prefHeight="29.0" prefWidth="600.0" style="-fx-border-color: white;" stylesheets="@theme.css" text="Label" wrapText="true" VBox.vgrow="ALWAYS">
+            <Label fx:id="stringGenerated" maxHeight="500.0" maxWidth="800.0" style="-fx-border-color: white;" stylesheets="@theme.css" text="Label" wrapText="true" VBox.vgrow="ALWAYS">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
