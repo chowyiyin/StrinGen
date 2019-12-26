@@ -7,11 +7,9 @@ public class McPrerequisite implements Requirement {
     public static String PREFIX = "MC_PR";
 
     private String numberOfMcs;
-    private String modulePrefix;
 
-    public McPrerequisite(String numberOfMcs, String modulePrefix) {
+    public McPrerequisite(String numberOfMcs) {
         this.numberOfMcs = numberOfMcs;
-        this.modulePrefix = modulePrefix;
     }
 
     @Override

@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import stringen.logic.requirements.McPrerequisite;
+import stringen.logic.requirements.ModulePrerequisite;
 
 public class McPrerequisiteCard extends HBox {
 
@@ -33,8 +34,17 @@ public class McPrerequisiteCard extends HBox {
     }
 
     public McPrerequisite getMcPrerequisite() {
-        return new McPrerequisite(mcCountField.getText(), modulePrefixField.getText());
+        return new McPrerequisite(mcCountField.getText());
     }
+
+    public int getNumberOfModules() {
+        return Integer.parseInt(mcCountField.getText()) / 4;
+    }
+
+    public ModulePrerequisite getModule() {
+        return new ModulePrerequisite(modulePrefixField.getText(), ModulePrerequisite.DEFAULT_GRADE);
+    }
+
 
     @FXML
     public void addNewEntry() {
