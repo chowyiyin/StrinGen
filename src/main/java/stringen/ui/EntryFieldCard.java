@@ -138,7 +138,8 @@ public class EntryFieldCard extends HBox {
     public void addAnd() {
         boxAndButtonPlaceholder.getChildren().remove(addAndButton);
         if (!orButtonPlaceholder.getChildren().contains(addOrButton)) {
-
+            orButtonPlaceholder.getChildren().remove(orLabel);
+            parent.addAndEntryFieldCardAfter(this);
         } else {
             orButtonPlaceholder.getChildren().remove(addOrButton);
             newRequirementButtonPlaceholder.getChildren().remove(newRequirementButton);
@@ -156,6 +157,15 @@ public class EntryFieldCard extends HBox {
 
     public void setConjunctionLabel() {
         conjunctionLabel.setText("AND");
+    }
+
+    public void setDisjunctionLabel() {
+        orButtonPlaceholder.getChildren().remove(addOrButton);
+        orButtonPlaceholder.getChildren().add(orLabel);
+    }
+
+    public void removeReqButton() {
+        newRequirementButtonPlaceholder.getChildren().remove(newRequirementButton);
     }
 
     @FXML

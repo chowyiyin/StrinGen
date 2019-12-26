@@ -71,6 +71,19 @@ public class EntryWindow extends VBox {
 
     }
 
+    public void addAndEntryFieldCardAfter(EntryFieldCard prevCard) {
+        int indexOfPrevCard = cards.indexOf(prevCard);
+        EntryFieldCard entryFieldCard = new EntryFieldCard(this, false, prevCard.getRequirementNumber());
+        entryFieldCard.setConjunctionLabel();
+        entryFieldCard.setDisjunctionLabel();
+        entryFieldCard.removeReqButton();
+        for (int i = indexOfPrevCard + 1; i < indexPositions.size(); i++) {
+            indexPositions.set(i, indexPositions.get(i) + 1);
+        }
+        cards.add(indexOfPrevCard + 1, entryFieldCard);
+        updateScreen(FXCollections.observableArrayList(cards));
+    }
+
     public void addAndEntryFieldCard(int index) {
         EntryFieldCard entryFieldCard = new EntryFieldCard(this, false, index);
         entryFieldCard.setConjunctionLabel();
