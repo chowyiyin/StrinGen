@@ -129,6 +129,7 @@ public class EntryFieldCard extends HBox {
             break;
         case CONCURRENT_MODULE:
             cardPlaceholder.getChildren().add(new ModuleConcurrentCard(cardPlaceholder));
+            break;
         }
     }
 
@@ -159,11 +160,6 @@ public class EntryFieldCard extends HBox {
     @FXML
     public void addNewRequirement() {
         parent.addNewRequirement();
-    }
-
-    @FXML
-    public void delete() {
-        parent.deleteCard(this, requirementNumber);
     }
 
     public Label getOrLabel() {

@@ -160,6 +160,20 @@
     -fx-border-radius: 0 25 25 0;
 }
 
+#deleteButton {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 20px;
+    -fx-padding: 0;
+    -fx-border-width: 0;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+}
+
+#deleteButton:hover {
+    -fx-background-color: derive(#252525, 50%);
+}
+
 #addCohortButton {
     -fx-background-color: derive(#252525, 10%);
     -fx-border-color: black;

@@ -103,5 +103,4 @@ public class EntryWindow extends VBox {
     public ListView<HBox> getListContent() {
         return entryListView;
     }
-
 }
