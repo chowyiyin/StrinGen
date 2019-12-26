@@ -68,6 +68,7 @@ public class EntryWindow extends VBox {
                         }
                     }
                 });
+
     }
 
     public void addAndEntryFieldCard(int index) {
