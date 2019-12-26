@@ -4,20 +4,18 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import stringen.ALevelSubject;
-import stringen.Util;
 import stringen.logic.requirements.ALevelPrerequisite;
 
 public class ALevelPrerequisiteCard extends HBox {
 
     @FXML
-    private ComboBox<String> subjectDropdown;
+    private TextField subjectField;
 
     @FXML
-    private ComboBox<String> gradeDropdown;
+    private TextField gradeField;
 
     private HBox parent;
 
@@ -35,12 +33,6 @@ public class ALevelPrerequisiteCard extends HBox {
     }
 
     @FXML
-    public void initialize() {
-        subjectDropdown.getItems().addAll(Util.A_LEVEL_SUBJECTS);
-        gradeDropdown.getItems().addAll(Util.GRADES);
-    }
-
-    @FXML
     public void addNewEntry() {
         getChildren().remove(getChildren().size() - 1);
         Label label = new Label("OR");
@@ -50,10 +42,7 @@ public class ALevelPrerequisiteCard extends HBox {
     }
 
     public ALevelPrerequisite getALevelPrerequisite() {
-        String subjectName = subjectDropdown.getValue();
-        ALevelSubject subject = ALevelSubject.getSubject(subjectName);
-        String subjectCode = subject.getSubjectCode();
-        return new ALevelPrerequisite(subjectCode, gradeDropdown.getValue());
+        return new ALevelPrerequisite(subjectField.getText(), gradeField.getText());
     }
 
 }

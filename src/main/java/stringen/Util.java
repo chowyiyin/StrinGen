@@ -9,13 +9,11 @@ public class Util {
     public static final ArrayList<String> YEARS = new ArrayList<>();
     public static final ArrayList<String> GRADES = new ArrayList<>();
     public static final ArrayList<String> CAP = new ArrayList<>();
-    public static final ArrayList<String> A_LEVEL_SUBJECTS = new ArrayList<>();
 
     public static void initialise() {
         initialiseYears();
         initialiseGrades();
         initialiseCap();
-        initialiseALevelSubjects();
     }
 
     public static void initialiseYears() {
@@ -34,12 +32,6 @@ public class Util {
     public static void initialiseCap() {
         for (double i = 5; i >= 0; i = i - 0.1) {
             CAP.add(String.format("%.1f", i));
-        }
-    }
-
-    public static void initialiseALevelSubjects() {
-        for (ALevelSubject subject: ALevelSubject.values()) {
-            A_LEVEL_SUBJECTS.add(subject.getName());
         }
     }
 
