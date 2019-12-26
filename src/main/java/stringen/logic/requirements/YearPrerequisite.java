@@ -16,7 +16,11 @@ public class YearPrerequisite implements Requirement {
 
     @Override
     public String generateString() {
-        return PREFIX + StringGenerator.appendBrackets(startYear + "," + endYear);
+        if (!startYear.equals("") || !endYear.equals("")) {
+            return PREFIX + StringGenerator.appendBrackets(startYear + "," + endYear);
+        } else {
+            return "";
+        }
     }
 
     public boolean equals(Object o) {
