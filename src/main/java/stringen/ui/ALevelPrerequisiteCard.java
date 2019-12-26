@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import stringen.ALevelSubject;
 import stringen.Util;
 import stringen.logic.requirements.ALevelPrerequisite;
 
@@ -35,7 +36,7 @@ public class ALevelPrerequisiteCard extends HBox {
 
     @FXML
     public void initialize() {
-        //add subjects to dropdown
+        subjectDropdown.getItems().addAll(Util.A_LEVEL_SUBJECTS);
         gradeDropdown.getItems().addAll(Util.GRADES);
     }
 
@@ -49,7 +50,10 @@ public class ALevelPrerequisiteCard extends HBox {
     }
 
     public ALevelPrerequisite getALevelPrerequisite() {
-        return new ALevelPrerequisite(subjectDropdown.getValue(), gradeDropdown.getValue());
+        String subjectName = subjectDropdown.getValue();
+        ALevelSubject subject = ALevelSubject.getSubject(subjectName);
+        String subjectCode = subject.getSubjectCode();
+        return new ALevelPrerequisite(subjectCode, gradeDropdown.getValue());
     }
 
 }

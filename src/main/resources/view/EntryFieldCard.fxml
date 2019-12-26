@@ -20,7 +20,7 @@
                         <Button fx:id="addAndButton" mnemonicParsing="false" onAction="#addAnd" prefHeight="27.0" stylesheets="@theme.css" text="add AND" VBox.vgrow="ALWAYS" />
                         <HBox fx:id="orButtonPlaceholder" alignment="CENTER" styleClass="addButton" stylesheets="@theme.css" VBox.vgrow="ALWAYS">
                            <children>
-                              <Button fx:id="addOrButton" mnemonicParsing="false" onAction="#addOr" prefHeight="27.0" text="add OR" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="addOrButton" alignment="CENTER" mnemonicParsing="false" onAction="#addOr" prefHeight="27.0" text="add OR" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                      </children>

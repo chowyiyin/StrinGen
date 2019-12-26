@@ -40,8 +40,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -149,8 +149,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/stringen/ui/Generator.java</url>
-          <line>130</line>
-          <properties class="stringen.ui.Generator" method="combineMajorOrModuleRequirements">
+          <line>127</line>
+          <properties class="stringen.ui.Generator">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="19" />

@@ -94,11 +94,9 @@ public class EntryFieldCard extends HBox {
     public void showEntries() {
         String entryTypeString = requirementOptions.getValue();
         entryType = EntryType.getEntryType(entryTypeString);
-        if (cardPlaceholder.getChildren().size() > 0) {
-            ObservableList<Node> children = cardPlaceholder.getChildren();
-            for (int i = children.size() - 1; i > 1; i--) {
-                cardPlaceholder.getChildren().remove(children.get(i));
-            }
+        ObservableList<Node> children = cardPlaceholder.getChildren();
+        for (int i = children.size() - 1; i >= 0; i--) {
+            cardPlaceholder.getChildren().remove(children.get(i));
         }
         switch(entryType) {
         case MOD_PREREQ:
