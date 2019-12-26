@@ -31,12 +31,8 @@ public class Generator {
     public Cohort getCohort(EntryWindow entryWindow) {
         ListView<HBox> listContent = entryWindow.getListContent();
         CohortListCard cohortCard = (CohortListCard) listContent.getItems().get(1);
-        return new Cohort(cohortCard.getStartYear(), cohortCard.getEndYear());
-    }
-
-    public String generateDetails(Module module) {
-        //TODO IMPLEMENT
-        return "This will be the generated details";
+        // TODO: IMPLEMENT ISPREREQUIISTE!!!!
+        return new Cohort(cohortCard.getStartYear(), cohortCard.getEndYear(), true);
     }
 
     private ArrayList<OrGroup> createGroups(EntryWindow entryWindow) {

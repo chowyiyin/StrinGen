@@ -1,5 +1,6 @@
 package stringen;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import stringen.logic.Cohort;
@@ -24,9 +25,17 @@ public class Util {
     }
 
     public static void initialiseGrades() {
-        for (char i = 'A'; i <= 'F'; i++) {
-            GRADES.add(Character.toString(i));
-        }
+        GRADES.add("A+");
+        GRADES.add("A");
+        GRADES.add("A-");
+        GRADES.add("B+");
+        GRADES.add("B");
+        GRADES.add("B-");
+        GRADES.add("C+");
+        GRADES.add("C");
+        GRADES.add("D+");
+        GRADES.add("D");
+        GRADES.add("F");
     }
 
     public static void initialiseCap() {

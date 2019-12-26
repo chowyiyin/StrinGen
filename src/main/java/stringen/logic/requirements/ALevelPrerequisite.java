@@ -17,10 +17,6 @@ public class ALevelPrerequisite implements Requirement {
         return subject + appendSquareBrackets(minimumGrade);
     }
 
-    public String appendSquareBrackets(String value) {
-        return "[" + value + "]";
-    }
-
     public boolean equals(Object o) {
         if (o == this) {
             return true;

@@ -18,6 +18,7 @@ import stringen.logic.requirements.CoursePrerequisite;
 import stringen.logic.requirements.MajorPreclusion;
 import stringen.logic.requirements.MajorPrerequisite;
 import stringen.logic.requirements.McPrerequisite;
+import stringen.logic.requirements.ModuleConcurrent;
 import stringen.logic.requirements.ModulePreclusion;
 import stringen.logic.requirements.ModulePrerequisite;
 import stringen.logic.requirements.Requirement;
@@ -161,11 +162,6 @@ public class EntryFieldCard extends HBox {
         parent.addNewRequirement();
     }
 
-    @FXML
-    public void delete() {
-        parent.deleteCard(this, requirementNumber);
-    }
-
     public Label getOrLabel() {
         return orLabel;
     }
@@ -264,6 +260,13 @@ public class EntryFieldCard extends HBox {
                 majorPreclusions.add(majorPreclusionCard.getMajorPreclusion());
             }
             return new RequirementList(majorPreclusions, MajorPreclusion.PREFIX);
+        case CONCURRENT_MODULE:
+            ArrayList<ModuleConcurrent> moduleConcurrents = new ArrayList<>();
+            for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
+                ModuleConcurrentCard moduleConcurrentCard = (ModuleConcurrentCard) cardPlaceholder.getChildren().get(i);
+                moduleConcurrents.add(moduleConcurrentCard.getModuleConcurrent());
+            }
+            return new RequirementList(moduleConcurrents, ModuleConcurrent.PREFIX);
         default:
             return null;
         }

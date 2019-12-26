@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import stringen.logic.requirements.MajorPrerequisite;
+import stringen.logic.requirements.ModuleConcurrent;
 
 public class ModuleConcurrentCard extends HBox {
 
@@ -38,8 +39,8 @@ public class ModuleConcurrentCard extends HBox {
         parent.getChildren().add(new ModuleConcurrentCard(parent));
     }
 
-    public MajorPrerequisite getModuleConcurrent() {
-        return new MajorPrerequisite(moduleCodeField.getText());
+    public ModuleConcurrent getModuleConcurrent() {
+        return new ModuleConcurrent(moduleCodeField.getText());
     }
 
 }
