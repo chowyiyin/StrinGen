@@ -16,7 +16,7 @@
                   <Label fx:id="conjunctionLabel" minHeight="-Infinity" minWidth="-Infinity" prefHeight="21.0" prefWidth="43.0" stylesheets="@theme.css" text="AND" HBox.hgrow="ALWAYS" />
                   <VBox fx:id="boxAndButtonPlaceholder" spacing="6.0" HBox.hgrow="SOMETIMES">
                      <children>
-                        <ComboBox fx:id="requirementOptions" onAction="#showEntries" prefHeight="27.0" prefWidth="150.0" promptText="REQUIREMENT" styleClass="comboBox" stylesheets="@theme.css" VBox.vgrow="ALWAYS" />
+                        <ComboBox fx:id="requirementOptions" onAction="#showEntries" prefHeight="27.0" prefWidth="150.0" promptText="REQUIREMENT" styleClass="comboBox" stylesheets="@theme.css" />
                         <Button fx:id="addAndButton" mnemonicParsing="false" onAction="#addAnd" prefHeight="27.0" stylesheets="@theme.css" text="add AND" VBox.vgrow="ALWAYS" />
                         <HBox fx:id="orButtonPlaceholder" alignment="CENTER" styleClass="addButton" stylesheets="@theme.css" VBox.vgrow="ALWAYS">
                            <children>

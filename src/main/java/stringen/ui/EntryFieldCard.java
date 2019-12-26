@@ -130,6 +130,7 @@ public class EntryFieldCard extends HBox {
             break;
         case CONCURRENT_MODULE:
             cardPlaceholder.getChildren().add(new ModuleConcurrentCard(cardPlaceholder));
+            break;
         }
     }
 
