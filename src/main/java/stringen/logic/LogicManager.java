@@ -83,20 +83,19 @@ public class LogicManager {
 
         OrGroupPair pairWithMostSimilarAndGroup =
                 findMostSimilarEmbeddedAndGroups(firstCohort, secondCohort);
-        ArrayList<AndGroup> similarAndGroups = pairWithMostSimilarAndGroup.getSimilarities();
-        ArrayList<AndGroup> equalAndGroups = pairWithMostSimilarAndGroup.getEqualities();
-        firstCohort.removeAndGroupsFromOrGroup((OrGroup) pairWithMostSimilarAndGroup.getFirstElement(),
-                similarAndGroups, equalAndGroups);
-        secondCohort.removeAndGroupsFromOrGroup((OrGroup) pairWithMostSimilarAndGroup.getSecondElement(),
-                similarAndGroups, equalAndGroups);
+        ArrayList<AndGroup> similarAndGroups = new ArrayList<>();
+        ArrayList<AndGroup> equalAndGroups = new ArrayList<>();
+        if (pairWithMostSimilarAndGroup != null) {
+            similarAndGroups = pairWithMostSimilarAndGroup.getSimilarities();
+            equalAndGroups = pairWithMostSimilarAndGroup.getEqualities();
+            firstCohort.removeAndGroupsFromOrGroup((OrGroup) pairWithMostSimilarAndGroup.getFirstElement(),
+                    similarAndGroups, equalAndGroups);
+            secondCohort.removeAndGroupsFromOrGroup((OrGroup) pairWithMostSimilarAndGroup.getSecondElement(),
+                    similarAndGroups, equalAndGroups);
+        }
 
         OrGroup similarAndGroupsCombined = new OrGroup(similarAndGroups);
         OrGroup equalAndGroupsCombined = new OrGroup(equalAndGroups);
-
-        ArrayList<OrGroup> remainingOrGroupsInFirstCohort = firstCohort.getOrGroups();
-        remainingOrGroupsInFirstCohort.addAll(similarOrGroups);
-        ArrayList<OrGroup> remainingOrGroupsInSecondCohort = secondCohort.getOrGroups();
-        remainingOrGroupsInSecondCohort.addAll(similarOrGroups);
 
         return concatenate(similarOrGroups, similarAndGroupsCombined, firstCohort, secondCohort, equalAndGroupsCombined);
     }

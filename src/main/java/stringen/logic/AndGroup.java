@@ -12,7 +12,9 @@ public class AndGroup extends Group {
     protected AndGroup() {}
 
     public String generateString() {
-        if (orGroups.size() == 1) {
+        if (orGroups.size() == 0) {
+            return "";
+        } else if (orGroups.size() == 1) {
             return StringGenerator.appendOrGroups(orGroups);
         } else {
             return StringGenerator.appendBrackets(StringGenerator.appendOrGroups(orGroups));
