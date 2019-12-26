@@ -9,7 +9,8 @@ public enum EntryType {
     A_LEVEL_PREREQ("A-Level Prerequisite"),
     COURSE_PRECLUSION("Course Preclusion"),
     MODULE_PRECLUSION("Module Preclusion"),
-    MAJOR_PRECLUSION("Major Preclusion");
+    MAJOR_PRECLUSION("Major Preclusion"),
+    CONCURRENT_MODULE("Concurrent Module");
 
     private String name;
 

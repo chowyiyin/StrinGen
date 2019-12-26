@@ -127,6 +127,8 @@ public class EntryFieldCard extends HBox {
         case MAJOR_PRECLUSION:
             cardPlaceholder.getChildren().add(new MajorPreclusionCard(cardPlaceholder));
             break;
+        case CONCURRENT_MODULE:
+            cardPlaceholder.getChildren().add(new ModuleConcurrentCard(cardPlaceholder));
         }
     }
 
@@ -157,6 +159,11 @@ public class EntryFieldCard extends HBox {
     @FXML
     public void addNewRequirement() {
         parent.addNewRequirement();
+    }
+
+    @FXML
+    public void delete() {
+        parent.deleteCard(this, requirementNumber);
     }
 
     public Label getOrLabel() {
