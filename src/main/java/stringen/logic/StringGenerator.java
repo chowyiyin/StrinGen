@@ -27,6 +27,8 @@ public class StringGenerator {
             yearPrefix = Cohort.PREFIX_YEAR + appendBrackets(startYear + "," + endYear);
         if (orGroups.size() == 0) {
             return yearPrefix;
+        } else if (yearPrefix.equals("")) {
+            return appendOrGroups(orGroups);
         } else {
             return yearPrefix + LogicManager.OPERATOR_AND + appendOrGroups(orGroups);
         }

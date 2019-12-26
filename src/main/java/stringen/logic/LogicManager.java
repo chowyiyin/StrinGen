@@ -34,8 +34,7 @@ public class LogicManager {
             cohortsYetToBeProcessed.remove(cohort);
         }
 
-        System.out.println(string.toString());
-        return string.toString();
+        return removeOuterMostBrackets(string.toString());
     }
 
     private static ArrayList<CohortPair> getDistinctPairs(ArrayList<Cohort> cohorts) {
@@ -99,14 +98,23 @@ public class LogicManager {
         ArrayList<OrGroup> remainingOrGroupsInSecondCohort = secondCohort.getOrGroups();
         remainingOrGroupsInSecondCohort.addAll(similarOrGroups);
 
-        return StringGenerator.and(StringGenerator.appendOrGroups(similarOrGroups),
-                StringGenerator.or(
-                        StringGenerator.and(
-                                similarAndGroupsCombined.generateString(),
-                                StringGenerator.or(firstCohort.generateString(),
-                                        secondCohort.generateString())),
-                        equalAndGroupsCombined.generateString()
-                        ));
+        return concatenate(similarOrGroups, similarAndGroupsCombined, firstCohort, secondCohort, equalAndGroupsCombined);
+    }
+
+    public static String concatenate(ArrayList<OrGroup> similarOrGroups, OrGroup similarAndGroupsCombined,
+                              Cohort firstCohort, Cohort secondCohort, OrGroup equalAndGroupsCombined) {
+        String cohortsConcatenated = StringGenerator.or(firstCohort.generateString(), secondCohort.generateString());
+        String cohortsAndExtractedEmbeddedAndGroups = StringGenerator.and(similarAndGroupsCombined.generateString(),
+                cohortsConcatenated);
+        String cohortsAndExtractedEmbeddedOrGroupOrCompletelyExtractedAndGroups =
+                StringGenerator.or(cohortsAndExtractedEmbeddedAndGroups, equalAndGroupsCombined.generateString());
+        String withCompletelyExtractedOrGroups = StringGenerator.and(StringGenerator.appendOrGroups(similarOrGroups),
+                cohortsAndExtractedEmbeddedOrGroupOrCompletelyExtractedAndGroups);
+        return withCompletelyExtractedOrGroups;
+    }
+
+    public static String removeOuterMostBrackets(String value) {
+        return value.substring(1, value.length() - 1);
     }
 
     private static OrGroupPair findMostSimilarEmbeddedAndGroups(Cohort firstCohort, Cohort secondCohort) {

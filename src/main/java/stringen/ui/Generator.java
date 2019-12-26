@@ -113,19 +113,11 @@ public class Generator {
     }
 
     private OrGroup createOrGroup(EntryFieldCard entry) {
-        ArrayList<Requirement> requirements = entry.getResponses();
-        if (requirements.isEmpty()) {
+        Requirement requirement = entry.getResponses();
+        if (requirement == null) {
             return null;
         }
-        if (requirements.size() == 1) {
-            return new SingleOrGroup(requirements.get(0));
-        } else {
-            ArrayList<AndGroup> andGroups = new ArrayList<>();
-            for (int i = 0; i < requirements.size(); i++) {
-                andGroups.add(new SingleAndGroup(requirements.get(i)));
-            }
-            return new OrGroup(andGroups);
-        }
+        return new SingleOrGroup(requirement);
     }
 
     private boolean isSingleRequirementList(OrGroup orGroup) {

@@ -139,7 +139,7 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
+        <line-breakpoint type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/stringen/logic/StringGenerator.java</url>
           <line>23</line>
           <properties class="stringen.logic.StringGenerator" method="generateStringForCohorts">
@@ -147,24 +147,15 @@
           </properties>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/stringen/ui/Generator.java</url>
-          <line>130</line>
-          <properties class="stringen.ui.Generator" method="combineMajorOrModuleRequirements">
+        <line-breakpoint type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/stringen/logic/StringGenerator.java</url>
+          <line>58</line>
+          <properties class="stringen.logic.StringGenerator" method="appendStrings">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="19" />
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="Remote">
-        <watch expression="firstCohort.orGroups.get(0).andGroups.get(0)" />
-        <watch expression="pairWithMostSimilarAndGroup" />
-        <watch expression="StringGenerator.appendOrGroups(similarOrGroupsCombined)" language="JAVA" />
-        <watch expression="firstCohort.generateString()" language="JAVA" />
-        <watch expression="secondCohort.generateString()" language="JAVA" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>
