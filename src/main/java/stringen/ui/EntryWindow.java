@@ -77,7 +77,7 @@ public class EntryWindow extends VBox {
         entryFieldCard.setConjunctionLabel();
         entryFieldCard.setDisjunctionLabel();
         entryFieldCard.removeReqButton();
-        for (int i = indexOfPrevCard + 1; i < indexPositions.size(); i++) {
+        for (int i = prevCard.getRequirementNumber() - 1; i < indexPositions.size(); i++) {
             indexPositions.set(i, indexPositions.get(i) + 1);
         }
         cards.add(indexOfPrevCard + 1, entryFieldCard);
@@ -85,8 +85,10 @@ public class EntryWindow extends VBox {
     }
 
     public void addAndEntryFieldCard(int index) {
+        System.out.println(index);
         EntryFieldCard entryFieldCard = new EntryFieldCard(this, false, index);
         entryFieldCard.setConjunctionLabel();
+        System.out.println(indexPositions.get(index - 1));
         cards.add(indexPositions.get(index - 1), entryFieldCard);
         for (int i = index - 1; i < indexPositions.size(); i++) {
             indexPositions.set(i, indexPositions.get(i) + 1);
