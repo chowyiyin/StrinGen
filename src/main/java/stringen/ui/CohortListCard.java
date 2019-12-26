@@ -17,6 +17,9 @@ public class CohortListCard extends HBox {
     @FXML
     private ComboBox<String> cohortEnd;
 
+    @FXML
+    private ComboBox<String> ArPrComboBox;
+
     public CohortListCard() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(CohortListCard.class.getResource("/view/CohortListCard.fxml"));
@@ -34,6 +37,8 @@ public class CohortListCard extends HBox {
         cohortStart.getSelectionModel().select("YEAR");
         cohortEnd.getItems().addAll(Util.YEARS);
         cohortEnd.getSelectionModel().select("YEAR");
+        ArPrComboBox.getItems().add("PR");
+        ArPrComboBox.getItems().add("AR");
     }
 
     public String getStartYear() {
