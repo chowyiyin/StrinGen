@@ -13,7 +13,9 @@ public class OrGroup extends Group {
     protected OrGroup() {}
 
     public String generateString() {
-        if (andGroups.size() == 1) {
+        if (andGroups.size() == 0) {
+            return "";
+        } else if (andGroups.size() == 1) {
             return StringGenerator.appendAndGroups(andGroups);
         } else {
             return StringGenerator.appendBrackets(StringGenerator.appendAndGroups(andGroups));
