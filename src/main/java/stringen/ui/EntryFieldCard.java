@@ -132,9 +132,13 @@ public class EntryFieldCard extends HBox {
     @FXML
     public void addAnd() {
         boxAndButtonPlaceholder.getChildren().remove(addAndButton);
-        orButtonPlaceholder.getChildren().remove(addOrButton);
-        newRequirementButtonPlaceholder.getChildren().remove(newRequirementButton);
-        parent.addAndEntryFieldCard(requirementNumber);
+        if (!orButtonPlaceholder.getChildren().contains(addOrButton)) {
+
+        } else {
+            orButtonPlaceholder.getChildren().remove(addOrButton);
+            newRequirementButtonPlaceholder.getChildren().remove(newRequirementButton);
+            parent.addAndEntryFieldCard(requirementNumber);
+        }
     }
 
     @FXML

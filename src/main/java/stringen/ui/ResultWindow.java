@@ -15,9 +15,11 @@ public class ResultWindow extends AnchorPane {
     private Label stringGenerated;
 
     private String generatedString;
+    private MainWindow mainWindow;
 
-    public ResultWindow(String generatedString) {
+    public ResultWindow(String generatedString, MainWindow mainWindow) {
         this.generatedString = generatedString;
+        this.mainWindow = mainWindow;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(ResultWindow.class.getResource("/view/ResultWindow.fxml"));
             fxmlLoader.setController(this);
@@ -39,6 +41,11 @@ public class ResultWindow extends AnchorPane {
         final ClipboardContent content = new ClipboardContent();
         content.putString(generatedString);
         clipboard.setContent(content);
+    }
+
+    @FXML
+    public void generateAnotherString() {
+        mainWindow.refresh();
     }
 
 }

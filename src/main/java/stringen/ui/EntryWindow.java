@@ -72,7 +72,7 @@ public class EntryWindow extends VBox {
     }
 
     public void addAndEntryFieldCard(int index) {
-        EntryFieldCard entryFieldCard = new EntryFieldCard(this, false, numOfRequirements);
+        EntryFieldCard entryFieldCard = new EntryFieldCard(this, false, index);
         entryFieldCard.setConjunctionLabel();
         cards.add(indexPositions.get(index - 1), entryFieldCard);
         for (int i = index - 1; i < indexPositions.size(); i++) {
