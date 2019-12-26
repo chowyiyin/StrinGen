@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -37,6 +36,7 @@ public class MainWindow extends Stage {
     private ArrayList<EntryWindow> entryWindows = new ArrayList<>();
     private Stage primaryStage;
     private Generator generator;
+    private ResultWindow resultWindow;
 
     public MainWindow(Stage primaryStage) {
         fxmlLoader.setController(this);
@@ -51,10 +51,16 @@ public class MainWindow extends Stage {
         }
         // Set dependencies
         this.primaryStage = primaryStage;
+        primaryStage.setMinHeight(620);
+        primaryStage.setMinWidth(900);
     }
 
     void fillInnerParts() {
         Util.initialise();
+        startUp();
+    }
+
+    public void startUp() {
         generator = new Generator();
         EntryWindow entryWindow = new EntryWindow(generator, this);
         entryWindow.prefHeightProperty().bind(this.heightProperty());
@@ -101,7 +107,17 @@ public class MainWindow extends Stage {
     void changeScreen(String generatedString) {
         windowPlaceholder.getChildren().remove(entryWindowPlaceholder);
         windowPlaceholder.getChildren().remove(buttonPlaceholder);
-        windowPlaceholder.getChildren().add(new ResultWindow(generatedString));
+        resultWindow = new ResultWindow(generatedString, this);
+        windowPlaceholder.getChildren().add(resultWindow);
+    }
+
+    public void refresh() {
+        windowPlaceholder.getChildren().remove(resultWindow);
+        entryWindows.clear();
+        entryWindowPlaceholder.getItems().clear();
+        startUp();
+        windowPlaceholder.getChildren().add(entryWindowPlaceholder);
+        windowPlaceholder.getChildren().add(buttonPlaceholder);
     }
 
     /*

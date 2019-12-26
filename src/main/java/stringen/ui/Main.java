@@ -24,28 +24,6 @@ public class Main extends Application {
         mainWindow.fillInnerParts();
     }
 
-    /*
-    @Override
-    public void start(Stage primaryStage) {
-        try {
-            this.primaryStage = primaryStage;
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/CommandBox.fxml"));
-            GridPane gp = fxmlLoader.load();
-            Scene scene = new Scene(gp);
-            primaryStage.setScene(scene);
-            //fxmlLoader.<MainWindow>getController().setGen(generator);
-            //fxmlLoader.<MainWindow>getController().setParser(parser);
-            primaryStage.setTitle("StrinGen");
-            primaryStage.setMinHeight(620);
-            primaryStage.setMinWidth(900);
-            primaryStage.show();
-            Util.initialise();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-     */
-
     public static void setRoot(Parent node) {
         primaryStage.getScene().setRoot(node);
     }

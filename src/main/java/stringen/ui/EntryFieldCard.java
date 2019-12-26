@@ -127,15 +127,21 @@ public class EntryFieldCard extends HBox {
         case MAJOR_PRECLUSION:
             cardPlaceholder.getChildren().add(new MajorPreclusionCard(cardPlaceholder));
             break;
+        case CONCURRENT_MODULE:
+            cardPlaceholder.getChildren().add(new ModuleConcurrentCard(cardPlaceholder));
         }
     }
 
     @FXML
     public void addAnd() {
         boxAndButtonPlaceholder.getChildren().remove(addAndButton);
-        orButtonPlaceholder.getChildren().remove(addOrButton);
-        newRequirementButtonPlaceholder.getChildren().remove(newRequirementButton);
-        parent.addAndEntryFieldCard(requirementNumber);
+        if (!orButtonPlaceholder.getChildren().contains(addOrButton)) {
+
+        } else {
+            orButtonPlaceholder.getChildren().remove(addOrButton);
+            newRequirementButtonPlaceholder.getChildren().remove(newRequirementButton);
+            parent.addAndEntryFieldCard(requirementNumber);
+        }
     }
 
     @FXML
@@ -153,6 +159,11 @@ public class EntryFieldCard extends HBox {
     @FXML
     public void addNewRequirement() {
         parent.addNewRequirement();
+    }
+
+    @FXML
+    public void delete() {
+        parent.deleteCard(this, requirementNumber);
     }
 
     public Label getOrLabel() {
