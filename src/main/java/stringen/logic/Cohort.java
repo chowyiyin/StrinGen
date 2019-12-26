@@ -2,6 +2,9 @@ package stringen.logic;
 
 import java.util.ArrayList;
 
+import stringen.logic.requirements.YearPreclusion;
+import stringen.logic.requirements.YearPrerequisite;
+
 public class Cohort {
 
     public static final String PREFIX_YEAR = "YEAR_PR";
@@ -11,9 +14,14 @@ public class Cohort {
     private String endYear;
     private ArrayList<OrGroup> orGroups = new ArrayList<>();
 
-    public Cohort(String startYear, String endYear) {
+    public Cohort(String startYear, String endYear, boolean isPrerequisite) {
         this.startYear = startYear;
         this.endYear = endYear;
+        if (isPrerequisite) {
+            orGroups.add(new SingleOrGroup(new YearPrerequisite(startYear, endYear)));
+        } else {
+            orGroups.add(new SingleOrGroup(new YearPreclusion(startYear, endYear)));
+        }
     }
 
     public void addOrGroups(ArrayList<OrGroup> orGroups) {
@@ -25,7 +33,7 @@ public class Cohort {
     }
 
     public String generateString() {
-        return StringGenerator.generateStringForCohorts(startYear, endYear, orGroups);
+        return StringGenerator.appendOrGroups(orGroups);
     }
 
     public void removeOrGroups(ArrayList<OrGroup> similarOrGroups) {
