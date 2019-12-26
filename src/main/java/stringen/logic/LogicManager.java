@@ -133,7 +133,7 @@ public class LogicManager {
         for (int i = 0; i < firstCohortOrGroups.size(); i++) {
             OrGroup firstCohortOrGroup = firstCohortOrGroups.get(i);
             for (int j = 0; j < secondCohortOrGroups.size(); j++) {
-                OrGroup secondCohortOrGroup = secondCohortOrGroups.get(i);
+                OrGroup secondCohortOrGroup = secondCohortOrGroups.get(j);
                 distinctOrGroupPairs.add(new OrGroupPair(firstCohortOrGroup, secondCohortOrGroup));
             }
         }
