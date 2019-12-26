@@ -61,7 +61,7 @@ public class StringGenerator {
         Arrays.stream(strings).forEach(str -> {
             if (string.length() == 0) {
                 string.append(str);
-            } else if (str.length() != 0){
+            } else {
                 string.append(operator + str);
             }
         });

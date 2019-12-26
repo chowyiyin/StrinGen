@@ -139,34 +139,21 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint type="java-method">
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/stringen/logic/StringGenerator.java</url>
+          <line>23</line>
+          <properties class="stringen.logic.StringGenerator" method="generateStringForCohorts">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/stringen/ui/Generator.java</url>
-          <line>133</line>
+          <line>127</line>
           <properties class="stringen.ui.Generator">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/stringen/logic/LogicManager.java</url>
-          <line>76</line>
-          <properties class="stringen.logic.LogicManager" method="process">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/stringen/logic/LogicManager.java</url>
-          <line>102</line>
-          <properties class="stringen.logic.LogicManager" method="concatenate">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/stringen/logic/LogicManager.java</url>
-          <line>90</line>
-          <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

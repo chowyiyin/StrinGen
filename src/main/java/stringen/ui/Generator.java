@@ -11,6 +11,7 @@ import stringen.logic.AndGroup;
 import stringen.logic.Cohort;
 import stringen.logic.LogicManager;
 import stringen.logic.OrGroup;
+import stringen.logic.SingleAndGroup;
 import stringen.logic.SingleOrGroup;
 import stringen.logic.requirements.Requirement;
 import stringen.logic.requirements.RequirementList;
@@ -61,10 +62,8 @@ public class Generator {
             if (isLastRequirement) {
                 hasMoreRequirements = false;
             }
-            OrGroup orGroup = createRequirementGroup(i, endingIndexForRequirement, items);
-            if (orGroup != null) {
-                orGroups.add(orGroup);
-            }
+
+            orGroups.add(createRequirementGroup(i, endingIndexForRequirement, items));
             i = endingIndexForRequirement;
         }
         return orGroups;
@@ -81,7 +80,6 @@ public class Generator {
             EntryFieldCard entryFieldCard = (EntryFieldCard) items.get(i);
             OrGroup newOrGroup = createOrGroup(entryFieldCard);
             if (newOrGroup == null) {
-                i++;
                 continue;
             }
             if (isNewConjunction) {
@@ -111,10 +109,6 @@ public class Generator {
         for (int k = 0; k < listOfOrGroupsAfterCombining.size(); k++) {
             andGroups.add(new AndGroup(listOfOrGroups.get(k)));
         }
-        if (andGroups.isEmpty()) {
-            return null;
-        }
-
         return new OrGroup(andGroups);
     }
 
