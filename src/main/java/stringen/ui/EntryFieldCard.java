@@ -211,9 +211,9 @@ public class EntryFieldCard extends HBox {
             }
             return new RequirementList(coursePrerequisites, CoursePrerequisite.PREFIX);
         case MC_PREREQ:
-            if (cardPlaceholder.getChildren().size() == 1) {
-                McPrerequisiteCard mcPrerequisiteCard = (McPrerequisiteCard) cardPlaceholder.getChildren().get(0);
-                return mcPrerequisiteCard.getMcPrerequisite();
+            McPrerequisiteCard card = (McPrerequisiteCard) cardPlaceholder.getChildren().get(0);
+            if (cardPlaceholder.getChildren().size() == 1 && !card.hasPrefix()) {
+                return card.getMcPrerequisite();
             } else {
                 int numberOfModules = 0;
                 ArrayList<ModulePrerequisite> modules = new ArrayList<>();

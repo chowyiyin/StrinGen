@@ -53,7 +53,7 @@ public class Generator {
                 endingIndexForRequirement++;
             }
 
-            boolean isLastRequirement = endingIndexForRequirement == i + 1;
+            boolean isLastRequirement = endingIndexForRequirement == items.size();
             if (isLastRequirement) {
                 hasMoreRequirements = false;
             }

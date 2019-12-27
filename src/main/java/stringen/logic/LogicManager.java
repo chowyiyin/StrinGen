@@ -2,6 +2,7 @@ package stringen.logic;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.stream.Collectors;
 
 public class LogicManager {
 
@@ -34,7 +35,7 @@ public class LogicManager {
             cohortsYetToBeProcessed.remove(cohort);
         }
 
-        return removeOuterMostBrackets(string.toString());
+        return string.toString();
     }
 
     private static ArrayList<CohortPair> getDistinctPairs(ArrayList<Cohort> cohorts) {
@@ -75,56 +76,188 @@ public class LogicManager {
     }
 
     private static String process(CohortPair pair) {
-        ArrayList<OrGroup> similarOrGroups = pair.getSimilarities();
+        ArrayList<OrGroup> identicalRequirements = pair.getSimilarities();
         Cohort firstCohort = (Cohort) pair.getFirstElement();
         Cohort secondCohort = (Cohort) pair.getSecondElement();
-        firstCohort.removeOrGroups(similarOrGroups);
-        secondCohort.removeOrGroups(similarOrGroups);
+        firstCohort.removeOrGroups(identicalRequirements);
+        secondCohort.removeOrGroups(identicalRequirements);
 
-        OrGroupPair pairWithMostSimilarAndGroup =
-                findMostSimilarEmbeddedAndGroups(firstCohort, secondCohort);
-        ArrayList<AndGroup> similarAndGroups = new ArrayList<>();
-        ArrayList<AndGroup> equalAndGroups = new ArrayList<>();
-        if (pairWithMostSimilarAndGroup != null) {
-            similarAndGroups = pairWithMostSimilarAndGroup.getSimilarities();
-            equalAndGroups = pairWithMostSimilarAndGroup.getEqualities();
-            firstCohort.removeAndGroupsFromOrGroup((OrGroup) pairWithMostSimilarAndGroup.getFirstElement(),
-                    similarAndGroups, equalAndGroups);
-            secondCohort.removeAndGroupsFromOrGroup((OrGroup) pairWithMostSimilarAndGroup.getSecondElement(),
-                    similarAndGroups, equalAndGroups);
+        ArrayList<OrGroup> firstCohortOrGroups = firstCohort.getOrGroups();
+        ArrayList<OrGroup> secondCohortOrGroups = secondCohort.getOrGroups();
+        ArrayList<OrGroupPair> pairsWithSimilarities = getSimilarities(getDistinctGroupPairs(firstCohortOrGroups, secondCohortOrGroups));;
+        Cohort dummyCohort = new Cohort();
+        boolean isFirstRound = true;
+        while (pairsWithSimilarities.size() > 0) {
+            if (isFirstRound) {
+                dummyCohort = createNewCohort(firstCohort, secondCohort, pairsWithSimilarities);
+
+                ArrayList<OrGroup> firstElements = (ArrayList<OrGroup>) pairsWithSimilarities.stream().map(
+                        orGroupPair -> (OrGroup) orGroupPair.getFirstElement()).collect(Collectors.toList());
+                ArrayList<OrGroup> secondElements = (ArrayList<OrGroup>) pairsWithSimilarities.stream().map(
+                        orGroupPair -> (OrGroup) orGroupPair.getSecondElement()).collect(Collectors.toList());
+                dummyCohort.addOrGroup(getRemainingOrGroups(firstCohort, firstElements));
+                dummyCohort.addOrGroup(getRemainingOrGroups(secondCohort, secondElements));
+            } else {
+                dummyCohort = createNewCohort(pairsWithSimilarities);
+                dummyCohort.addOrGroups(getRemainingOrGroups(pairsWithSimilarities, dummyCohort));
+            }
+            pairsWithSimilarities = getSimilarities(getDistinctGroupPairs(dummyCohort.getOrGroups()));
+            isFirstRound = false;
         }
+        return StringGenerator.and(StringGenerator.appendOrGroups(identicalRequirements),
+                dummyCohort.generateString());
+    }
 
-        OrGroup similarAndGroupsCombined = new OrGroup(similarAndGroups);
-        OrGroup equalAndGroupsCombined = new OrGroup(equalAndGroups);
+    public static OrGroup getRemainingOrGroups(Cohort cohort, ArrayList<OrGroup> orGroups) {
+        ArrayList<OrGroup> orGroupsFromCohort = cohort.getOrGroups();
+        for (int i = 0; i < orGroups.size(); i++) {
+            OrGroup orGroup = orGroups.get(i);
+            orGroupsFromCohort.remove(orGroup);
+        }
+        ArrayList<AndGroup> andGroupsForOrGroup = new ArrayList<>();
+        if (orGroupsFromCohort.size() == 1) {
+            return new OrGroup();
+        } else {
+            andGroupsForOrGroup.add(new AndGroup(orGroupsFromCohort));
+            return new OrGroup(andGroupsForOrGroup);
+        }
+    }
 
-        return concatenate(similarOrGroups, similarAndGroupsCombined, firstCohort, secondCohort, equalAndGroupsCombined);
+    public static ArrayList<OrGroup> getRemainingOrGroups(ArrayList<OrGroupPair> pairsWithSimilarities, Cohort cohort) {
+        ArrayList<OrGroup> orGroups = cohort.getOrGroups();
+        for (int i = 0; i < pairsWithSimilarities.size(); i++) {
+            OrGroupPair pair = pairsWithSimilarities.get(i);
+            OrGroup firstOrGroup = (OrGroup) pair.getFirstElement();
+            OrGroup secondOrGroup = (OrGroup) pair.getSecondElement();
+            orGroups.remove(firstOrGroup);
+            orGroups.remove(secondOrGroup);
+        }
+        return orGroups;
+    }
+
+
+    private static ArrayList<OrGroupPair> getSimilarities(ArrayList<OrGroupPair> distinctOrGroupPairs) {
+        return findEmbeddedAndGroups(distinctOrGroupPairs);
+    }
+
+    private static Cohort createNewCohort(Cohort firstCohort, Cohort secondCohort,
+                                            ArrayList<OrGroupPair> pairsWithSimilarities) {
+        Cohort newDummyCohort = new Cohort();
+        ArrayList<OrGroup> orGroupsForNewCohort = new ArrayList<>();
+        for (int i = 0; i < pairsWithSimilarities.size(); i++) {
+            OrGroupPair orGroupPair = pairsWithSimilarities.get(i);
+            orGroupsForNewCohort.add(createNewOrGroup(orGroupPair, firstCohort, secondCohort));
+        }
+        newDummyCohort.addOrGroups(orGroupsForNewCohort);
+        return newDummyCohort;
+    }
+
+    private static Cohort createNewCohort(ArrayList<OrGroupPair> pairsWithSimilarities) {
+        Cohort newDummyCohort = new Cohort();
+        ArrayList<OrGroup> orGroupsForNewCohort = new ArrayList<>();
+        for (int i = 0; i < pairsWithSimilarities.size(); i++) {
+            OrGroupPair orGroupPair = pairsWithSimilarities.get(i);
+            orGroupsForNewCohort.add(createNewOrGroup(orGroupPair));
+        }
+        newDummyCohort.addOrGroups(orGroupsForNewCohort);
+        return newDummyCohort;
+    }
+
+    private static OrGroup createNewOrGroup(OrGroupPair orGroupPair) {
+        OrGroup firstGroup = (OrGroup) orGroupPair.getFirstElement();
+        OrGroup secondGroup = (OrGroup) orGroupPair.getSecondElement();
+        AndGroup similarity = orGroupPair.getSimilarity();
+        boolean wholeAndGroupWasExtracted = firstGroup.getAndGroups().size() > 1;
+        if (wholeAndGroupWasExtracted) {
+            return createOrGroupForFullyExtractedGroup(firstGroup, secondGroup, similarity);
+        } else {
+            return createOrGroupForPartiallyExtractedGroup(firstGroup, secondGroup, similarity);
+        }
+    }
+
+    private static OrGroup createNewOrGroup(OrGroupPair orGroupPair, Cohort firstCohort, Cohort secondCohort) {
+        OrGroup firstGroup = (OrGroup) orGroupPair.getFirstElement();
+        OrGroup secondGroup = (OrGroup) orGroupPair.getSecondElement();
+        AndGroup similarity = orGroupPair.getSimilarity();
+        boolean wholeAndGroupWasExtracted = firstGroup.getAndGroups().size() > 1;
+        if (wholeAndGroupWasExtracted) {
+            return createOrGroupForFullyExtractedGroup(firstGroup, secondGroup, similarity, firstCohort, secondCohort);
+        } else {
+            return createOrGroupForPartiallyExtractedGroup(firstGroup, secondGroup, similarity, firstCohort, secondCohort);
+        }
+    }
+
+    private static OrGroup createOrGroupForFullyExtractedGroup(OrGroup firstGroup, OrGroup secondGroup,
+                                                             AndGroup similarity, Cohort firstCohort, Cohort secondCohort) {
+        ArrayList<AndGroup> andGroupsForOrGroup = new ArrayList<>();
+        andGroupsForOrGroup.add(similarity);
+        andGroupsForOrGroup.add(firstGroup.getRemainingAndGroup(similarity, firstCohort));
+        andGroupsForOrGroup.add(secondGroup.getRemainingAndGroup(similarity, secondCohort));
+        return new OrGroup(andGroupsForOrGroup);
+    }
+
+    private static OrGroup createOrGroupForFullyExtractedGroup(OrGroup firstGroup, OrGroup secondGroup,
+                                                              AndGroup similarity) {
+        ArrayList<AndGroup> andGroupsForOrGroup = new ArrayList<>();
+        andGroupsForOrGroup.add(similarity);
+        andGroupsForOrGroup.add(firstGroup.getRemainingAndGroup(similarity));
+        andGroupsForOrGroup.add(secondGroup.getRemainingAndGroup(similarity));
+        return new OrGroup(andGroupsForOrGroup);
+    }
+
+    private static OrGroup createOrGroupForPartiallyExtractedGroup(OrGroup firstGroup, OrGroup secondGroup,
+                                                                   AndGroup similarity, Cohort firstCohort, Cohort secondCohort) {
+        ArrayList<AndGroup> andGroupsForOrGroup = new ArrayList<>();
+
+        ArrayList<OrGroup> orGroupsForNewAndGroup = new ArrayList<>();
+        orGroupsForNewAndGroup.addAll(similarity.getOrGroups());
+
+        ArrayList<AndGroup> remainingAndGroups = new ArrayList<>();
+        remainingAndGroups.add(firstGroup.getRemainingAndGroup(similarity, firstCohort));
+        remainingAndGroups.add(secondGroup.getRemainingAndGroup(similarity, secondCohort));
+        orGroupsForNewAndGroup.add(new OrGroup(remainingAndGroups));
+
+        andGroupsForOrGroup.add(new AndGroup(orGroupsForNewAndGroup));
+        return new OrGroup(andGroupsForOrGroup);
+    }
+
+    private static OrGroup createOrGroupForPartiallyExtractedGroup(OrGroup firstGroup, OrGroup secondGroup,
+                                                                  AndGroup similarity) {
+        ArrayList<AndGroup> andGroupsForOrGroup = new ArrayList<>();
+
+        ArrayList<OrGroup> orGroupsForNewAndGroup = new ArrayList<>();
+        orGroupsForNewAndGroup.addAll(similarity.getOrGroups());
+
+        ArrayList<AndGroup> remainingAndGroups = new ArrayList<>();
+        remainingAndGroups.add(firstGroup.getRemainingAndGroup(similarity));
+        remainingAndGroups.add(secondGroup.getRemainingAndGroup(similarity));
+        orGroupsForNewAndGroup.add(new OrGroup(remainingAndGroups));
+
+        andGroupsForOrGroup.add(new AndGroup(orGroupsForNewAndGroup));
+        return new OrGroup(andGroupsForOrGroup);
     }
 
     public static String concatenate(ArrayList<OrGroup> similarOrGroups, OrGroup similarAndGroupsCombined,
-                              Cohort firstCohort, Cohort secondCohort, OrGroup equalAndGroupsCombined) {
-        String cohortsConcatenated = StringGenerator.or(firstCohort.generateString(), secondCohort.generateString());
-        String cohortsAndExtractedEmbeddedAndGroups = StringGenerator.and(similarAndGroupsCombined.generateString(),
-                cohortsConcatenated);
-        String cohortsAndExtractedEmbeddedOrGroupOrCompletelyExtractedAndGroups =
-                StringGenerator.or(cohortsAndExtractedEmbeddedAndGroups, equalAndGroupsCombined.generateString());
-        String withCompletelyExtractedOrGroups = StringGenerator.and(StringGenerator.appendOrGroups(similarOrGroups),
-                cohortsAndExtractedEmbeddedOrGroupOrCompletelyExtractedAndGroups);
-        return withCompletelyExtractedOrGroups;
+                                     Cohort firstCohort, Cohort secondCohort) {
+        String similarOrGroupsString = StringGenerator.appendOrGroups(similarOrGroups);
+        String similarAndGroupsCombinedString = similarAndGroupsCombined.generateString();
+        return StringGenerator.and(StringGenerator.or(similarOrGroupsString, similarAndGroupsCombinedString),
+                StringGenerator.or(firstCohort.generateString(), secondCohort.generateString()));
     }
 
-    public static String removeOuterMostBrackets(String value) {
-        return value.substring(1, value.length() - 1);
-    }
-
-    private static OrGroupPair findMostSimilarEmbeddedAndGroups(Cohort firstCohort, Cohort secondCohort) {
-        ArrayList<OrGroup> firstCohortOrGroups = firstCohort.getOrGroups();
-        ArrayList<OrGroup> secondCohortOrGroups = secondCohort.getOrGroups();
-
-        ArrayList<OrGroupPair> distinctOrGroupPairs =
-                getDistinctGroupPairs(firstCohortOrGroups, secondCohortOrGroups);
+    private static ArrayList<OrGroupPair> findEmbeddedAndGroups(ArrayList<OrGroupPair> distinctOrGroupPairs) {
         PriorityQueue<OrGroupPair> sortedGroupsInDecreasingSimilarity =
                 sortGroupPairs(distinctOrGroupPairs);
-        return sortedGroupsInDecreasingSimilarity.poll();
+
+        OrGroupPair orGroupPair = sortedGroupsInDecreasingSimilarity.poll();
+        ArrayList<OrGroupPair> pairsWithSimilarities = new ArrayList<>();
+        while (orGroupPair != null) {
+            if (orGroupPair.getSimilarity().size() >= 1) {
+                pairsWithSimilarities.add(orGroupPair);
+            }
+            orGroupPair = sortedGroupsInDecreasingSimilarity.poll();
+        }
+        return pairsWithSimilarities;
     }
 
     private static ArrayList<OrGroupPair> getDistinctGroupPairs(ArrayList<OrGroup> firstCohortOrGroups,
@@ -134,30 +267,43 @@ public class LogicManager {
             OrGroup firstCohortOrGroup = firstCohortOrGroups.get(i);
             for (int j = 0; j < secondCohortOrGroups.size(); j++) {
                 OrGroup secondCohortOrGroup = secondCohortOrGroups.get(j);
+                if (firstCohortOrGroup.containsYearRequirement() || secondCohortOrGroup.containsYearRequirement()) {
+                    continue;
+                }
                 distinctOrGroupPairs.add(new OrGroupPair(firstCohortOrGroup, secondCohortOrGroup));
             }
         }
         return distinctOrGroupPairs;
     }
 
+    private static ArrayList<OrGroupPair> getDistinctGroupPairs(ArrayList<OrGroup> orGroups) {
+        ArrayList<OrGroupPair> distinctOrGroupPairs = new ArrayList<>();
+        for (int i = 0; i < orGroups.size(); i++) {
+            OrGroup firstOrGroup = orGroups.get(i);
+            for (int j = 0; j < orGroups.size(); j++) {
+                OrGroup secondOrGroup = orGroups.get(j);
+                OrGroupPair pair = new OrGroupPair(firstOrGroup, secondOrGroup);
+                if (!firstOrGroup.equals(secondOrGroup) && !distinctOrGroupPairs.contains(pair)) {
+                    distinctOrGroupPairs.add(pair);
+                }
+            }
+        }
+        return distinctOrGroupPairs;
+    }
+
     private static PriorityQueue<OrGroupPair> sortGroupPairs(ArrayList<OrGroupPair> pairs) {
-        PriorityQueue<OrGroupPair> sortedGroups = new PriorityQueue<>(new PairComparator());
+        PriorityQueue<OrGroupPair> sortedGroups = new PriorityQueue<>(new OrPairComparator());
         for (int i = 0; i < pairs.size(); i++) {
             OrGroupPair pair = pairs.get(i);
             OrGroup firstGroup = (OrGroup) pair.getFirstElement();
             OrGroup secondGroup = (OrGroup) pair.getSecondElement();
-            pair.setSimilarities(getEmbeddedSimilarities(firstGroup, secondGroup));
-            pair.setEqualities(getEqualities(firstGroup, secondGroup));
+            pair.setSimilarity(getBiggestEmbeddedAndGroup(firstGroup, secondGroup));
             sortedGroups.add(pair);
         }
         return sortedGroups;
     }
 
-    private static ArrayList<AndGroup> getEmbeddedSimilarities(OrGroup firstOrGroup, OrGroup secondOrGroup) {
-        return firstOrGroup.getEmbeddedAndGroups(secondOrGroup);
-    }
-
-    private static ArrayList<AndGroup> getEqualities(OrGroup firstOrGroup, OrGroup secondOrGroup) {
-        return firstOrGroup.getEqualAndGroups(secondOrGroup);
+    private static AndGroup getBiggestEmbeddedAndGroup(OrGroup firstOrGroup, OrGroup secondOrGroup) {
+        return firstOrGroup.getBiggestEmbeddedAndGroups(secondOrGroup);
     }
 }

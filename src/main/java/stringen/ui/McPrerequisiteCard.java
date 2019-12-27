@@ -38,13 +38,16 @@ public class McPrerequisiteCard extends HBox {
     }
 
     public int getNumberOfModules() {
-        return Integer.parseInt(mcCountField.getText()) / 4;
+        return Integer.parseInt(mcCountField.getText().trim()) / 4;
     }
 
     public ModulePrerequisite getModule() {
         return new ModulePrerequisite(modulePrefixField.getText(), ModulePrerequisite.DEFAULT_GRADE);
     }
 
+    public boolean hasPrefix() {
+        return !modulePrefixField.getText().equals("");
+    }
 
     @FXML
     public void addNewEntry() {

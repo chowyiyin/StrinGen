@@ -1,6 +1,7 @@
 package stringen.logic;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 public class OrGroup extends Group {
 
@@ -22,57 +23,87 @@ public class OrGroup extends Group {
         }
     }
 
-    public ArrayList<AndGroup> getEmbeddedAndGroups(OrGroup otherGroup) {
-        ArrayList<AndGroup> otherAndGroups = otherGroup.getAndGroups();
-        ArrayList<AndGroup> embeddedAndGroups = new ArrayList<>();
-        for (int i = 0; i < andGroups.size(); i++) {
-            for (int j = 0; j < otherAndGroups.size(); j++) {
-                AndGroup thisAndGroup = andGroups.get(i);
-                AndGroup otherAndGroup = otherAndGroups.get(j);
-                AndGroup embeddedAndGroup = thisAndGroup.getEmbeddedAndGroup(otherAndGroup);
-                if (embeddedAndGroup != null && !embeddedAndGroup.equals(thisAndGroup)) {
-                    embeddedAndGroups.add(embeddedAndGroup);
-                }
-            }
-        }
-        return embeddedAndGroups;
+    public boolean containsYearRequirement() {
+        return andGroups.stream().anyMatch(andGroup -> andGroup.containsYearRequirement());
     }
 
+    public AndGroup getBiggestEmbeddedAndGroups(OrGroup otherGroup) {
+        boolean onlyCanExtractWholeAndGroups = this.andGroups.size() > 1 || otherGroup.andGroups.size() > 1;
+        if (onlyCanExtractWholeAndGroups) {
+            return extractEquals(otherGroup);
+        } else {
+            // both only have one and group
+            AndGroup firstAndGroup = andGroups.size() == 1 ? andGroups.get(0) : new AndGroup();
+            AndGroup secondAndGroup = otherGroup.getAndGroups().size() == 1 ? otherGroup.getAndGroups().get(0) :
+                    new AndGroup();
+            return extractEmbeddedGroups(firstAndGroup, secondAndGroup);
+        }
+    }
 
-    public ArrayList<AndGroup> getEqualAndGroups(OrGroup otherGroup) {
+    private AndGroup extractEquals(OrGroup otherGroup) {
         ArrayList<AndGroup> otherAndGroups = otherGroup.getAndGroups();
-        ArrayList<AndGroup> equalAndGroups = new ArrayList<>();
+        PriorityQueue<AndGroup> embeddedAndGroups = new PriorityQueue<>(new AndGroupComparator());
         for (int i = 0; i < andGroups.size(); i++) {
             for (int j = 0; j < otherAndGroups.size(); j++) {
                 AndGroup thisAndGroup = andGroups.get(i);
                 AndGroup otherAndGroup = otherAndGroups.get(j);
                 if (thisAndGroup.equals(otherAndGroup)) {
-                    equalAndGroups.add(copyAndGroup(thisAndGroup));
+                    embeddedAndGroups.add(copyAndGroup(thisAndGroup));
                 }
             }
         }
-        return equalAndGroups;
+        return embeddedAndGroups.peek() == null ? new AndGroup() : embeddedAndGroups.poll();
     }
 
-    public AndGroup copyAndGroup(AndGroup andGroup) {
+    private AndGroup extractEmbeddedGroups(AndGroup firstAndGroup, AndGroup secondAndGroup) {
+        return firstAndGroup.getEmbeddedAndGroup(secondAndGroup);
+    }
+
+    private AndGroup copyAndGroup(AndGroup andGroup) {
         return new AndGroup(andGroup.getOrGroups());
+    }
+
+    public AndGroup getRemainingAndGroup(AndGroup andGroup) {
+        if (andGroups.size() == 1) {
+            return andGroup.getRemainingAndGroup(andGroup);
+        } else {
+            ArrayList<AndGroup> remainingAndGroups = new ArrayList<>(andGroups);
+            remainingAndGroups.remove(andGroup);
+            OrGroup orGroup = new OrGroup(remainingAndGroups);
+            ArrayList<OrGroup> orGroupsForAndGroup = new ArrayList();
+            orGroupsForAndGroup.add(orGroup);
+            return new AndGroup(orGroupsForAndGroup);
+        }
+    }
+
+    public AndGroup getRemainingAndGroup(AndGroup andGroup, Cohort cohort) {
+        if (andGroups.size() == 1) {
+            AndGroup remainingAndGroup = andGroups.get(0).getRemainingAndGroup(andGroup);
+            remainingAndGroup.addOrGroup(cohort.getYearRequirement());
+            return remainingAndGroup;
+        } else {
+            ArrayList<AndGroup> remainingAndGroups = new ArrayList<>(andGroups);
+            remainingAndGroups.remove(andGroup);
+            ArrayList<OrGroup> orGroupsForAndGroup = new ArrayList<>();
+            orGroupsForAndGroup.add(new OrGroup(remainingAndGroups));
+            orGroupsForAndGroup.add(cohort.getYearRequirement());
+            return new AndGroup(orGroupsForAndGroup);
+        }
     }
 
     public ArrayList<AndGroup> getAndGroups() {
         return andGroups;
     }
 
-    public void removeAndGroups(ArrayList<AndGroup> andGroupsToRemove) {
+    public void removeAndGroup(AndGroup andGroupToRemove) {
         for (int i = 0; i < andGroups.size(); i++) {
-            for (int j = 0; j < andGroupsToRemove.size(); j++) {
-                AndGroup andGroup = andGroups.get(i);
-                AndGroup andGroupToRemove = andGroupsToRemove.get(j);
-                if (andGroup.contains(andGroupToRemove)) {
-                    andGroup.remove(andGroupToRemove);
-                    if (andGroup.isEmpty()) {
-                        andGroups.remove(andGroup);
-                    }
+            AndGroup andGroup = andGroups.get(i);
+            if (andGroup.contains(andGroupToRemove)) {
+                andGroup.remove(andGroupToRemove);
+                if (andGroup.isEmpty()) {
+                    andGroups.remove(andGroup);
                 }
+                break;
             }
         }
     }

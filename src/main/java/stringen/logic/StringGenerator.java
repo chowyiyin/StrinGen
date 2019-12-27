@@ -21,19 +21,6 @@ public class StringGenerator {
         return appendStrings(strings, LogicManager.OPERATOR_AND);
     }
 
-    public static String generateStringForCohorts(String startYear, String endYear, ArrayList<OrGroup> orGroups) {
-        String yearPrefix = "";
-        if (!startYear.equals("") || !endYear.equals(""))
-            yearPrefix = Cohort.PREFIX_YEAR + appendBrackets(startYear + "," + endYear);
-        if (orGroups.size() == 0) {
-            return yearPrefix;
-        } else if (yearPrefix.equals("")) {
-            return appendOrGroups(orGroups);
-        } else {
-            return yearPrefix + LogicManager.OPERATOR_AND + appendOrGroups(orGroups);
-        }
-    }
-
     private static String append(ArrayList<? extends Group> groups, String operator) {
         StringBuilder string = new StringBuilder();
         if (groups.size() == 0) {
@@ -65,11 +52,6 @@ public class StringGenerator {
                 string.append(operator + str);
             }
         });
-
-        if (strings.length <= 1) {
-            return string.toString();
-        }
-
-        return appendBrackets(string.toString());
+        return string.toString();
     }
 }
