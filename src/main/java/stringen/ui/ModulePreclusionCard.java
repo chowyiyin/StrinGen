@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -11,7 +12,7 @@ import javafx.scene.layout.HBox;
 import stringen.Util;
 import stringen.logic.requirements.ModulePreclusion;
 
-public class ModulePreclusionCard extends HBox {
+public class ModulePreclusionCard extends RequirementCard {
 
     @FXML
     private ComboBox<String> gradeDropdown;
@@ -19,9 +20,13 @@ public class ModulePreclusionCard extends HBox {
     @FXML
     private TextField moduleCodeField;
 
-    private HBox parent;
+    @FXML
+    private Button orButton;
 
-    public ModulePreclusionCard(HBox parent) {
+    private EntryFieldCard parent;
+    private Label orLabel;
+
+    public ModulePreclusionCard(EntryFieldCard parent) {
         try {
             this.parent = parent;
             FXMLLoader fxmlLoader = new FXMLLoader(ModulePreclusionCard.class
@@ -41,11 +46,8 @@ public class ModulePreclusionCard extends HBox {
 
     @FXML
     public void addNewEntry() {
-        getChildren().remove(getChildren().size() - 1);
-        Label label = new Label("OR");
-        label.getStyleClass().add("label");
-        getChildren().add(label);
-        parent.getChildren().add(new ModulePreclusionCard(parent));
+        changeOrButtonToLabel();
+        parent.addNewCard(new ModulePreclusionCard(parent));
     }
 
     public ModulePreclusion getModulePreclusion() {

@@ -4,19 +4,24 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import stringen.logic.requirements.CoursePrerequisite;
 
-public class CoursePrerequisiteCard extends HBox {
+public class CoursePrerequisiteCard extends RequirementCard {
 
     @FXML
     private TextField courseCodeField;
 
-    private HBox parent;
+    @FXML
+    private Button orButton;
 
-    public CoursePrerequisiteCard(HBox parent) {
+    private EntryFieldCard parent;
+    private Label orLabel;
+
+    public CoursePrerequisiteCard(EntryFieldCard parent) {
         try {
             this.parent = parent;
             FXMLLoader fxmlLoader = new FXMLLoader(CoursePrerequisiteCard.class
@@ -31,11 +36,8 @@ public class CoursePrerequisiteCard extends HBox {
 
     @FXML
     public void addNewEntry() {
-        getChildren().remove(getChildren().size() - 1);
-        Label label = new Label("OR");
-        label.getStyleClass().add("label");
-        getChildren().add(label);
-        parent.getChildren().add(new CoursePrerequisiteCard(parent));
+        changeOrButtonToLabel();
+        parent.addNewCard(new CoursePrerequisiteCard(parent));
     }
 
     public CoursePrerequisite getCoursePrerequisite() {

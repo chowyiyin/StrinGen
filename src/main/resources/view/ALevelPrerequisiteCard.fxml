@@ -8,7 +8,6 @@
    <children>
       <TextField fx:id="subjectField" prefHeight="27.0" promptText="Enter subject code..." styleClass="enterBox" stylesheets="@theme.css" />
       <TextField fx:id="gradeField" prefHeight="27.0" promptText="Enter minimum grade..." styleClass="enterBox" stylesheets="@theme.css" />
-      <Button mnemonicParsing="false" onAction="#addNewEntry" prefHeight="27.0" stylesheets="@theme.css" text="add OR" />
-      <Button fx:id="deleteButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" stylesheets="@theme.css" text="-" />
+      <Button fx:id="orButton" mnemonicParsing="false" onAction="#addNewEntry" prefHeight="27.0" stylesheets="@theme.css" text="add OR" />
    </children>
 </fx:root>

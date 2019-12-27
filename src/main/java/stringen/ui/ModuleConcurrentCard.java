@@ -1,22 +1,28 @@
 package stringen.ui;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import stringen.logic.requirements.ModuleConcurrent;
 
-public class ModuleConcurrentCard extends HBox {
+public class ModuleConcurrentCard extends RequirementCard {
 
     @FXML
     private TextField moduleCodeField;
 
-    private HBox parent;
+    @FXML
+    private Button orButton;
 
-    public ModuleConcurrentCard(HBox parent) {
+    private EntryFieldCard parent;
+    private Label orLabel;
+
+    public ModuleConcurrentCard(EntryFieldCard parent) {
         try {
             this.parent = parent;
             FXMLLoader fxmlLoader = new FXMLLoader(ModuleConcurrentCard.class
@@ -31,11 +37,8 @@ public class ModuleConcurrentCard extends HBox {
 
     @FXML
     public void addNewEntry() {
-        getChildren().remove(getChildren().size() - 1);
-        Label label = new Label("OR");
-        label.getStyleClass().add("label");
-        getChildren().add(label);
-        parent.getChildren().add(new ModuleConcurrentCard(parent));
+        changeOrButtonToLabel();
+        parent.addNewCard(new ModuleConcurrentCard(parent));
     }
 
     public ModuleConcurrent getModuleConcurrent() {

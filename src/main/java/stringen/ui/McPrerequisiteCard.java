@@ -1,16 +1,19 @@
 package stringen.ui;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import stringen.logic.requirements.McPrerequisite;
 import stringen.logic.requirements.ModulePrerequisite;
+import stringen.logic.requirements.Requirement;
 
-public class McPrerequisiteCard extends HBox {
+public class McPrerequisiteCard extends RequirementCard {
 
     @FXML
     private TextField mcCountField;
@@ -18,9 +21,13 @@ public class McPrerequisiteCard extends HBox {
     @FXML
     private TextField modulePrefixField;
 
-    private HBox parent;
+    @FXML
+    private Button orButton;
 
-    public McPrerequisiteCard(HBox parent) {
+    private EntryFieldCard parent;
+    private Label orLabel;
+
+    public McPrerequisiteCard(EntryFieldCard parent) {
         try {
             this.parent = parent;
             FXMLLoader fxmlLoader = new FXMLLoader(McPrerequisiteCard.class
@@ -45,16 +52,12 @@ public class McPrerequisiteCard extends HBox {
         return new ModulePrerequisite(modulePrefixField.getText(), ModulePrerequisite.DEFAULT_GRADE);
     }
 
-
     @FXML
     public void addNewEntry() {
-        getChildren().remove(getChildren().size() - 1);
-        Label label = new Label("OR");
-        label.getStyleClass().add("label");
-        getChildren().add(label);
+        changeOrButtonToLabel();
         McPrerequisiteCard newCard = new McPrerequisiteCard(parent);
         newCard.removeMcCountField();
-        parent.getChildren().add(newCard);
+        parent.addNewCard(newCard);
     }
 
     public void removeMcCountField() {
