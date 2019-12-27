@@ -10,14 +10,16 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import stringen.logic.requirements.ALevelPrerequisite;
 import stringen.logic.requirements.CoursePreclusion;
 import stringen.logic.requirements.CoursePrerequisite;
 import stringen.logic.requirements.MajorPreclusion;
 import stringen.logic.requirements.MajorPrerequisite;
-import stringen.logic.requirements.McPrerequisite;
 import stringen.logic.requirements.ModuleConcurrent;
 import stringen.logic.requirements.ModulePreclusion;
 import stringen.logic.requirements.ModulePrerequisite;
@@ -36,16 +38,19 @@ public class EntryFieldCard extends HBox {
     private ComboBox<String> requirementOptions;
 
     @FXML
-    private VBox boxAndButtonPlaceholder;
+    private VBox boxPlaceholder;
 
     @FXML
     private HBox orButtonPlaceholder;
 
     @FXML
-    private Button addAndButton;
+    private HBox andButtonPlaceholder;
 
     @FXML
-    private Button addOrButton;
+    private Button andButton;
+
+    @FXML
+    private Button orButton;
 
     @FXML
     private Label conjunctionLabel;
@@ -55,6 +60,9 @@ public class EntryFieldCard extends HBox {
 
     @FXML
     private Button newRequirementButton;
+
+    @FXML
+    private Button deleteButton;
 
     private EntryWindow parent;
     private boolean isNewRequirement;
@@ -78,9 +86,18 @@ public class EntryFieldCard extends HBox {
 
     @FXML
     public void initialize() {
-        for (EntryType entryType: EntryType.values()) {
-            requirementOptions.getItems().add(entryType.getName());
+        initialiseRequirementOptions();
+        initialiseLabels();
+        configureDeleteButton();
+    }
+
+    private void configureDeleteButton() {
+        if (parent.isOnlyReq(this)) {
+            cardPlaceholder.getChildren().remove(deleteButton);
         }
+    }
+
+    private void initialiseLabels() {
         conjunctionLabel.setText(null);
         if (isNewRequirement) {
             requirementIndexLabel.setText("Requirement " + requirementNumber);
@@ -89,59 +106,86 @@ public class EntryFieldCard extends HBox {
             requirementIndexLabel.prefHeightProperty().set(0);
         }
         orLabel = new Label("OR");
-        orLabel.getStyleClass().add("label");
+        orLabel.setId("orLabel");
+        orLabel.prefWidthProperty().bind(orButtonPlaceholder.widthProperty());
+        orLabel.setTextAlignment(TextAlignment.RIGHT);
+    }
+
+    private void initialiseRequirementOptions() {
+        for (EntryType entryType: EntryType.values()) {
+            requirementOptions.getItems().add(entryType.getName());
+        }
+        requirementOptions.setButtonCell(new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty) ;
+                if (empty || item == null) {
+                    setText("REQUIREMENT");
+                } else {
+                    setText(item);
+                }
+            }
+        });
     }
 
     @FXML
     public void showEntries() {
         String entryTypeString = requirementOptions.getValue();
-        entryType = EntryType.getEntryType(entryTypeString);
-        ObservableList<Node> children = cardPlaceholder.getChildren();
-        for (int i = children.size() - 1; i >= 0; i--) {
-            cardPlaceholder.getChildren().remove(children.get(i));
+        if (entryTypeString == null) {
+            return;
         }
+        entryType = EntryType.getEntryType(entryTypeString);
+        resetCardPlaceholder();
         switch(entryType) {
         case MOD_PREREQ:
-            cardPlaceholder.getChildren().add(new ModulePrerequisiteCard(cardPlaceholder));
+            cardPlaceholder.getChildren().add(new ModulePrerequisiteCard(this));
             break;
         case COURSE_PREREQ:
-            cardPlaceholder.getChildren().add(new CoursePrerequisiteCard(cardPlaceholder));
+            cardPlaceholder.getChildren().add(new CoursePrerequisiteCard(this));
             break;
         case MC_PREREQ:
-            cardPlaceholder.getChildren().add(new McPrerequisiteCard(cardPlaceholder));
+            cardPlaceholder.getChildren().add(new McPrerequisiteCard(this));
             break;
         case MAJOR_PREREQ:
-            cardPlaceholder.getChildren().add(new MajorPrerequisiteCard(cardPlaceholder));
+            cardPlaceholder.getChildren().add(new MajorPrerequisiteCard(this));
             break;
         case CAP_PREREQ:
             cardPlaceholder.getChildren().add(new CapPrerequisiteCard());
             break;
         case A_LEVEL_PREREQ:
-            cardPlaceholder.getChildren().add(new ALevelPrerequisiteCard(cardPlaceholder));
+            cardPlaceholder.getChildren().add(new ALevelPrerequisiteCard(this));
             break;
         case COURSE_PRECLUSION:
-            cardPlaceholder.getChildren().add(new CoursePreclusionCard(cardPlaceholder));
+            cardPlaceholder.getChildren().add(new CoursePreclusionCard(this));
             break;
         case MODULE_PRECLUSION:
-            cardPlaceholder.getChildren().add(new ModulePreclusionCard(cardPlaceholder));
+            cardPlaceholder.getChildren().add(new ModulePreclusionCard(this));
             break;
         case MAJOR_PRECLUSION:
-            cardPlaceholder.getChildren().add(new MajorPreclusionCard(cardPlaceholder));
+            cardPlaceholder.getChildren().add(new MajorPreclusionCard(this));
             break;
         case CONCURRENT_MODULE:
-            cardPlaceholder.getChildren().add(new ModuleConcurrentCard(cardPlaceholder));
+            cardPlaceholder.getChildren().add(new ModuleConcurrentCard(this));
             break;
+        }
+        cardPlaceholder.getChildren().add(deleteButton);
+    }
+
+    private void resetCardPlaceholder() {
+        ObservableList<Node> children = cardPlaceholder.getChildren();
+        for (int i = children.size() - 1; i >= 0; i--) {
+            cardPlaceholder.getChildren().remove(children.get(i));
         }
     }
 
     @FXML
     public void addAnd() {
-        boxAndButtonPlaceholder.getChildren().remove(addAndButton);
-        if (!orButtonPlaceholder.getChildren().contains(addOrButton)) {
+        andButtonPlaceholder.getChildren().remove(andButton);
+        if (!orButtonPlaceholder.getChildren().contains(orButton)) {
             orButtonPlaceholder.getChildren().remove(orLabel);
             parent.addAndEntryFieldCardAfter(this);
         } else {
-            orButtonPlaceholder.getChildren().remove(addOrButton);
+            orButtonPlaceholder.getChildren().remove(orButton);
             newRequirementButtonPlaceholder.getChildren().remove(newRequirementButton);
             parent.addAndEntryFieldCard(requirementNumber);
         }
@@ -149,18 +193,28 @@ public class EntryFieldCard extends HBox {
 
     @FXML
     public void addOr() {
-        orButtonPlaceholder.getChildren().remove(addOrButton);
+        orButtonPlaceholder.getChildren().remove(orButton);
         orButtonPlaceholder.getChildren().add(orLabel);
         newRequirementButtonPlaceholder.getChildren().remove(newRequirementButton);
         parent.addOrEntryFieldCard(requirementNumber);
+    }
+
+    public void addNewCard(HBox newCard) {
+        cardPlaceholder.getChildren().remove(deleteButton);
+        cardPlaceholder.getChildren().add(newCard);
+        cardPlaceholder.getChildren().add(deleteButton);
     }
 
     public void setConjunctionLabel() {
         conjunctionLabel.setText("AND");
     }
 
+    public void removeConjunctionLabel() {
+        conjunctionLabel.setText(null);
+    }
+
     public void setDisjunctionLabel() {
-        orButtonPlaceholder.getChildren().remove(addOrButton);
+        orButtonPlaceholder.getChildren().remove(orButton);
         orButtonPlaceholder.getChildren().add(orLabel);
     }
 
@@ -181,8 +235,37 @@ public class EntryFieldCard extends HBox {
         return orButtonPlaceholder.getChildren().contains(orLabel);
     }
 
+    public boolean containsOrButton() {
+        return orButtonPlaceholder.getChildren().contains(orButton);
+    }
+
+    public void addOrButton() {
+        orButtonPlaceholder.getChildren().remove(orLabel);
+        orButtonPlaceholder.getChildren().add(orButton);
+    }
+
+    public boolean containsAndButton() {
+        return andButtonPlaceholder.getChildren().contains(andButton);
+    }
+
+    public void addAndButton() {
+        andButtonPlaceholder.getChildren().add(andButton);
+    }
+
+    public boolean containsReqButton() {
+        return newRequirementButtonPlaceholder.getChildren().contains(newRequirementButton);
+    }
+
+    public void addReqButton() {
+        newRequirementButtonPlaceholder.getChildren().add(newRequirementButton);
+    }
+
     public int getRequirementNumber() {
         return requirementNumber;
+    }
+
+    public void setRequirementNumber(int newNumber) {
+        requirementNumber = newNumber;
     }
 
     public boolean isNewRequirement() {
@@ -281,6 +364,47 @@ public class EntryFieldCard extends HBox {
         default:
             return null;
         }
+    }
+
+    @FXML
+    public void delete() {
+        int numOfChildren = cardPlaceholder.getChildren().size();
+        if (numOfChildren > 2) {
+            // there is more than one card
+            cardPlaceholder.getChildren().remove(numOfChildren - 2);
+            RequirementCard lastCard = (RequirementCard) cardPlaceholder.getChildren().get(numOfChildren - 3);
+            lastCard.changeOrLabelToButton();
+        } else if (numOfChildren == 2) {
+            // there is only one card
+            RequirementCard onlyCard = (RequirementCard) cardPlaceholder.getChildren().get(0);
+            cardPlaceholder.getChildren().remove(onlyCard);
+            requirementOptions.getSelectionModel().clearSelection();
+            requirementOptions.setPromptText("REQUIREMENT");
+            configureDeleteButton();
+        } else if (numOfChildren == 1) {
+            // there are no cards
+            parent.deleteRequirement(this);
+        } else {
+            throw new IllegalStateException();
+        }
+    }
+
+    public void setAsStart() {
+        requirementIndexLabel.setText("Requirement " + requirementNumber);
+        requirementIndexLabel.prefHeightProperty().set(Region.USE_COMPUTED_SIZE);
+        isNewRequirement = true;
+    }
+
+    public void removeDeleteButton() {
+        cardPlaceholder.getChildren().remove(deleteButton);
+    }
+
+    public void addDeleteButton() {
+        cardPlaceholder.getChildren().add(deleteButton);
+    }
+
+    public boolean containsDeleteButton() {
+        return cardPlaceholder.getChildren().contains(deleteButton);
     }
 
 }
