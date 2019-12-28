@@ -8,7 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import stringen.logic.requirements.MajorPreclusion;
 import stringen.logic.requirements.MajorPrerequisite;
+import stringen.ui.exceptions.InvalidInputException;
 
 public class MajorPrerequisiteCard extends RequirementCard {
 
@@ -40,8 +42,12 @@ public class MajorPrerequisiteCard extends RequirementCard {
         parent.addNewCard(new MajorPrerequisiteCard(parent));
     }
 
-    public MajorPrerequisite getMajorPrerequisite() {
-        return new MajorPrerequisite(majorCodeField.getText());
+    public MajorPrerequisite getMajorPrerequisite() throws InvalidInputException {
+        String majorCode = majorCodeField.getText().toUpperCase().trim();
+        if (majorCode.isEmpty()) {
+            throw new InvalidInputException("Please enter a major code for the Major Prerequisite field");
+        }
+        return new MajorPrerequisite(majorCode);
     }
 
 }

@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import stringen.Util;
 import stringen.logic.requirements.ModulePrerequisite;
+import stringen.ui.exceptions.InvalidInputException;
 
 public class ModulePrerequisiteCard extends RequirementCard {
 
@@ -49,8 +50,11 @@ public class ModulePrerequisiteCard extends RequirementCard {
         parent.addNewCard(new ModulePrerequisiteCard(parent));
     }
 
-    public ModulePrerequisite getModulePrerequisite() {
-        String moduleCode = moduleCodeField.getText();
+    public ModulePrerequisite getModulePrerequisite() throws InvalidInputException {
+        String moduleCode = moduleCodeField.getText().toUpperCase().trim();
+        if (moduleCode.isEmpty()) {
+            throw new InvalidInputException("Please enter a module code for the Module Prerequisite field");
+        }
         String grade = gradeDropdown.getValue() == null ? ModulePrerequisite.DEFAULT_GRADE : gradeDropdown.getValue();
         return new ModulePrerequisite(moduleCode, grade);
     }

@@ -53,9 +53,9 @@ public class EntryWindow extends VBox {
         if (mainWindow.isOnlyWindow(this)) {
             deleteCohortButtonPlaceholder.getChildren().remove(deleteCohortButton);
         }
-        cards.add(new TitleListCard("Cohort", false));
+        cards.add(new TitleListCard("COHORT", false));
         cards.add(new CohortListCard());
-        cards.add(new TitleListCard("Requirements", true));
+        cards.add(new TitleListCard("REQUIREMENTS", true));
         EntryFieldCard firstCard = new EntryFieldCard(this, true, numOfRequirements);
         firstCard.removeDeleteButton();
         cards.add(firstCard);
@@ -203,7 +203,7 @@ public class EntryWindow extends VBox {
         if (toDelete.containsReqButton() && !prevCard.containsReqButton()) {
             prevCard.addReqButton();
         }
-        if (isOnlyReq(prevCard)) {
+        if (isOnlyReq(prevCard) && !prevCard.hasReqCards()) {
             prevCard.removeDeleteButton();
         }
     }
@@ -218,7 +218,7 @@ public class EntryWindow extends VBox {
                 nextCard.removeConjunctionLabel();
             }
         }
-        if (isOnlyReq(nextCard)) {
+        if (isOnlyReq(nextCard) && !nextCard.hasReqCards()) {
             nextCard.removeDeleteButton();
         }
     }

@@ -31,7 +31,7 @@
                   </VBox>
                   <HBox fx:id="cardPlaceholder" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button fx:id="deleteButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#delete" prefHeight="27.0" prefWidth="27.0" stylesheets="@theme.css" text="-" />
+                        <Button fx:id="deleteButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#delete" prefHeight="36.0" prefWidth="36.0" stylesheets="@theme.css" text="-" />
                      </children></HBox>
                </children>
             </HBox>

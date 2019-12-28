@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import stringen.logic.requirements.MajorPreclusion;
+import stringen.ui.exceptions.InvalidInputException;
 
 public class MajorPreclusionCard extends RequirementCard {
 
@@ -41,8 +42,12 @@ public class MajorPreclusionCard extends RequirementCard {
         parent.addNewCard(new MajorPreclusionCard(parent));
     }
 
-    public MajorPreclusion getMajorPreclusion() {
-        return new MajorPreclusion(majorCodeField.getText());
+    public MajorPreclusion getMajorPreclusion() throws InvalidInputException {
+        String majorCode = majorCodeField.getText().toUpperCase().trim();
+        if (majorCode.isEmpty()) {
+            throw new InvalidInputException("Please enter a major code for the Major Preclusion field");
+        }
+        return new MajorPreclusion(majorCode);
     }
 
 }

@@ -7,8 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import stringen.logic.requirements.ALevelPrerequisite;
+import stringen.ui.exceptions.InvalidInputException;
 
 public class ALevelPrerequisiteCard extends RequirementCard {
 
@@ -43,8 +43,16 @@ public class ALevelPrerequisiteCard extends RequirementCard {
         parent.addNewCard(new ALevelPrerequisiteCard(parent));
     }
 
-    public ALevelPrerequisite getALevelPrerequisite() {
-        return new ALevelPrerequisite(subjectField.getText(), gradeField.getText());
+    public ALevelPrerequisite getALevelPrerequisite() throws InvalidInputException {
+        String subjectCode = subjectField.getText().toUpperCase().trim();
+        String grade = gradeField.getText().toUpperCase().trim();
+        if (subjectCode.isEmpty()) {
+            throw new InvalidInputException("Please enter a subject code for the A-Level Prerequisite field");
+        }
+        if (grade.isEmpty()) {
+            throw new InvalidInputException("Please enter a grade for the A-Level Prerequisite field");
+        }
+        return new ALevelPrerequisite(subjectCode, grade);
     }
 
 }

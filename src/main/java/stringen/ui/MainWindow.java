@@ -2,17 +2,25 @@ package stringen.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
+import javax.xml.transform.Result;
+
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import stringen.Util;
+import stringen.ui.exceptions.InvalidInputException;
 
 public class MainWindow extends Stage {
 
@@ -41,6 +49,7 @@ public class MainWindow extends Stage {
     private Scene scene;
 
     private static final String LOCATION = "/view/MainWindow.fxml";
+    private static final String APPLICATION_ICON = "/images/logo.png";
 
     private final FXMLLoader fxmlLoader = new FXMLLoader();
 
@@ -108,11 +117,19 @@ public class MainWindow extends Stage {
 
     @FXML
     private void generateString() {
-        String generatedString = generator.generateString(entryWindows);
-        changeScreen(generatedString);
+        try {
+            String generatedString = generator.generateString(entryWindows);
+            showResultWindow(generatedString);
+        } catch (InvalidInputException exception) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage(), ButtonType.CLOSE);
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.CLOSE) {
+                alert.close();
+            }
+        }
     }
 
-    void changeScreen(String generatedString) {
+    void showResultWindow(String generatedString) {
         windowPlaceholder.getChildren().remove(entryWindowPlaceholder);
         windowPlaceholder.getChildren().remove(buttonPlaceholder);
         resultWindow = new ResultWindow(generatedString, this);

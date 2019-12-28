@@ -25,6 +25,7 @@ import stringen.logic.requirements.ModulePreclusion;
 import stringen.logic.requirements.ModulePrerequisite;
 import stringen.logic.requirements.Requirement;
 import stringen.logic.requirements.RequirementList;
+import stringen.ui.exceptions.InvalidInputException;
 
 public class EntryFieldCard extends HBox {
 
@@ -272,14 +273,14 @@ public class EntryFieldCard extends HBox {
         return isNewRequirement;
     }
 
-    public Requirement getResponses() {
+    public Requirement getResponses() throws InvalidInputException {
         if (entryType == null) {
             return null;
         }
         switch(entryType) {
         case MOD_PREREQ:
             ArrayList<ModulePrerequisite> modulePrerequisites = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
+            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
                 ModulePrerequisiteCard modulePrerequisiteCard = (ModulePrerequisiteCard) cardPlaceholder
                         .getChildren().get(i);
                 modulePrerequisites.add(modulePrerequisiteCard.getModulePrerequisite());
@@ -287,7 +288,7 @@ public class EntryFieldCard extends HBox {
             return new RequirementList(modulePrerequisites, ModulePrerequisite.PREFIX);
         case COURSE_PREREQ:
             ArrayList<CoursePrerequisite> coursePrerequisites = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
+            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
                 CoursePrerequisiteCard coursePrerequisiteCard = (CoursePrerequisiteCard) cardPlaceholder
                         .getChildren().get(i);
                 coursePrerequisites.add(coursePrerequisiteCard.getCoursePrerequisite());
@@ -300,7 +301,7 @@ public class EntryFieldCard extends HBox {
             } else {
                 int numberOfModules = 0;
                 ArrayList<ModulePrerequisite> modules = new ArrayList<>();
-                for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
+                for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
                     McPrerequisiteCard mcPrerequisiteCard = (McPrerequisiteCard) cardPlaceholder
                             .getChildren().get(i);
                     if (i == 0) {
@@ -312,7 +313,7 @@ public class EntryFieldCard extends HBox {
             }
         case MAJOR_PREREQ:
             ArrayList<MajorPrerequisite> majorPrerequisites = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
+            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
                 MajorPrerequisiteCard majorPrerequisiteCard = (MajorPrerequisiteCard) cardPlaceholder
                         .getChildren().get(i);
                 majorPrerequisites.add(majorPrerequisiteCard.getMajorPrerequisite());
@@ -324,7 +325,7 @@ public class EntryFieldCard extends HBox {
             return capPrerequisiteCard.getCapPrerequisite();
         case A_LEVEL_PREREQ:
             ArrayList<ALevelPrerequisite> aLevelPrerequisites = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
+            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
                 ALevelPrerequisiteCard aLevelPrerequisiteCard = (ALevelPrerequisiteCard) cardPlaceholder
                         .getChildren().get(i);
                 aLevelPrerequisites.add(aLevelPrerequisiteCard.getALevelPrerequisite());
@@ -332,7 +333,7 @@ public class EntryFieldCard extends HBox {
             return new RequirementList(aLevelPrerequisites, ALevelPrerequisite.PREFIX);
         case COURSE_PRECLUSION:
             ArrayList<CoursePreclusion> coursePreclusions = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
+            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
                 CoursePreclusionCard coursePreclusionCard = (CoursePreclusionCard) cardPlaceholder
                         .getChildren().get(i);
                 coursePreclusions.add(coursePreclusionCard.getCoursePreclusion());
@@ -340,7 +341,7 @@ public class EntryFieldCard extends HBox {
             return new RequirementList(coursePreclusions, CoursePreclusion.PREFIX);
         case MODULE_PRECLUSION:
             ArrayList<ModulePreclusion> modulePreclusions = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
+            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
                 ModulePreclusionCard modulePreclusionCard = (ModulePreclusionCard) cardPlaceholder
                         .getChildren().get(i);
                 modulePreclusions.add(modulePreclusionCard.getModulePreclusion());
@@ -348,7 +349,7 @@ public class EntryFieldCard extends HBox {
             return new RequirementList(modulePreclusions, ModulePreclusion.PREFIX);
         case MAJOR_PRECLUSION:
             ArrayList<MajorPreclusion> majorPreclusions = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
+            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
                 MajorPreclusionCard majorPreclusionCard = (MajorPreclusionCard) cardPlaceholder
                         .getChildren().get(i);
                 majorPreclusions.add(majorPreclusionCard.getMajorPreclusion());
@@ -356,7 +357,7 @@ public class EntryFieldCard extends HBox {
             return new RequirementList(majorPreclusions, MajorPreclusion.PREFIX);
         case CONCURRENT_MODULE:
             ArrayList<ModuleConcurrent> moduleConcurrents = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size(); i++) {
+            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
                 ModuleConcurrentCard moduleConcurrentCard = (ModuleConcurrentCard) cardPlaceholder.getChildren().get(i);
                 moduleConcurrents.add(moduleConcurrentCard.getModuleConcurrent());
             }
@@ -405,6 +406,10 @@ public class EntryFieldCard extends HBox {
 
     public boolean containsDeleteButton() {
         return cardPlaceholder.getChildren().contains(deleteButton);
+    }
+
+    public boolean hasReqCards() {
+        return cardPlaceholder.getChildren().size() > 1;
     }
 
 }

@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import stringen.logic.requirements.ModuleConcurrent;
+import stringen.ui.exceptions.InvalidInputException;
 
 public class ModuleConcurrentCard extends RequirementCard {
 
@@ -41,7 +42,11 @@ public class ModuleConcurrentCard extends RequirementCard {
         parent.addNewCard(new ModuleConcurrentCard(parent));
     }
 
-    public ModuleConcurrent getModuleConcurrent() {
-        return new ModuleConcurrent(moduleCodeField.getText());
+    public ModuleConcurrent getModuleConcurrent() throws InvalidInputException {
+        String moduleCode = moduleCodeField.getText().toUpperCase().trim();
+        if (moduleCode.isEmpty()) {
+            throw new InvalidInputException("Please enter a module code for the Concurrent Module field");
+        }
+        return new ModuleConcurrent(moduleCode);
     }
 }

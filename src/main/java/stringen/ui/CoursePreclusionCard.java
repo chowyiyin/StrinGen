@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import stringen.logic.requirements.CoursePreclusion;
+import stringen.ui.exceptions.InvalidInputException;
 
 public class CoursePreclusionCard extends RequirementCard {
 
@@ -40,8 +41,12 @@ public class CoursePreclusionCard extends RequirementCard {
         parent.addNewCard(new CoursePreclusionCard(parent));
     }
 
-    public CoursePreclusion getCoursePreclusion() {
-        return new CoursePreclusion(courseCodeField.getText());
+    public CoursePreclusion getCoursePreclusion() throws InvalidInputException {
+        String courseCode = courseCodeField.getText().toUpperCase().trim();
+        if (courseCode.isEmpty()) {
+            throw new InvalidInputException("Please enter a course code for the Course Preclusion field");
+        }
+        return new CoursePreclusion(courseCode);
     }
 
 }

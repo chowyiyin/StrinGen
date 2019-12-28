@@ -6,7 +6,7 @@
 
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" stylesheets="@theme.css" type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextField fx:id="courseCodeField" prefHeight="27.0" promptText="Enter course code..." styleClass="enterBox" HBox.hgrow="ALWAYS" />
-      <Button fx:id="orButton" mnemonicParsing="false" onAction="#addNewEntry" prefHeight="27.0" stylesheets="@theme.css" text="add OR" />
+      <TextField fx:id="courseCodeField" prefHeight="36.0" promptText="Enter course code..." styleClass="enterBox" HBox.hgrow="ALWAYS" />
+      <Button fx:id="orButton" mnemonicParsing="false" onAction="#addNewEntry" prefHeight="36.0" stylesheets="@theme.css" text="add OR" />
    </children>
 </fx:root>
