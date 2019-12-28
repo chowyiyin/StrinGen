@@ -1,16 +1,16 @@
 = StrinGen - User Guide
-:imagesDir: images
 :toc:
 :toc-title:
 :toc-placement: preamble
 :sectnums:
+:imagesDir: images
 
-image::logo.png[width="100"]
+image::title.png[width="200"]
 
 == Introduction
-StrinGen is an application that aims to facilitate the generation of ModReg strings (Boolean expressions) that specify module requirements.
-It generates the string based on the user's input into the GUI by adding parenthesis and logical connectors. It also performs
-slight simplification to the Boolean expression. While the application simplifies the string generation process through the GUI,
+StrinGen is an application that aims to facilitate the generation of NUS FASS ModReg strings (Boolean expressions) that specify module requirements.
+It generates a string based on the user's input into the GUI by adding parentheses and logical connectors. It also performs
+slight simplifications on the Boolean expression. While the application simplifies the string generation process through the GUI,
 the user still has to possess some knowledge of logical relationships and be careful when entering the requirements.
 
 == Quick Start
@@ -18,7 +18,7 @@ the user still has to possess some knowledge of logical relationships and be car
 .  Download `stringen.jar` link:{repoURL}/releases[here].
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 If double-clicking does not work, either:
-- Open Command Prompt (Windows) or Terminal (Mac), navigate to the folder where you downloaded the jar file and run
+- Open Command Prompt (Windows) or Terminal (Mac), navigate to the folder where you have downloaded the jar file and run
 `java -jar stringen.jar`
 - Or follow the instructions link:{https://www.pixelstech.net/article/1463037958-Run-executable-jar-on-double-click-on-Windows}[here] (Windows)
 +
@@ -30,10 +30,10 @@ To specify the range of cohorts for which the following requirements apply. Belo
 chosen for the various scenario.
 ====
 * *No specific range*: `YEAR (default)` / `-`
-* *All cohorts before* `SOME_YEAR`: `YEAR (default)` / `-` _TO_ `SOME_YEAR`
-- E.g. Cohorts before 2013: `-` _TO_ `2013`
-* *All cohorts after* `SOME_YEAR`: `SOME_YEAR` _TO_ `YEAR (default)` / `-`
-- E.g. Cohorts after 2013: `2013` _TO_ `-`
+* *All cohorts before and including* `SOME_YEAR`: `YEAR (default)` / `-` _TO_ `SOME_YEAR`
+- E.g. Cohorts before and including 2013: `-` _TO_ `2013`
+* *All cohorts after and including* `SOME_YEAR`: `SOME_YEAR` _TO_ `YEAR (default)` / `-`
+- E.g. Cohorts after and including 2013: `2013` _TO_ `-`
 * *All cohorts between* `YEAR_ONE` *and* `YEAR_TWO` (inclusive): `YEAR_ONE` _TO_ `YEAR TWO`
 - E.g. Cohorts between 2013 and 2015: `2013` _TO_ `2015`
 - Eg. Cohort 2013: `2013` _TO_ `2013`
@@ -41,7 +41,7 @@ chosen for the various scenario.
 
 === Requirement Field
 ==== Numbered Requirements
-image::NumberedRequirement.png[]
+image::NumberedRequirement.png[width="400"]
 
 Numbered requirements (e.g. Requirement 1, Requirement 2) have _sub-requirements_ that are specified through dropdown boxes. These subrequirements can have
 _AND/OR_ relationships that combine to form a greater (numbered) requirement. Each numbered requirement must be satisfied.
@@ -105,40 +105,42 @@ The minimum grade is set to be `D` by default if no grade is chosen.
 ===== Concurrent Module
 *Fields:* module code
 
-== Logical Buttons
+== Logic Buttons
 === Horizontal `add OR` button
-image::HorizontalAddOr_AddAnd_Buttons.png[]
+image::HorizontalAddOr_AddAnd_Buttons.png[width="400"]
 Most types of requirements have an additional `add OR`
 button that appears after the requirement type has been chosen. This allows the user to input more than one requirement of the
 same type.
-[NOTE]
+
 As the name suggests, clicking this button would indicate a logical `OR` relationship between each requirement along the same horizontal line.
 
 === Vertical `add AND` button
-image::HorizontalAddOr_AddAnd_Buttons.png[]
+image::HorizontalAddOr_AddAnd_Buttons.png[width="400"]
 
-Clicking this button would indicate a logical `AND` relationship between the requirement above and the requirement(s) below.
+Clicking this button would indicate a logical `AND` relationship between the requirement(s) above and the requirement(s) below.
 
-image::AddAndLabel.png[]
+image::AddAndLabel.png[width="400"]
 
 === Vertical `add OR` button
-Clicking this button would indicate a logical `OR` relationship between *all the requirements above and after the previous
-`OR` (if any)* and the requirement(s) below.
+Clicking this button would indicate a logical `OR` relationship between *all the requirements between the newly-added `OR` and the previous
+`OR` (if any)* and the requirement(s) *above the previous `OR`* and *after the newly-added `OR`*.
 
-image::AddOrLabel.png[]
+image::AddOrLabel.png[width="400"]
 
 The above example implies a relationship as such: (Module Prerequisite Requirement `AND` Module Preclusion Requirement)
 `OR` (MC Prerequisite Requirement).
+[IMPORTANT]
+Take note of the parentheses.
 
 == Others
-=== Adding another cohort
-There is a button `Add another cohort` at the bottom left corner of the GUI that allows the user to enter requirements
+=== Adding/deleting cohorts
+The `Add another cohort` at the bottom left corner of the GUI allows the user to enter requirements
 for another cohort. The user can also delete the cohort by clicking the `DELETE COHORT` button at the top left corner, which
 only appears when the user has added at least one other cohort. The user can also toggle between cohorts using the `Back` and `Next`
 buttons at the bottom left corner.
 
 === Generating the string
-The `Generate string` button at the bottom right corner of the GUI should be clicked when all the user has finished
+The `Generate string` button at the bottom right corner of the GUI should only be clicked when the user has finished
 entering all the requirements. The user can use the `Copy to clipboard` button to copy the entire string. There will be a message
 below the string if the number of characters _exceeds 5000 characters_. The user can generate another string by clicking
 the `Generate another string` button.
@@ -150,9 +152,14 @@ The `-` buttons beside each requirement can be used to remove unwanted requireme
 The following are some examples on how to translate some requirements written in prose into logical statements.
 
 * 40 MCs, *including* 20 MCs in HY modules and 20MCs in SC modules
+- Explanation: "including" suggests a logical `AND` relationship as all of these requirements must be fulfilled.
 
-image::Example1.png[]
+image::Example1.png[width="400"]
 
 * Completed 80 MCs, including 28 MCs in SE or 28 MCs in MS or 28 MCs in SN, with a minimum CAP of 3.50 or be on Honours track.
+- The `80 MCs` part has to be entered in a different numbered requirement from the `28 MCs in ..` as the vertical `OR`
+is needed for the latter.
 
-image::Example2.png[]
+image::Example2_Part1.png[width="400"]
+
+image::Example2_Part2.png[width="400"]
