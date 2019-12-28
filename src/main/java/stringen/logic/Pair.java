@@ -20,11 +20,26 @@ public class Pair<K, V> {
         return element2;
     }
 
-    public void incrementNumberOfSimilarities(int numberOfSimilarities) {
-        this.numberOfSimilarities += numberOfSimilarities;
+    public void updateNumberOfSimilarities(int numberOfSimilarities) {
+        this.numberOfSimilarities = numberOfSimilarities;
     }
 
     public int getNumberOfSimilarities() {
         return numberOfSimilarities;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        } else if (o instanceof Pair) {
+            Pair other = (Pair) o;
+            return (getFirstElement().equals(other.getFirstElement()) &&
+                        getSecondElement().equals(other.getSecondElement())) ||
+                    (getFirstElement().equals(other.getSecondElement()) &&
+                            getSecondElement().equals(other.getFirstElement()));
+        } else {
+            return false;
+        }
     }
 }

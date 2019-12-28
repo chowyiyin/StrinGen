@@ -1,17 +1,14 @@
 package stringen.ui;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import stringen.logic.requirements.McPrerequisite;
 import stringen.logic.requirements.ModulePrerequisite;
-import stringen.logic.requirements.Requirement;
 import stringen.ui.exceptions.InvalidInputException;
 
 public class McPrerequisiteCard extends RequirementCard {
@@ -59,6 +56,10 @@ public class McPrerequisiteCard extends RequirementCard {
 
     public ModulePrerequisite getModule() {
         return new ModulePrerequisite(modulePrefixField.getText(), ModulePrerequisite.DEFAULT_GRADE);
+    }
+
+    public boolean hasPrefix() {
+        return !modulePrefixField.getText().trim().equals("");
     }
 
     @FXML

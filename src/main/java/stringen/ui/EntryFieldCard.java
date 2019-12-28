@@ -295,9 +295,9 @@ public class EntryFieldCard extends HBox {
             }
             return new RequirementList(coursePrerequisites, CoursePrerequisite.PREFIX);
         case MC_PREREQ:
-            if (cardPlaceholder.getChildren().size() == 1) {
-                McPrerequisiteCard mcPrerequisiteCard = (McPrerequisiteCard) cardPlaceholder.getChildren().get(0);
-                return mcPrerequisiteCard.getMcPrerequisite();
+            McPrerequisiteCard card = (McPrerequisiteCard) cardPlaceholder.getChildren().get(0);
+            if (cardPlaceholder.getChildren().size() == 2 && !card.hasPrefix()) {
+                return card.getMcPrerequisite();
             } else {
                 int numberOfModules = 0;
                 ArrayList<ModulePrerequisite> modules = new ArrayList<>();
@@ -309,7 +309,7 @@ public class EntryFieldCard extends HBox {
                     }
                     modules.add(mcPrerequisiteCard.getModule());
                 }
-                return new RequirementList(modules, numberOfModules, ModulePrerequisite.PREFIX);
+                return new RequirementList(modules, numberOfModules, ModulePrerequisite.PREFIX, true);
             }
         case MAJOR_PREREQ:
             ArrayList<MajorPrerequisite> majorPrerequisites = new ArrayList<>();
@@ -386,6 +386,7 @@ public class EntryFieldCard extends HBox {
             // there are no cards
             parent.deleteRequirement(this);
         } else {
+            System.out.println(numOfChildren);
             throw new IllegalStateException();
         }
     }

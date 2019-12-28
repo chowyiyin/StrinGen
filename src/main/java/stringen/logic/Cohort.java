@@ -2,7 +2,6 @@ package stringen.logic;
 
 import java.util.ArrayList;
 
-import stringen.logic.requirements.YearPreclusion;
 import stringen.logic.requirements.YearPrerequisite;
 
 public class Cohort {
@@ -10,22 +9,33 @@ public class Cohort {
     public static final String PREFIX_YEAR = "YEAR_PR";
     public static final String DEFAULT_DASH = "-";
 
-    private String startYear;
-    private String endYear;
+    private String startYear = "";
+    private String endYear = "";
     private ArrayList<OrGroup> orGroups = new ArrayList<>();
+    private SingleOrGroup yearRequirement;
 
-    public Cohort(String startYear, String endYear, boolean isPrerequisite) {
+    public Cohort(String startYear, String endYear) {
         this.startYear = startYear;
         this.endYear = endYear;
-        if (isPrerequisite) {
-            orGroups.add(new SingleOrGroup(new YearPrerequisite(startYear, endYear)));
-        } else {
-            orGroups.add(new SingleOrGroup(new YearPreclusion(startYear, endYear)));
-        }
+        this.yearRequirement = new SingleOrGroup(new YearPrerequisite(startYear, endYear));
+        orGroups.add(yearRequirement);
+    }
+
+    public Cohort() {
+    }
+
+    public SingleOrGroup getYearRequirement() {
+        return yearRequirement;
     }
 
     public void addOrGroups(ArrayList<OrGroup> orGroups) {
         this.orGroups.addAll(orGroups);
+    }
+
+    public void addOrGroup(OrGroup orGroup) {
+        if (!orGroup.isEmpty()) {
+            this.orGroups.add(orGroup);
+        }
     }
 
     public ArrayList<OrGroup> getOrGroups() {
@@ -43,20 +53,4 @@ public class Cohort {
             orGroups.remove(similarOrGroup);
         }
     }
-
-    public void removeAndGroupsFromOrGroup(OrGroup orGroup, ArrayList<AndGroup> ... andGroups) {
-        assert(orGroups.contains(orGroup));
-        for (int i = 0; i < orGroups.size(); i++) {
-            OrGroup thisOrGroup = orGroups.get(i);
-            if (thisOrGroup.equals(orGroup)) {
-                for (int j = 0; j < andGroups.length; j++) {
-                    thisOrGroup.removeAndGroups(andGroups[j]);
-                }
-                if (thisOrGroup.isEmpty()) {
-                    orGroups.remove(thisOrGroup);
-                }
-            }
-        }
-    }
-
 }

@@ -1,6 +1,11 @@
 package stringen.logic;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import stringen.logic.requirements.YearPrerequisite;
 
 public class AndGroup extends Group {
     private ArrayList<OrGroup> orGroups = new ArrayList<>();
@@ -11,6 +16,10 @@ public class AndGroup extends Group {
 
     protected AndGroup() {}
 
+    public void addOrGroup(OrGroup orGroup) {
+        this.orGroups.add(orGroup);
+    }
+
     public String generateString() {
         if (orGroups.size() == 0) {
             return "";
@@ -19,6 +28,10 @@ public class AndGroup extends Group {
         } else {
             return StringGenerator.appendBrackets(StringGenerator.appendOrGroups(orGroups));
         }
+    }
+
+    public boolean isYearRequirement() {
+        return false;
     }
 
     public ArrayList<OrGroup> getOrGroups() {
@@ -38,6 +51,10 @@ public class AndGroup extends Group {
         //this.orGroups.removeAll(otherOrGroups);
     }
 
+    public int size() {
+        return orGroups.size();
+    }
+
     public AndGroup getEmbeddedAndGroup(AndGroup otherAndGroup) {
         ArrayList<OrGroup> otherOrGroups = otherAndGroup.getOrGroups();
         ArrayList<OrGroup> similarOrGroups = new ArrayList<>();
@@ -50,12 +67,14 @@ public class AndGroup extends Group {
                 }
             }
         }
-
-        if (similarOrGroups.isEmpty()) {
-            return null;
-        }
-
         return new AndGroup(similarOrGroups);
+    }
+
+    public AndGroup getRemainingAndGroup(AndGroup embeddedAndGroup) {
+        ArrayList<OrGroup> embeddedOrGroups = embeddedAndGroup.getOrGroups();
+        ArrayList<OrGroup> remainingOrGroups = new ArrayList<>(orGroups);
+        remainingOrGroups.removeAll(embeddedOrGroups);
+        return new AndGroup(remainingOrGroups);
     }
 
     @Override
