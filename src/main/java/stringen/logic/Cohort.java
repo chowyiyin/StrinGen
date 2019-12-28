@@ -38,6 +38,10 @@ public class Cohort {
         }
     }
 
+    public void removeOrGroup(OrGroup orGroup) {
+        orGroups.remove(orGroup);
+    }
+
     public ArrayList<OrGroup> getOrGroups() {
         return orGroups;
     }
