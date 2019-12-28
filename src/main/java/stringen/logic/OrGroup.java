@@ -23,8 +23,8 @@ public class OrGroup extends Group {
         }
     }
 
-    public boolean containsYearRequirement() {
-        return andGroups.stream().anyMatch(andGroup -> andGroup.containsYearRequirement());
+    public boolean isYearRequirement() {
+        return false;
     }
 
     public AndGroup getBiggestEmbeddedAndGroups(OrGroup otherGroup) {
@@ -61,19 +61,6 @@ public class OrGroup extends Group {
 
     private AndGroup copyAndGroup(AndGroup andGroup) {
         return new AndGroup(andGroup.getOrGroups());
-    }
-
-    public AndGroup getRemainingAndGroup(AndGroup andGroup) {
-        if (andGroups.size() == 1) {
-            return andGroup.getRemainingAndGroup(andGroup);
-        } else {
-            ArrayList<AndGroup> remainingAndGroups = new ArrayList<>(andGroups);
-            remainingAndGroups.remove(andGroup);
-            OrGroup orGroup = new OrGroup(remainingAndGroups);
-            ArrayList<OrGroup> orGroupsForAndGroup = new ArrayList();
-            orGroupsForAndGroup.add(orGroup);
-            return new AndGroup(orGroupsForAndGroup);
-        }
     }
 
     public AndGroup getRemainingAndGroup(AndGroup andGroup, Cohort cohort) {

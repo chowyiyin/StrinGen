@@ -1,6 +1,11 @@
 package stringen.logic;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import stringen.logic.requirements.YearPrerequisite;
 
 public class AndGroup extends Group {
     private ArrayList<OrGroup> orGroups = new ArrayList<>();
@@ -25,8 +30,8 @@ public class AndGroup extends Group {
         }
     }
 
-    public boolean containsYearRequirement() {
-        return orGroups.stream().anyMatch(orGroup -> orGroup.containsYearRequirement());
+    public boolean isYearRequirement() {
+        return false;
     }
 
     public ArrayList<OrGroup> getOrGroups() {

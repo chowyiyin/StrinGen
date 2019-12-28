@@ -1,7 +1,6 @@
 package stringen.logic;
 
 import stringen.logic.requirements.Requirement;
-import stringen.logic.requirements.YearPreclusion;
 import stringen.logic.requirements.YearPrerequisite;
 
 public class SingleOrGroup extends OrGroup {
@@ -16,8 +15,8 @@ public class SingleOrGroup extends OrGroup {
         return requirement;
     }
 
-    public boolean containsYearRequirement() {
-        return requirement instanceof YearPreclusion || requirement instanceof YearPrerequisite;
+    public boolean isYearRequirement() {
+        return requirement instanceof YearPrerequisite;
     }
 
     @Override

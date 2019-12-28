@@ -50,7 +50,7 @@ public class McPrerequisiteCard extends RequirementCard {
     }
 
     public boolean hasPrefix() {
-        return !modulePrefixField.getText().equals("");
+        return !modulePrefixField.getText().trim().equals("");
     }
 
     @FXML

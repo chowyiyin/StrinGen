@@ -27,4 +27,19 @@ public class Pair<K, V> {
     public int getNumberOfSimilarities() {
         return numberOfSimilarities;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        } else if (o instanceof Pair) {
+            Pair other = (Pair) o;
+            return (getFirstElement().equals(other.getFirstElement()) &&
+                        getSecondElement().equals(other.getSecondElement())) ||
+                    (getFirstElement().equals(other.getSecondElement()) &&
+                            getSecondElement().equals(other.getFirstElement()));
+        } else {
+            return false;
+        }
+    }
 }

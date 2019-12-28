@@ -2,7 +2,6 @@ package stringen.logic;
 
 import java.util.ArrayList;
 
-import stringen.logic.requirements.YearPreclusion;
 import stringen.logic.requirements.YearPrerequisite;
 
 public class Cohort {
@@ -15,16 +14,11 @@ public class Cohort {
     private ArrayList<OrGroup> orGroups = new ArrayList<>();
     private SingleOrGroup yearRequirement;
 
-    public Cohort(String startYear, String endYear, boolean isPrerequisite) {
+    public Cohort(String startYear, String endYear) {
         this.startYear = startYear;
         this.endYear = endYear;
-        if (isPrerequisite) {
-            this.yearRequirement = new SingleOrGroup(new YearPrerequisite(startYear, endYear));
-            orGroups.add(yearRequirement);
-        } else {
-            this.yearRequirement = new SingleOrGroup(new YearPreclusion(startYear, endYear));
-            orGroups.add(yearRequirement);
-        }
+        this.yearRequirement = new SingleOrGroup(new YearPrerequisite(startYear, endYear));
+        orGroups.add(yearRequirement);
     }
 
     public Cohort() {
@@ -39,7 +33,9 @@ public class Cohort {
     }
 
     public void addOrGroup(OrGroup orGroup) {
-        this.orGroups.add(orGroup);
+        if (!orGroup.isEmpty()) {
+            this.orGroups.add(orGroup);
+        }
     }
 
     public ArrayList<OrGroup> getOrGroups() {
@@ -57,27 +53,4 @@ public class Cohort {
             orGroups.remove(similarOrGroup);
         }
     }
-
-    public AndGroup removeAndGroupsFromOrGroup(OrGroup orGroup, AndGroup andGroup) {
-        assert(orGroups.contains(orGroup));
-        OrGroup thisOrGroup = new OrGroup();
-        for (int i = 0; i < orGroups.size(); i++) {
-            if (orGroups.get(i).equals(orGroup)) {
-                thisOrGroup = orGroups.get(i);
-                break;
-            }
-        }
-        thisOrGroup.removeAndGroup(andGroup);
-
-        if (thisOrGroup.isEmpty()) {
-            orGroups.remove(thisOrGroup);
-        }
-
-        ArrayList<OrGroup> remainingOfOrGroupAndYear = new ArrayList<>();
-        OrGroup remainingOfOrGroup = new OrGroup(thisOrGroup.getAndGroups());
-        remainingOfOrGroupAndYear.add(remainingOfOrGroup);
-        remainingOfOrGroupAndYear.add(yearRequirement);
-        return new AndGroup(remainingOfOrGroupAndYear);
-    }
-
 }

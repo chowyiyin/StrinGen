@@ -9,11 +9,19 @@ public class RequirementList implements Requirement {
     private ArrayList<? extends Requirement> requirements;
     private int number = 1;
     private String prefix;
+    public boolean wasMcRequirement = false;
 
     public RequirementList(ArrayList<? extends Requirement> requirements, int number, String prefix) {
         this.requirements = requirements;
         this.number = number;
         this.prefix = prefix;
+    }
+
+    public RequirementList(ArrayList<? extends Requirement> requirements, int number, String prefix, boolean wasMcRequirement) {
+        this.requirements = requirements;
+        this.number = number;
+        this.prefix = prefix;
+        this.wasMcRequirement = wasMcRequirement;
     }
 
     public RequirementList(ArrayList<? extends Requirement> requirements, String prefix) {

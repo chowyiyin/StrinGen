@@ -31,8 +31,7 @@ public class Generator {
     public Cohort getCohort(EntryWindow entryWindow) {
         ListView<HBox> listContent = entryWindow.getListContent();
         CohortListCard cohortCard = (CohortListCard) listContent.getItems().get(1);
-        // TODO: IMPLEMENT ISPREREQUIISTE!!!!
-        return new Cohort(cohortCard.getStartYear(), cohortCard.getEndYear(), true);
+        return new Cohort(cohortCard.getStartYear(), cohortCard.getEndYear());
     }
 
     private ArrayList<OrGroup> createGroups(EntryWindow entryWindow) {
@@ -135,6 +134,9 @@ public class Generator {
             OrGroup orGroup = orGroups.get(i);
             if (isSingleRequirementList(orGroup)) {
                 RequirementList requirementList = ((RequirementList)((SingleOrGroup) orGroup).getRequirement());
+                if (requirementList.wasMcRequirement) {
+                    continue;
+                }
                 String prefix = requirementList.getPrefix();
                 if (requirementListHashMap.containsKey(prefix)) {
                     requirementListHashMap.get(prefix).add(requirementList);

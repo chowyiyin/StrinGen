@@ -7,6 +7,7 @@ public class ModulePrerequisite implements Requirement {
     private String minimumGrade = "D";
     private String moduleCode;
 
+
     public ModulePrerequisite(String moduleCode, String minimumGrade) {
         this.moduleCode = moduleCode;
         this.minimumGrade = minimumGrade;
