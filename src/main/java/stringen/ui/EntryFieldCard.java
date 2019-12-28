@@ -25,6 +25,7 @@ import stringen.logic.requirements.ModulePreclusion;
 import stringen.logic.requirements.ModulePrerequisite;
 import stringen.logic.requirements.Requirement;
 import stringen.logic.requirements.RequirementList;
+import stringen.ui.exceptions.InvalidInputException;
 
 public class EntryFieldCard extends HBox {
 
@@ -272,7 +273,7 @@ public class EntryFieldCard extends HBox {
         return isNewRequirement;
     }
 
-    public Requirement getResponses() {
+    public Requirement getResponses() throws InvalidInputException {
         if (entryType == null) {
             return null;
         }
@@ -406,6 +407,10 @@ public class EntryFieldCard extends HBox {
 
     public boolean containsDeleteButton() {
         return cardPlaceholder.getChildren().contains(deleteButton);
+    }
+
+    public boolean hasReqCards() {
+        return cardPlaceholder.getChildren().size() > 1;
     }
 
 }

@@ -10,7 +10,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import stringen.Util;
+import stringen.logic.requirements.ModuleConcurrent;
 import stringen.logic.requirements.ModulePreclusion;
+import stringen.ui.exceptions.InvalidInputException;
 
 public class ModulePreclusionCard extends RequirementCard {
 
@@ -50,8 +52,11 @@ public class ModulePreclusionCard extends RequirementCard {
         parent.addNewCard(new ModulePreclusionCard(parent));
     }
 
-    public ModulePreclusion getModulePreclusion() {
-        String moduleCode = moduleCodeField.getText();
+    public ModulePreclusion getModulePreclusion() throws InvalidInputException {
+        String moduleCode = moduleCodeField.getText().toUpperCase().trim();
+        if (moduleCode.isEmpty()) {
+            throw new InvalidInputException("Please enter a module code for the Module Preclusion field");
+        }
         String grade = gradeDropdown.getValue() == null ? ModulePreclusion.DEFAULT_GRADE : gradeDropdown.getValue();
         return new ModulePreclusion(moduleCode, grade);
     }

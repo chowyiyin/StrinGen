@@ -8,7 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import stringen.logic.requirements.CoursePreclusion;
 import stringen.logic.requirements.CoursePrerequisite;
+import stringen.ui.exceptions.InvalidInputException;
 
 public class CoursePrerequisiteCard extends RequirementCard {
 
@@ -40,8 +42,12 @@ public class CoursePrerequisiteCard extends RequirementCard {
         parent.addNewCard(new CoursePrerequisiteCard(parent));
     }
 
-    public CoursePrerequisite getCoursePrerequisite() {
-        return new CoursePrerequisite(courseCodeField.getText());
+    public CoursePrerequisite getCoursePrerequisite() throws InvalidInputException{
+        String courseCode = courseCodeField.getText().toUpperCase().trim();
+        if (courseCode.isEmpty()) {
+            throw new InvalidInputException("Please enter a course code for the Course Prerequisite field");
+        }
+        return new CoursePrerequisite(courseCode);
     }
 
 }

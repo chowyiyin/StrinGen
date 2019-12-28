@@ -14,10 +14,11 @@ import stringen.logic.OrGroup;
 import stringen.logic.SingleOrGroup;
 import stringen.logic.requirements.Requirement;
 import stringen.logic.requirements.RequirementList;
+import stringen.ui.exceptions.InvalidInputException;
 
 public class Generator {
 
-    public String generateString(ArrayList<EntryWindow> entryWindows) {
+    public String generateString(ArrayList<EntryWindow> entryWindows) throws InvalidInputException {
         ArrayList<Cohort> cohorts = new ArrayList<>();
         for (EntryWindow entryWindow: entryWindows) {
             Cohort cohort = getCohort(entryWindow);
@@ -34,7 +35,7 @@ public class Generator {
         return new Cohort(cohortCard.getStartYear(), cohortCard.getEndYear());
     }
 
-    private ArrayList<OrGroup> createGroups(EntryWindow entryWindow) {
+    private ArrayList<OrGroup> createGroups(EntryWindow entryWindow) throws InvalidInputException {
         ListView<HBox> listContent = entryWindow.getListContent();
         ObservableList<HBox> items = listContent.getItems();
         int startingIndex = 0;
@@ -66,7 +67,7 @@ public class Generator {
     }
 
     private OrGroup createRequirementGroup(int requirementHeaderIndex, int endingIndexForRequirement,
-                                           ObservableList<HBox> items) {
+                                           ObservableList<HBox> items) throws InvalidInputException {
         ArrayList<ArrayList<OrGroup>> listOfOrGroups = new ArrayList<>();
         // create list of or groups to be grouped as and groups
         int i = requirementHeaderIndex;
@@ -113,7 +114,7 @@ public class Generator {
         return new OrGroup(andGroups);
     }
 
-    private OrGroup createOrGroup(EntryFieldCard entry) {
+    private OrGroup createOrGroup(EntryFieldCard entry) throws InvalidInputException {
         Requirement requirement = entry.getResponses();
         if (requirement == null) {
             return null;

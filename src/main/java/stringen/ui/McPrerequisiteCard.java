@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import stringen.logic.requirements.McPrerequisite;
 import stringen.logic.requirements.ModulePrerequisite;
+import stringen.ui.exceptions.InvalidInputException;
 
 public class McPrerequisiteCard extends RequirementCard {
 
@@ -38,11 +39,19 @@ public class McPrerequisiteCard extends RequirementCard {
     }
 
     public McPrerequisite getMcPrerequisite() {
-        return new McPrerequisite(mcCountField.getText());
+        return new McPrerequisite(mcCountField.getText().toUpperCase().trim());
     }
 
-    public int getNumberOfModules() {
-        return Integer.parseInt(mcCountField.getText().trim()) / 4;
+    public int getNumberOfModules() throws InvalidInputException {
+        try {
+            return Integer.parseInt(mcCountField.getText().trim()) / 4;
+        } catch (NumberFormatException exception) {
+            if (mcCountField.getText().isEmpty()) {
+                throw new InvalidInputException("Please enter a MC count for the MC Prerequisite field");
+            } else {
+                throw new InvalidInputException("Please enter an integer MC count for the MC Prerequisite field");
+            }
+        }
     }
 
     public ModulePrerequisite getModule() {

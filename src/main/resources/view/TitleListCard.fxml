@@ -3,9 +3,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-
 <fx:root alignment="CENTER_LEFT" styleClass="base" stylesheets="@theme.css" type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="titleLabel" stylesheets="@theme.css" text="Label" />
+      <Label fx:id="titleLabel" stylesheets="@theme.css" text="Label" underline="true" />
    </children>
 </fx:root>
