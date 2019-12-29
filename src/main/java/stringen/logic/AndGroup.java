@@ -1,11 +1,6 @@
 package stringen.logic;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import stringen.logic.requirements.YearPrerequisite;
 
 public class AndGroup extends Group {
     private ArrayList<OrGroup> orGroups = new ArrayList<>();
@@ -30,31 +25,19 @@ public class AndGroup extends Group {
         }
     }
 
-    public boolean isYearRequirement() {
-        return false;
-    }
-
     public ArrayList<OrGroup> getOrGroups() {
         return orGroups;
-    }
-
-    public boolean contains(AndGroup otherAndGroup) {
-        ArrayList<OrGroup> otherOrGroups = otherAndGroup.getOrGroups();
-        return orGroups.containsAll(otherOrGroups);
-    }
-
-    public void remove(AndGroup otherAndGroup) {
-        ArrayList<OrGroup> otherOrGroups = otherAndGroup.getOrGroups();
-        for (int i = 0; i < otherOrGroups.size(); i++) {
-            orGroups.remove(otherOrGroups.get(i));
-        }
-        //this.orGroups.removeAll(otherOrGroups);
     }
 
     public int size() {
         return orGroups.size();
     }
 
+    /**
+     * Obtains the similar <code>OrGroup</code>s between this object and the other <code>AndGroup</code>.
+     * @param otherAndGroup Other <code>AndGroup</code>.
+     * @return <code>AndGroup</code> that contains the common <code>OrGroup</code>s.
+     */
     public AndGroup getEmbeddedAndGroup(AndGroup otherAndGroup) {
         ArrayList<OrGroup> otherOrGroups = otherAndGroup.getOrGroups();
         ArrayList<OrGroup> similarOrGroups = new ArrayList<>();
@@ -70,6 +53,11 @@ public class AndGroup extends Group {
         return new AndGroup(similarOrGroups);
     }
 
+    /**
+     * Gets the remaining <code>OrGroups</code> after extracting the embeddedAndGroup.
+     * @param embeddedAndGroup <code>AndGroup</code> that is a subset of this object.
+     * @return New <code>AndGroup</code> that contains the remaining <code>OrGroup</code>s.
+     */
     public AndGroup getRemainingAndGroup(AndGroup embeddedAndGroup) {
         ArrayList<OrGroup> embeddedOrGroups = embeddedAndGroup.getOrGroups();
         ArrayList<OrGroup> remainingOrGroups = new ArrayList<>(orGroups);
