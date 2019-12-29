@@ -13,6 +13,10 @@ public class OrGroup extends Group {
 
     protected OrGroup() {}
 
+    /**
+     * Generates the string for an <code>OrGroup</code>.
+     * @return String of this object.
+     */
     public String generateString() {
         if (andGroups.size() == 0) {
             return "";
@@ -27,6 +31,11 @@ public class OrGroup extends Group {
         return false;
     }
 
+    /**
+     * Returns the biggest <code>AndGroup</code> that is common between this object and the other <code>OrGroup</code>.
+     * @param otherGroup Other <code>OrGroup</code>.
+     * @return <code>AndGroup</code> that is common between both groups.
+     */
     public AndGroup getBiggestEmbeddedAndGroups(OrGroup otherGroup) {
         boolean onlyCanExtractWholeAndGroups = this.andGroups.size() > 1 || otherGroup.andGroups.size() > 1;
         if (onlyCanExtractWholeAndGroups) {
@@ -63,12 +72,21 @@ public class OrGroup extends Group {
         return new AndGroup(andGroup.getOrGroups());
     }
 
+    /**
+     * Returns an <code>AndGroup</code> that contains an <code>OrGroup</code> of the remaining <code>AndGroup</code>s
+     * and the <code>YearRequirement</code> of the input cohort.
+     * @param andGroup <code>AndGroup</code> that will be extracted.
+     * @param cohort Cohort that contains this object.
+     * @return <code>AndGroup</code> that contains the remaining information.
+     */
     public AndGroup getRemainingAndGroup(AndGroup andGroup, Cohort cohort) {
-        if (andGroups.size() == 1) {
+        if (!andGroups.contains(andGroup)) {
+            // andGroup is embedded
             AndGroup remainingAndGroup = andGroups.get(0).getRemainingAndGroup(andGroup);
             remainingAndGroup.addOrGroup(cohort.getYearRequirement());
             return remainingAndGroup;
         } else {
+            // andGroup was extracted whole
             ArrayList<AndGroup> remainingAndGroups = new ArrayList<>(andGroups);
             remainingAndGroups.remove(andGroup);
             ArrayList<OrGroup> orGroupsForAndGroup = new ArrayList<>();
@@ -82,19 +100,12 @@ public class OrGroup extends Group {
         return andGroups;
     }
 
-    public void removeAndGroup(AndGroup andGroupToRemove) {
-        for (int i = 0; i < andGroups.size(); i++) {
-            AndGroup andGroup = andGroups.get(i);
-            if (andGroup.contains(andGroupToRemove)) {
-                andGroup.remove(andGroupToRemove);
-                if (andGroup.isEmpty()) {
-                    andGroups.remove(andGroup);
-                }
-                break;
-            }
-        }
+
+    public boolean isEmpty() {
+        return andGroups.isEmpty();
     }
 
+    @Override
     public boolean equals(Object o) {
         if (o == this) {
             return true;
@@ -106,8 +117,5 @@ public class OrGroup extends Group {
         }
     }
 
-    public boolean isEmpty() {
-        return andGroups.isEmpty();
-    }
 
 }
