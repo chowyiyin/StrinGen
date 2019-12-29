@@ -5,9 +5,11 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 
+/**
+ * Represents a UI component that shows major headers in the UI.
+ */
 public class TitleListCard extends HBox {
 
     @FXML
@@ -30,6 +32,9 @@ public class TitleListCard extends HBox {
         }
     }
 
+    /**
+     * Checks if the current card is the header for requirements.
+     */
     public boolean isRequirementLine() {
         return isRequirementLine;
     }

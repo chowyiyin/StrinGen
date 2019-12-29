@@ -3,18 +3,12 @@ package stringen.ui;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.xml.transform.Result;
-
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -22,6 +16,10 @@ import javafx.stage.Stage;
 import stringen.Util;
 import stringen.ui.exceptions.InvalidInputException;
 
+/**
+ * Represents the main window of the application.
+ * Provides the basic application layout and space where other JavaFX elements are placed.
+ */
 public class MainWindow extends Stage {
 
     @FXML
@@ -49,7 +47,6 @@ public class MainWindow extends Stage {
     private Scene scene;
 
     private static final String LOCATION = "/view/MainWindow.fxml";
-    private static final String APPLICATION_ICON = "/images/logo.png";
 
     private final FXMLLoader fxmlLoader = new FXMLLoader();
 
@@ -59,8 +56,6 @@ public class MainWindow extends Stage {
     private ResultWindow resultWindow;
 
     public MainWindow(Stage primaryStage) {
-        fxmlLoader.setController(this);
-        fxmlLoader.setRoot(this);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource(LOCATION));
             fxmlLoader.setController(this);
@@ -71,29 +66,40 @@ public class MainWindow extends Stage {
         }
         // Set dependencies
         this.primaryStage = primaryStage;
-        primaryStage.setMinHeight(620);
-        primaryStage.setMinWidth(900);
     }
 
+    /**
+     * Initialises required information in {@code Util} and other UI component placeholders.
+     */
     void fillInnerParts() {
         Util.initialise();
         startUp();
     }
 
-    public void startUp() {
+    private void startUp() {
+        // initialise generator
         generator = new Generator();
-        EntryWindow entryWindow = new EntryWindow(generator, this);
+
+        // initialise entry window
+        EntryWindow entryWindow = new EntryWindow(this);
         entryWindow.prefHeightProperty().bind(this.heightProperty());
+
+        // remove buttons
         entryWindow.removeDeleteCohortButton();
         backButtonPlaceholder.getChildren().remove(backButton);
         nextButtonPlaceholder.getChildren().remove(nextButton);
-        entryWindows.add(entryWindow);
+
+        // add entry window
         entryWindowPlaceholder.getChildren().add(entryWindow);
+        entryWindows.add(entryWindow);
     }
 
+    /**
+     * Adds a new {@code EntryWindow} that represents another cohort and changes the screen to show the new window.
+     */
     @FXML
     public void addCohort() {
-        EntryWindow newWindow = new EntryWindow(generator, this);
+        EntryWindow newWindow = new EntryWindow(this);
         newWindow.prefHeightProperty().bind(this.heightProperty());
         if (entryWindows.size() == 1) {
             entryWindows.get(0).addDeleteCohortButton();
@@ -115,6 +121,9 @@ public class MainWindow extends Stage {
         primaryStage.hide();
     }
 
+    /**
+     * Generates the string based on the information entered into the entry windows.
+     */
     @FXML
     private void generateString() {
         try {
@@ -129,13 +138,20 @@ public class MainWindow extends Stage {
         }
     }
 
-    void showResultWindow(String generatedString) {
+    /**
+     * Changes the screen to show the result window.
+     * @param generatedString
+     */
+    private void showResultWindow(String generatedString) {
         windowPlaceholder.getChildren().remove(entryWindowPlaceholder);
         windowPlaceholder.getChildren().remove(buttonPlaceholder);
         resultWindow = new ResultWindow(generatedString, this);
         windowPlaceholder.getChildren().add(resultWindow);
     }
 
+    /**
+     * Refreshes the screen and shows a new {@code EntryWindow}.
+     */
     public void refresh() {
         windowPlaceholder.getChildren().remove(resultWindow);
         entryWindows.clear();
@@ -145,29 +161,48 @@ public class MainWindow extends Stage {
         windowPlaceholder.getChildren().add(buttonPlaceholder);
     }
 
+    /**
+     * Removes an {@code EntryWindow} corresponding to a given cohort.
+     * The screen is changed to show another {@code EntryWindow} and the buttons are updated accordingly.
+     * @param toRemove The window to be removed.
+     */
     public void deleteCohort(EntryWindow toRemove) {
         int windowIndex = entryWindows.indexOf(toRemove);
         entryWindowPlaceholder.getChildren().remove(toRemove);
         if (windowIndex != 0) {
+            // show previous window
             entryWindowPlaceholder.getChildren().add(entryWindows.get(windowIndex - 1));
             if (windowIndex == 1) {
+                // update back button
                 backButtonPlaceholder.getChildren().remove(backButton);
             }
         } else {
+            // show next window if the window to be deleted is the first
             EntryWindow nextWindow = entryWindows.get(windowIndex + 1);
-            backButtonPlaceholder.getChildren().remove(backButton);
             entryWindowPlaceholder.getChildren().add(nextWindow);
+            // update back button
+            backButtonPlaceholder.getChildren().remove(backButton);
         }
+
         entryWindows.remove(toRemove);
+
         if (entryWindows.size() == 1) {
+            // update delete cohort button
             entryWindows.get(0).removeDeleteCohortButton();
         }
     }
 
+    /**
+     * Checks if the given {@code EntryWindow} is the only window left.
+     */
     public boolean isOnlyWindow(EntryWindow entryWindow) {
         return entryWindows.contains(entryWindow) && entryWindows.size() == 1;
     }
 
+    /**
+     * Changes the screen to the previous window.
+     * Checks and updates all the buttons correspondingly.
+     */
     @FXML
     public void goToPreviousWindow() {
         EntryWindow currWindow = (EntryWindow) entryWindowPlaceholder.getChildren().get(0);
@@ -184,6 +219,10 @@ public class MainWindow extends Stage {
         }
     }
 
+    /**
+     * Changes the screen to the next window.
+     * Checks and updates all the buttons correspondingly.
+     */
     @FXML
     public void goToNextWindow() {
         EntryWindow currWindow = (EntryWindow) entryWindowPlaceholder.getChildren().get(0);

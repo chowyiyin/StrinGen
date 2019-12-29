@@ -9,6 +9,9 @@ import stringen.Util;
 import stringen.logic.requirements.CapPrerequisite;
 import stringen.ui.exceptions.InvalidInputException;
 
+/**
+ * Represents a UI component that collects information about a {@code CapPrerequisite}.
+ */
 public class CapPrerequisiteCard extends RequirementCard {
 
     @FXML
@@ -31,6 +34,11 @@ public class CapPrerequisiteCard extends RequirementCard {
         capDropdown.getItems().addAll(Util.CAP);
     }
 
+    /**
+     * Extracts the user-inputted information and returns a {@code CapPrerequisite}.
+     * @return The corresponding {@code CapPrerequisite}.
+     * @throws InvalidInputException If no option was selected by the user.
+     */
     public CapPrerequisite getCapPrerequisite() throws InvalidInputException {
         String cap = capDropdown.getValue();
         if (cap == null) {

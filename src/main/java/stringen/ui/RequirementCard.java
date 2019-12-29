@@ -5,7 +5,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-public abstract class RequirementCard extends HBox {
+/**
+ * Represents a UI component that collects information about requirements, each with a different {@code EntryType}.
+ */
+public class RequirementCard extends HBox {
 
     @FXML
     private Button orButton;
@@ -14,10 +17,9 @@ public abstract class RequirementCard extends HBox {
 
     private EntryFieldCard parent;
 
-    public void addOrButton() {
-        getChildren().add(orButton);
-    }
-
+    /**
+     * Changes the horizontal `add Or` button to an `or` label.
+     */
     protected void changeOrButtonToLabel() {
         getChildren().remove(orButton);
         orLabel = new Label("OR");
@@ -25,6 +27,9 @@ public abstract class RequirementCard extends HBox {
         getChildren().add(orLabel);
     }
 
+    /**
+     * Changes the horizontal `or` label to the horizontal `add Or` button.
+     */
     public void changeOrLabelToButton() {
         getChildren().remove(orLabel);
         getChildren().add(orButton);

@@ -7,11 +7,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import stringen.logic.requirements.MajorPreclusion;
 import stringen.logic.requirements.MajorPrerequisite;
 import stringen.ui.exceptions.InvalidInputException;
 
+/**
+ * Represents a UI component that collects information about a {@code MajorPrerequisite}.
+ */
 public class MajorPrerequisiteCard extends RequirementCard {
 
     @FXML
@@ -36,12 +37,21 @@ public class MajorPrerequisiteCard extends RequirementCard {
         }
     }
 
+    /**
+     * Adds a new entry (horizontally on the UI).
+     * Implies a logical or relationship between the current entry and the newly added entry.
+     */
     @FXML
     public void addNewEntry() {
         changeOrButtonToLabel();
         parent.addNewCard(new MajorPrerequisiteCard(parent));
     }
 
+    /**
+     * Extracts the user-inputted information and returns a {@code MajorPrerequisite}.
+     * @return The corresponding {@code MajorPrerequisite}.
+     * @throws InvalidInputException If any field is empty.
+     */
     public MajorPrerequisite getMajorPrerequisite() throws InvalidInputException {
         String majorCode = majorCodeField.getText().toUpperCase().trim();
         if (majorCode.isEmpty()) {

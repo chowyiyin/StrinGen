@@ -9,6 +9,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 
+/**
+ * Represents a UI component that shows the resulting generated string obtained from the user's input.
+ */
 public class ResultWindow extends ScrollPane {
 
     @FXML
@@ -44,6 +47,9 @@ public class ResultWindow extends ScrollPane {
         }
     }
 
+    /**
+     * Copies the string to the user's system clipboard.
+     */
     @FXML
     public void copyToClipboard() {
         final Clipboard clipboard = Clipboard.getSystemClipboard();
@@ -52,6 +58,9 @@ public class ResultWindow extends ScrollPane {
         clipboard.setContent(content);
     }
 
+    /**
+     * Refreshes the {@code MainWindow} to show a new {@code EntryWindow}.
+     */
     @FXML
     public void generateAnotherString() {
         mainWindow.refresh();

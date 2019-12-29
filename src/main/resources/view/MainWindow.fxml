@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<fx:root minHeight="600" minWidth="900" onCloseRequest="#handleExit" title="StrinGen" type="Stage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root minHeight="620.0" minWidth="900" onCloseRequest="#handleExit" title="StrinGen" type="Stage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <scene>
       <Scene fx:id="scene" stylesheets="@theme.css">
          <root>

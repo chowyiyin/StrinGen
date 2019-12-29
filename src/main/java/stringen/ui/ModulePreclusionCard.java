@@ -8,12 +8,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import stringen.Util;
-import stringen.logic.requirements.ModuleConcurrent;
 import stringen.logic.requirements.ModulePreclusion;
 import stringen.ui.exceptions.InvalidInputException;
 
+/**
+ * Represents a UI component that collects information about a {@code ModulePreclusion}.
+ */
 public class ModulePreclusionCard extends RequirementCard {
 
     @FXML
@@ -46,12 +47,21 @@ public class ModulePreclusionCard extends RequirementCard {
         gradeDropdown.getItems().addAll(Util.GRADES);
     }
 
+    /**
+     * Adds a new entry (horizontally on the UI).
+     * Implies a logical or relationship between the current entry and the newly added entry.
+     */
     @FXML
     public void addNewEntry() {
         changeOrButtonToLabel();
         parent.addNewCard(new ModulePreclusionCard(parent));
     }
 
+    /**
+     * Extracts the user-inputted information and returns a {@code ModulePreclusion}.
+     * @return The corresponding {@code ModulePreclusion}.
+     * @throws InvalidInputException If any field is empty.
+     */
     public ModulePreclusion getModulePreclusion() throws InvalidInputException {
         String moduleCode = moduleCodeField.getText().toUpperCase().trim();
         if (moduleCode.isEmpty()) {

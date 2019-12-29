@@ -156,7 +156,7 @@ The following are some examples on how to translate some requirements written in
 
 image::Example1.png[width="400"]
 
-* Completed 80 MCs, including 28 MCs in SE or 28 MCs in MS or 28 MCs in SN, with a minimum CAP of 3.50 or be on Honours track.
+* Completed 80 MCs, including 28 MCs in SE or 28 MCs in MS or 28 MCs in SN, with a minimum CAP of 3.50.
 - The `80 MCs` part has to be entered in a different numbered requirement from the `28 MCs in ..` as the vertical `OR`
 is needed for the latter.
 
