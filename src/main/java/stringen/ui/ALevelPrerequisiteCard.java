@@ -10,6 +10,9 @@ import javafx.scene.control.TextField;
 import stringen.logic.requirements.ALevelPrerequisite;
 import stringen.ui.exceptions.InvalidInputException;
 
+/**
+ * Represents a UI component that collects information about a {@code ALevelPrerequisite}.
+ */
 public class ALevelPrerequisiteCard extends RequirementCard {
 
     @FXML
@@ -37,12 +40,21 @@ public class ALevelPrerequisiteCard extends RequirementCard {
         }
     }
 
+    /**
+     * Adds a new entry (horizontally on the UI).
+     * Implies a logical or relationship between the current entry and the newly added entry.
+     */
     @FXML
     public void addNewEntry() {
         changeOrButtonToLabel();
         parent.addNewCard(new ALevelPrerequisiteCard(parent));
     }
 
+    /**
+     * Extracts the user-inputted information and returns a {@code ALevelPrerequisite}.
+     * @return The corresponding {@code ALevelPrerequisite}.
+     * @throws InvalidInputException If any field is empty.
+     */
     public ALevelPrerequisite getALevelPrerequisite() throws InvalidInputException {
         String subjectCode = subjectField.getText().toUpperCase().trim();
         String grade = gradeField.getText().toUpperCase().trim();

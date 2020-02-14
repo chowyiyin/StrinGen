@@ -1,6 +1,5 @@
 package stringen;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import stringen.logic.Cohort;

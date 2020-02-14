@@ -1,5 +1,8 @@
 package stringen.ui;
 
+/**
+ * Represents the different types of requirements.
+ */
 public enum EntryType {
     MOD_PREREQ("Module Prerequisite"),
     COURSE_PREREQ("Course Prerequisite"),
@@ -22,6 +25,9 @@ public enum EntryType {
         return name;
     }
 
+    /**
+     * Returns the {@code EntryType} that corresponds to the given name.
+     */
     public static EntryType getEntryType(String entryTypeName) {
         for (EntryType entryType: values()) {
             if (entryType.getName().equals(entryTypeName)) {

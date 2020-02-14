@@ -27,6 +27,9 @@ import stringen.logic.requirements.Requirement;
 import stringen.logic.requirements.RequirementList;
 import stringen.ui.exceptions.InvalidInputException;
 
+/**
+ * Represents a UI component that corresponds to a single {@code EntryType}. Represented horizontally in the UI.
+ */
 public class EntryFieldCard extends HBox {
 
     @FXML
@@ -92,26 +95,46 @@ public class EntryFieldCard extends HBox {
         configureDeleteButton();
     }
 
+    /**
+     * Configures the delete button based on the state of the parent.
+     */
     private void configureDeleteButton() {
         if (parent.isOnlyReq(this)) {
             cardPlaceholder.getChildren().remove(deleteButton);
         }
     }
 
+    /**
+     * Initialises the labels of the card.
+     */
     private void initialiseLabels() {
         conjunctionLabel.setText(null);
-        if (isNewRequirement) {
-            requirementIndexLabel.setText("Requirement " + requirementNumber);
-        } else {
-            requirementIndexLabel.setText(null);
-            requirementIndexLabel.prefHeightProperty().set(0);
-        }
+        initialiseRequirementIndexLabel();
+        initialiseOrLabel();
+    }
+
+    private void initialiseOrLabel() {
         orLabel = new Label("OR");
         orLabel.setId("orLabel");
         orLabel.prefWidthProperty().bind(orButtonPlaceholder.widthProperty());
         orLabel.setTextAlignment(TextAlignment.RIGHT);
     }
 
+    /**
+     * Initialises the requirementIndexLabel depending on the card's property.
+     */
+    private void initialiseRequirementIndexLabel() {
+        if (isNewRequirement) {
+            requirementIndexLabel.setText("Requirement " + requirementNumber);
+        } else {
+            requirementIndexLabel.setText(null);
+            requirementIndexLabel.prefHeightProperty().set(0);
+        }
+    }
+
+    /**
+     * Initialise the {@code ComboBox} for with each {@code EntryType}.
+     */
     private void initialiseRequirementOptions() {
         for (EntryType entryType: EntryType.values()) {
             requirementOptions.getItems().add(entryType.getName());
@@ -129,6 +152,9 @@ public class EntryFieldCard extends HBox {
         });
     }
 
+    /**
+     * Shows the {@code RequirementCard} corresponding to teh selected {@code EntryType}.
+     */
     @FXML
     public void showEntries() {
         String entryTypeString = requirementOptions.getValue();
@@ -136,7 +162,12 @@ public class EntryFieldCard extends HBox {
             return;
         }
         entryType = EntryType.getEntryType(entryTypeString);
-        resetCardPlaceholder();
+        cardPlaceholder.getChildren().clear();
+        setCard();
+        cardPlaceholder.getChildren().add(deleteButton);
+    }
+
+    private void setCard() {
         switch(entryType) {
         case MOD_PREREQ:
             cardPlaceholder.getChildren().add(new ModulePrerequisiteCard(this));
@@ -169,16 +200,13 @@ public class EntryFieldCard extends HBox {
             cardPlaceholder.getChildren().add(new ModuleConcurrentCard(this));
             break;
         }
-        cardPlaceholder.getChildren().add(deleteButton);
     }
 
-    private void resetCardPlaceholder() {
-        ObservableList<Node> children = cardPlaceholder.getChildren();
-        for (int i = children.size() - 1; i >= 0; i--) {
-            cardPlaceholder.getChildren().remove(children.get(i));
-        }
-    }
-
+    /**
+     * Adds a new {@code EntryFieldCard} in the parent window.
+     * Update labels and buttons to indicate that the new card has a logical `AND` relationship with this card.
+     * The new card is either added right after this card or at the end of this card's requirement number.
+     */
     @FXML
     public void addAnd() {
         andButtonPlaceholder.getChildren().remove(andButton);
@@ -192,6 +220,12 @@ public class EntryFieldCard extends HBox {
         }
     }
 
+    /**
+     * Adds a new {@code EntryFieldCard} in the parent window.
+     * Update labels and buttons to indicate a logical `OR` relationship with this card and all cards above this
+     * and before the previous `OR` label.
+     * The new card is added right after this card.
+     */
     @FXML
     public void addOr() {
         orButtonPlaceholder.getChildren().remove(orButton);
@@ -200,32 +234,226 @@ public class EntryFieldCard extends HBox {
         parent.addOrEntryFieldCard(requirementNumber);
     }
 
-    public void addNewCard(HBox newCard) {
+    /**
+     * Adds a new {@code RequirementCard} to the right of all current cards.
+     * @param newCard The new card to be added.
+     */
+    public void addNewCard(RequirementCard newCard) {
         cardPlaceholder.getChildren().remove(deleteButton);
         cardPlaceholder.getChildren().add(newCard);
         cardPlaceholder.getChildren().add(deleteButton);
     }
 
-    public void setConjunctionLabel() {
-        conjunctionLabel.setText("AND");
-    }
-
-    public void removeConjunctionLabel() {
-        conjunctionLabel.setText(null);
-    }
-
-    public void setDisjunctionLabel() {
-        orButtonPlaceholder.getChildren().remove(orButton);
-        orButtonPlaceholder.getChildren().add(orLabel);
-    }
-
-    public void removeReqButton() {
-        newRequirementButtonPlaceholder.getChildren().remove(newRequirementButton);
-    }
-
     @FXML
     public void addNewRequirement() {
         parent.addNewRequirement();
+    }
+
+    /**
+     * Removes the last {@code RequirementCard}.
+     */
+    @FXML
+    public void delete() {
+        int numOfChildren = cardPlaceholder.getChildren().size();
+        if (numOfChildren > 2) {
+            // there is more than one card
+            cardPlaceholder.getChildren().remove(numOfChildren - 2);
+            RequirementCard lastCard = (RequirementCard) cardPlaceholder.getChildren().get(numOfChildren - 3);
+            lastCard.changeOrLabelToButton();
+        } else if (numOfChildren == 2) {
+            // there is only one card
+            RequirementCard onlyCard = (RequirementCard) cardPlaceholder.getChildren().get(0);
+            cardPlaceholder.getChildren().remove(onlyCard);
+
+            // change dropdown back to default
+            requirementOptions.getSelectionModel().clearSelection();
+            requirementOptions.setPromptText("REQUIREMENT");
+            entryType = null;
+            configureDeleteButton();
+        } else if (numOfChildren == 1) {
+            // there are no cards
+            // delete the entire card
+            parent.deleteRequirement(this);
+        } else {
+            throw new IllegalStateException();
+        }
+    }
+
+    /**
+     * Extracts information from the user input depending on the entry type and returns a {@code Requirement}.
+     */
+    public Requirement getResponses() throws InvalidInputException {
+        if (entryType == null) {
+            return null;
+        }
+        switch(entryType) {
+        case MOD_PREREQ:
+            return getModPrereq();
+        case COURSE_PREREQ:
+            return getCoursePrereq();
+        case MC_PREREQ:
+            return getMcPrereq();
+        case MAJOR_PREREQ:
+            return getMajorPrereq();
+        case CAP_PREREQ:
+            return getCapPrereq();
+        case A_LEVEL_PREREQ:
+            return getALevelPrereq();
+        case COURSE_PRECLUSION:
+            return getCoursePreclusion();
+        case MODULE_PRECLUSION:
+            return getModulePreclusion();
+        case MAJOR_PRECLUSION:
+            return getMajorPreclusion();
+        case CONCURRENT_MODULE:
+            return getConcurrentModule();
+        default:
+            return null;
+        }
+    }
+
+    /**
+     * Extracts responses from the user input returns a {@code RequirementList} of {@code ModuleConcurrent}.
+     */
+    private Requirement getConcurrentModule() throws InvalidInputException {
+        ArrayList<ModuleConcurrent> moduleConcurrents = new ArrayList<>();
+        for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
+            ModuleConcurrentCard moduleConcurrentCard = (ModuleConcurrentCard) cardPlaceholder.getChildren().get(i);
+            moduleConcurrents.add(moduleConcurrentCard.getModuleConcurrent());
+        }
+        return new RequirementList(moduleConcurrents, ModuleConcurrent.PREFIX);
+    }
+
+    /**
+     * Extracts responses from the user input returns a {@code RequirementList} of {@code MajorPreclusion}.
+     */
+    private Requirement getMajorPreclusion() throws InvalidInputException {
+        ArrayList<MajorPreclusion> majorPreclusions = new ArrayList<>();
+        for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
+            MajorPreclusionCard majorPreclusionCard = (MajorPreclusionCard) cardPlaceholder
+                    .getChildren().get(i);
+            majorPreclusions.add(majorPreclusionCard.getMajorPreclusion());
+        }
+        return new RequirementList(majorPreclusions, MajorPreclusion.PREFIX);
+    }
+
+    /**
+     * Extracts responses from the user input returns a {@code RequirementList} of {@code ModulePreclusion}.
+     */
+    private Requirement getModulePreclusion() throws InvalidInputException {
+        ArrayList<ModulePreclusion> modulePreclusions = new ArrayList<>();
+        for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
+            ModulePreclusionCard modulePreclusionCard = (ModulePreclusionCard) cardPlaceholder
+                    .getChildren().get(i);
+            modulePreclusions.add(modulePreclusionCard.getModulePreclusion());
+        }
+        return new RequirementList(modulePreclusions, ModulePreclusion.PREFIX);
+    }
+
+    /**
+     * Extracts responses from the user input returns a {@code RequirementList} of {@code CoursePreclusion}.
+     */
+    private Requirement getCoursePreclusion() throws InvalidInputException {
+        ArrayList<CoursePreclusion> coursePreclusions = new ArrayList<>();
+        for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
+            CoursePreclusionCard coursePreclusionCard = (CoursePreclusionCard) cardPlaceholder
+                    .getChildren().get(i);
+            coursePreclusions.add(coursePreclusionCard.getCoursePreclusion());
+        }
+        return new RequirementList(coursePreclusions, CoursePreclusion.PREFIX);
+    }
+
+    /**
+     * Extracts responses from the user input returns a {@code RequirementList} of {@code ALevelPrerequisite}.
+     */
+    private Requirement getALevelPrereq() throws InvalidInputException {
+        ArrayList<ALevelPrerequisite> aLevelPrerequisites = new ArrayList<>();
+        for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
+            ALevelPrerequisiteCard aLevelPrerequisiteCard = (ALevelPrerequisiteCard) cardPlaceholder
+                    .getChildren().get(i);
+            aLevelPrerequisites.add(aLevelPrerequisiteCard.getALevelPrerequisite());
+        }
+        return new RequirementList(aLevelPrerequisites, ALevelPrerequisite.PREFIX);
+    }
+
+    /**
+     * Extracts responses from the user input returns a {@code RequirementList} of {@code CapPrerequisite}.
+     */
+    private Requirement getCapPrereq() throws InvalidInputException {
+        CapPrerequisiteCard capPrerequisiteCard = (CapPrerequisiteCard) cardPlaceholder
+                .getChildren().get(0);
+        return capPrerequisiteCard.getCapPrerequisite();
+    }
+
+    /**
+     * Extracts responses from the user input returns a {@code RequirementList} of {@code MajorPrerequisite}.
+     */
+    private Requirement getMajorPrereq() throws InvalidInputException {
+        ArrayList<MajorPrerequisite> majorPrerequisites = new ArrayList<>();
+        for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
+            MajorPrerequisiteCard majorPrerequisiteCard = (MajorPrerequisiteCard) cardPlaceholder
+                    .getChildren().get(i);
+            majorPrerequisites.add(majorPrerequisiteCard.getMajorPrerequisite());
+        }
+        return new RequirementList(majorPrerequisites, MajorPrerequisite.PREFIX);
+    }
+
+    /**
+     * Extracts responses from the user input returns a {@code RequirementList} of {@code ModulePrerequisite} or a
+     * single {@code McPrerequisite}.
+     */
+    private Requirement getMcPrereq() throws InvalidInputException {
+        McPrerequisiteCard card = (McPrerequisiteCard) cardPlaceholder.getChildren().get(0);
+        if (cardPlaceholder.getChildren().size() == 2 && !card.hasModuleCode()) {
+            return card.getMcPrerequisite();
+        } else {
+            int numberOfModules = 0;
+            ArrayList<ModulePrerequisite> modules = new ArrayList<>();
+            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
+                McPrerequisiteCard mcPrerequisiteCard = (McPrerequisiteCard) cardPlaceholder
+                        .getChildren().get(i);
+                if (i == 0) {
+                    numberOfModules = mcPrerequisiteCard.getNumberOfModules();
+                }
+                modules.add(mcPrerequisiteCard.getModule());
+            }
+            return new RequirementList(modules, numberOfModules, ModulePrerequisite.PREFIX, true);
+        }
+    }
+
+    /**
+     * Extracts responses from the user input returns a {@code RequirementList} of {@code CoursePrerequisite}.
+     */
+    private Requirement getCoursePrereq() throws InvalidInputException {
+        ArrayList<CoursePrerequisite> coursePrerequisites = new ArrayList<>();
+        for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
+            CoursePrerequisiteCard coursePrerequisiteCard = (CoursePrerequisiteCard) cardPlaceholder
+                    .getChildren().get(i);
+            coursePrerequisites.add(coursePrerequisiteCard.getCoursePrerequisite());
+        }
+        return new RequirementList(coursePrerequisites, CoursePrerequisite.PREFIX);
+    }
+
+    /**
+     * Extracts responses from the user input returns a {@code RequirementList} of {@code ModulePrerequisite}.
+     */
+    private Requirement getModPrereq() throws InvalidInputException {
+        ArrayList<ModulePrerequisite> modulePrerequisites = new ArrayList<>();
+        for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
+            ModulePrerequisiteCard modulePrerequisiteCard = (ModulePrerequisiteCard) cardPlaceholder
+                    .getChildren().get(i);
+            modulePrerequisites.add(modulePrerequisiteCard.getModulePrerequisite());
+        }
+        return new RequirementList(modulePrerequisites, ModulePrerequisite.PREFIX);
+    }
+
+    /**
+     * Update the requirementIndexLabel and Boolean property to mark this card as the start of a new requirement.
+     */
+    public void setAsStart() {
+        requirementIndexLabel.setText("Requirement " + requirementNumber);
+        requirementIndexLabel.prefHeightProperty().set(Region.USE_COMPUTED_SIZE);
+        isNewRequirement = true;
     }
 
     public Label getOrLabel() {
@@ -273,130 +501,6 @@ public class EntryFieldCard extends HBox {
         return isNewRequirement;
     }
 
-    public Requirement getResponses() throws InvalidInputException {
-        if (entryType == null) {
-            return null;
-        }
-        switch(entryType) {
-        case MOD_PREREQ:
-            ArrayList<ModulePrerequisite> modulePrerequisites = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
-                ModulePrerequisiteCard modulePrerequisiteCard = (ModulePrerequisiteCard) cardPlaceholder
-                        .getChildren().get(i);
-                modulePrerequisites.add(modulePrerequisiteCard.getModulePrerequisite());
-            }
-            return new RequirementList(modulePrerequisites, ModulePrerequisite.PREFIX);
-        case COURSE_PREREQ:
-            ArrayList<CoursePrerequisite> coursePrerequisites = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
-                CoursePrerequisiteCard coursePrerequisiteCard = (CoursePrerequisiteCard) cardPlaceholder
-                        .getChildren().get(i);
-                coursePrerequisites.add(coursePrerequisiteCard.getCoursePrerequisite());
-            }
-            return new RequirementList(coursePrerequisites, CoursePrerequisite.PREFIX);
-        case MC_PREREQ:
-            McPrerequisiteCard card = (McPrerequisiteCard) cardPlaceholder.getChildren().get(0);
-            if (cardPlaceholder.getChildren().size() == 2 && !card.hasPrefix()) {
-                return card.getMcPrerequisite();
-            } else {
-                int numberOfModules = 0;
-                ArrayList<ModulePrerequisite> modules = new ArrayList<>();
-                for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
-                    McPrerequisiteCard mcPrerequisiteCard = (McPrerequisiteCard) cardPlaceholder
-                            .getChildren().get(i);
-                    if (i == 0) {
-                        numberOfModules = mcPrerequisiteCard.getNumberOfModules();
-                    }
-                    modules.add(mcPrerequisiteCard.getModule());
-                }
-                return new RequirementList(modules, numberOfModules, ModulePrerequisite.PREFIX, true);
-            }
-        case MAJOR_PREREQ:
-            ArrayList<MajorPrerequisite> majorPrerequisites = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
-                MajorPrerequisiteCard majorPrerequisiteCard = (MajorPrerequisiteCard) cardPlaceholder
-                        .getChildren().get(i);
-                majorPrerequisites.add(majorPrerequisiteCard.getMajorPrerequisite());
-            }
-            return new RequirementList(majorPrerequisites, MajorPrerequisite.PREFIX);
-        case CAP_PREREQ:
-            CapPrerequisiteCard capPrerequisiteCard = (CapPrerequisiteCard) cardPlaceholder
-                    .getChildren().get(0);
-            return capPrerequisiteCard.getCapPrerequisite();
-        case A_LEVEL_PREREQ:
-            ArrayList<ALevelPrerequisite> aLevelPrerequisites = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
-                ALevelPrerequisiteCard aLevelPrerequisiteCard = (ALevelPrerequisiteCard) cardPlaceholder
-                        .getChildren().get(i);
-                aLevelPrerequisites.add(aLevelPrerequisiteCard.getALevelPrerequisite());
-            }
-            return new RequirementList(aLevelPrerequisites, ALevelPrerequisite.PREFIX);
-        case COURSE_PRECLUSION:
-            ArrayList<CoursePreclusion> coursePreclusions = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
-                CoursePreclusionCard coursePreclusionCard = (CoursePreclusionCard) cardPlaceholder
-                        .getChildren().get(i);
-                coursePreclusions.add(coursePreclusionCard.getCoursePreclusion());
-            }
-            return new RequirementList(coursePreclusions, CoursePreclusion.PREFIX);
-        case MODULE_PRECLUSION:
-            ArrayList<ModulePreclusion> modulePreclusions = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
-                ModulePreclusionCard modulePreclusionCard = (ModulePreclusionCard) cardPlaceholder
-                        .getChildren().get(i);
-                modulePreclusions.add(modulePreclusionCard.getModulePreclusion());
-            }
-            return new RequirementList(modulePreclusions, ModulePreclusion.PREFIX);
-        case MAJOR_PRECLUSION:
-            ArrayList<MajorPreclusion> majorPreclusions = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
-                MajorPreclusionCard majorPreclusionCard = (MajorPreclusionCard) cardPlaceholder
-                        .getChildren().get(i);
-                majorPreclusions.add(majorPreclusionCard.getMajorPreclusion());
-            }
-            return new RequirementList(majorPreclusions, MajorPreclusion.PREFIX);
-        case CONCURRENT_MODULE:
-            ArrayList<ModuleConcurrent> moduleConcurrents = new ArrayList<>();
-            for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
-                ModuleConcurrentCard moduleConcurrentCard = (ModuleConcurrentCard) cardPlaceholder.getChildren().get(i);
-                moduleConcurrents.add(moduleConcurrentCard.getModuleConcurrent());
-            }
-            return new RequirementList(moduleConcurrents, ModuleConcurrent.PREFIX);
-        default:
-            return null;
-        }
-    }
-
-    @FXML
-    public void delete() {
-        int numOfChildren = cardPlaceholder.getChildren().size();
-        if (numOfChildren > 2) {
-            // there is more than one card
-            cardPlaceholder.getChildren().remove(numOfChildren - 2);
-            RequirementCard lastCard = (RequirementCard) cardPlaceholder.getChildren().get(numOfChildren - 3);
-            lastCard.changeOrLabelToButton();
-        } else if (numOfChildren == 2) {
-            // there is only one card
-            RequirementCard onlyCard = (RequirementCard) cardPlaceholder.getChildren().get(0);
-            cardPlaceholder.getChildren().remove(onlyCard);
-            requirementOptions.getSelectionModel().clearSelection();
-            requirementOptions.setPromptText("REQUIREMENT");
-            configureDeleteButton();
-        } else if (numOfChildren == 1) {
-            // there are no cards
-            parent.deleteRequirement(this);
-        } else {
-            System.out.println(numOfChildren);
-            throw new IllegalStateException();
-        }
-    }
-
-    public void setAsStart() {
-        requirementIndexLabel.setText("Requirement " + requirementNumber);
-        requirementIndexLabel.prefHeightProperty().set(Region.USE_COMPUTED_SIZE);
-        isNewRequirement = true;
-    }
-
     public void removeDeleteButton() {
         cardPlaceholder.getChildren().remove(deleteButton);
     }
@@ -411,6 +515,23 @@ public class EntryFieldCard extends HBox {
 
     public boolean hasReqCards() {
         return cardPlaceholder.getChildren().size() > 1;
+    }
+
+    public void setConjunctionLabel() {
+        conjunctionLabel.setText("AND");
+    }
+
+    public void removeConjunctionLabel() {
+        conjunctionLabel.setText(null);
+    }
+
+    public void setDisjunctionLabel() {
+        orButtonPlaceholder.getChildren().remove(orButton);
+        orButtonPlaceholder.getChildren().add(orLabel);
+    }
+
+    public void removeReqButton() {
+        newRequirementButtonPlaceholder.getChildren().remove(newRequirementButton);
     }
 
 }

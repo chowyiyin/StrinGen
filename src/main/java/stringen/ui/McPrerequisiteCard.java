@@ -11,13 +11,16 @@ import stringen.logic.requirements.McPrerequisite;
 import stringen.logic.requirements.ModulePrerequisite;
 import stringen.ui.exceptions.InvalidInputException;
 
+/**
+ * Represents a UI component that collects information about a {@code McPrerequisite}.
+ */
 public class McPrerequisiteCard extends RequirementCard {
 
     @FXML
     private TextField mcCountField;
 
     @FXML
-    private TextField modulePrefixField;
+    private TextField moduleCodeField;
 
     @FXML
     private Button orButton;
@@ -38,10 +41,20 @@ public class McPrerequisiteCard extends RequirementCard {
         }
     }
 
+    /**
+     * Extracts the user-inputted information and returns a {@code McPrerequisite} if no module code is given.
+     * @return The corresponding {@code McPrerequisite}.
+     */
     public McPrerequisite getMcPrerequisite() {
         return new McPrerequisite(mcCountField.getText().toUpperCase().trim());
     }
 
+    /**
+     * Calculates the number of modules that correspond to the given MC count.
+     * @return The number of modules
+     * @throws InvalidInputException If no MC count is given or the MC count given cannot be parsed into an
+     * {@code Integer}.
+     */
     public int getNumberOfModules() throws InvalidInputException {
         try {
             return Integer.parseInt(mcCountField.getText().trim()) / 4;
@@ -54,14 +67,26 @@ public class McPrerequisiteCard extends RequirementCard {
         }
     }
 
+    /**
+     * Extracts the user-inputted information and returns a {@code ModulePrerequisite} if a module code is given.
+     * @return The corresponding {@code ModulePrerequisite}.
+     */
     public ModulePrerequisite getModule() {
-        return new ModulePrerequisite(modulePrefixField.getText(), ModulePrerequisite.DEFAULT_GRADE);
+        return new ModulePrerequisite(moduleCodeField.getText(), ModulePrerequisite.DEFAULT_GRADE);
     }
 
-    public boolean hasPrefix() {
-        return !modulePrefixField.getText().trim().equals("");
+    /**
+     * Checks if the module code field is empty.
+     * @return True if it is not empty.
+     */
+    public boolean hasModuleCode() {
+        return !moduleCodeField.getText().trim().equals("");
     }
 
+    /**
+     * Adds a new entry (horizontally on the UI).
+     * Implies a logical or relationship between the current entry and the newly added entry.
+     */
     @FXML
     public void addNewEntry() {
         changeOrButtonToLabel();
@@ -70,6 +95,9 @@ public class McPrerequisiteCard extends RequirementCard {
         parent.addNewCard(newCard);
     }
 
+    /**
+     * Removes the MC count field from the card.
+     */
     public void removeMcCountField() {
         getChildren().remove(mcCountField);
     }

@@ -9,6 +9,9 @@ import javafx.scene.layout.HBox;
 import stringen.Util;
 import stringen.logic.Cohort;
 
+/**
+ * Represents a UI component that collects the year range of a {@code Cohort}.
+ */
 public class CohortListCard extends HBox {
 
     @FXML
@@ -36,6 +39,10 @@ public class CohortListCard extends HBox {
         cohortEnd.getSelectionModel().select("YEAR");
     }
 
+    /**
+     * Extracts information about the starting year of the cohort year range.
+     * @return The starting year.
+     */
     public String getStartYear() {
         if (cohortStart.getValue() == "YEAR" || cohortStart.getValue().equals(Cohort.DEFAULT_DASH)) {
             return "";
@@ -44,6 +51,10 @@ public class CohortListCard extends HBox {
         }
     }
 
+    /**
+     * Extracts information about the ending year of the cohort year range.
+     * @return The ending year
+     */
     public String getEndYear() {
         if (cohortEnd.getValue() == "YEAR" || cohortEnd.getValue().equals(Cohort.DEFAULT_DASH)) {
             return "";

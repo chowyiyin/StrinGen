@@ -12,6 +12,9 @@ import stringen.Util;
 import stringen.logic.requirements.ModulePrerequisite;
 import stringen.ui.exceptions.InvalidInputException;
 
+/**
+ * Represents a UI component that collects information about a {@code ModulePrerequisite}.
+ */
 public class ModulePrerequisiteCard extends RequirementCard {
 
     @FXML
@@ -44,12 +47,21 @@ public class ModulePrerequisiteCard extends RequirementCard {
         gradeDropdown.getItems().addAll(Util.GRADES);
     }
 
+    /**
+     * Adds a new entry (horizontally on the UI).
+     * Implies a logical or relationship between the current entry and the newly added entry.
+     */
     @FXML
     public void addNewEntry() {
         changeOrButtonToLabel();
         parent.addNewCard(new ModulePrerequisiteCard(parent));
     }
 
+    /**
+     * Extracts the user-inputted information and returns a {@code ModulePrerequisite}.
+     * @return The corresponding {@code ModulePrerequisite}.
+     * @throws InvalidInputException If any field is empty.
+     */
     public ModulePrerequisite getModulePrerequisite() throws InvalidInputException {
         String moduleCode = moduleCodeField.getText().toUpperCase().trim();
         if (moduleCode.isEmpty()) {
