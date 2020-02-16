@@ -193,6 +193,15 @@ public class MainWindow extends Stage {
     }
 
     /**
+     * Screen changes back to show {@EntryWindow}.
+     */
+    void returnToEntryWindows() {
+        windowPlaceholder.getChildren().remove(resultWindow);
+        windowPlaceholder.getChildren().add(entryWindowPlaceholder);
+        windowPlaceholder.getChildren().add(buttonPlaceholder);
+    }
+
+    /**
      * Checks if the given {@code EntryWindow} is the only window left.
      */
     public boolean isOnlyWindow(EntryWindow entryWindow) {

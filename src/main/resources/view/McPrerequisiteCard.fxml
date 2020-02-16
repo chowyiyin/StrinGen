@@ -7,7 +7,7 @@
 <fx:root stylesheets="@theme.css" type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id="mcCountField" prefHeight="36.0" promptText="Enter MC count..." styleClass="enterBox" />
-      <TextField fx:id="modulePrefixField" prefHeight="36.0" promptText="Enter module code..." styleClass="enterBox" HBox.hgrow="ALWAYS" />
+      <TextField fx:id="moduleCodeField" prefHeight="36.0" promptText="Enter module code..." styleClass="enterBox" HBox.hgrow="ALWAYS" />
       <Button fx:id="orButton" mnemonicParsing="false" onAction="#addNewEntry" prefHeight="36.0" text="add OR" HBox.hgrow="ALWAYS" />
    </children>
 </fx:root>

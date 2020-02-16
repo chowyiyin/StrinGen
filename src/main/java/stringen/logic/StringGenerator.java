@@ -31,7 +31,7 @@ public class StringGenerator {
             groups.stream().forEach(group -> {
                 if (string.length() == 0) {
                     string.append(group.generateString());
-                } else {
+                } else if (group.generateString().length() != 0){
                     string.append(operator + group.generateString());
                 }
             });

@@ -31,7 +31,7 @@ public class Generator {
             cohort.addOrGroups(orGroups);
             cohorts.add(cohort);
         }
-        return LogicManager.generateString(cohorts);
+        return LogicManager.generateString(cohorts, cohorts.size());
     }
 
     /**

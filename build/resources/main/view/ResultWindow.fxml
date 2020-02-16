@@ -26,7 +26,8 @@
                         <Label fx:id="lengthWarningLabel" alignment="CENTER" text="Label" />
                      </children>
                   </HBox>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#generateAnotherString" prefHeight="36.0" prefWidth="201.0" stylesheets="@theme.css" text="Generate another string" VBox.vgrow="ALWAYS" />
+                  <Button fx:id="editFieldsButton" alignment="CENTER" mnemonicParsing="false" onAction="#editFields" prefHeight="36.0" prefWidth="201.0" stylesheets="@theme.css" text="Edit fields" VBox.vgrow="ALWAYS" />
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#generateAnotherString" prefHeight="36.0" prefWidth="201.0" stylesheets="@theme.css" text="Generate another string" />
                </children>
                <padding>
                   <Insets top="10.0" />

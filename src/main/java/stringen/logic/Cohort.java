@@ -1,6 +1,7 @@
 package stringen.logic;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import stringen.logic.requirements.YearPrerequisite;
 
@@ -12,7 +13,7 @@ public class Cohort {
     private String startYear = "";
     private String endYear = "";
     private ArrayList<OrGroup> orGroups = new ArrayList<>();
-    private SingleOrGroup yearRequirement;
+    private SingleOrGroup yearRequirement = new SingleOrGroup(new YearPrerequisite());
 
     public Cohort(String startYear, String endYear) {
         this.startYear = startYear;
@@ -28,8 +29,17 @@ public class Cohort {
         return yearRequirement;
     }
 
+    public SingleAndGroup getYearRequirementAsAndGroup() {
+        return new SingleAndGroup(yearRequirement.getRequirement());
+    }
+
     public void addOrGroups(ArrayList<OrGroup> orGroups) {
-        this.orGroups.addAll(orGroups);
+        for (int i = 0; i < orGroups.size(); i++) {
+            OrGroup orGroup = orGroups.get(i);
+            if (!orGroup.isEmpty()) {
+                this.orGroups.add(orGroup);
+            }
+        }
     }
 
     public void addOrGroup(OrGroup orGroup) {
@@ -38,8 +48,18 @@ public class Cohort {
         }
     }
 
-    public void removeOrGroup(OrGroup orGroup) {
-        orGroups.remove(orGroup);
+    public void removePureYearRequirements(int numberOfYearRequirements) {
+        ArrayList<OrGroup> orGroupsToRemove = new ArrayList<>();
+        for (int i = 0; i < orGroups.size(); i++) {
+            OrGroup orGroup = orGroups.get(i);
+            if (orGroup.onlyContainsYearRequirement(numberOfYearRequirements)) {
+                orGroup.removeYearRequirements(numberOfYearRequirements);
+                if (orGroup.isEmpty()) {
+                    orGroupsToRemove.add(orGroup);
+                }
+            }
+        }
+        orGroups.removeAll(orGroupsToRemove);
     }
 
     public ArrayList<OrGroup> getOrGroups() {

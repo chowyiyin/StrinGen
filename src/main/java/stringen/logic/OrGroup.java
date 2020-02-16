@@ -13,6 +13,71 @@ public class OrGroup extends Group {
 
     protected OrGroup() {}
 
+    public boolean onlyContainsYearRequirement(int numberOfYearRequirements) {
+        int numberOfYearRequirementsFound = 0;
+        for (int i = 0; i < andGroups.size(); i++) {
+            AndGroup andGroup = andGroups.get(i);
+            if (andGroup.isYearRequirement()) {
+                numberOfYearRequirementsFound++;
+            }
+        }
+        boolean allYearRequirements = numberOfYearRequirements == numberOfYearRequirementsFound &&
+                numberOfYearRequirements == andGroups.size();
+        if (allYearRequirements) {
+            return true;
+        } else {
+            int numberOfEmbeddedYearRequirements = 0;
+            for (int i = 0; i < andGroups.size(); i++) {
+                AndGroup andGroup = andGroups.get(i);
+                if (andGroup.onlyContainsYearRequirement(1)) {
+                    numberOfEmbeddedYearRequirements++;
+                } else if (andGroup.onlyContainsYearRequirement(numberOfYearRequirements)) {
+                    return true;
+                }
+            }
+            return numberOfEmbeddedYearRequirements == numberOfYearRequirements &&
+                    numberOfEmbeddedYearRequirements == andGroups.size();
+        }
+    }
+
+    public void removeYearRequirements(int numberOfYearRequirements) {
+        ArrayList<SingleAndGroup> yearRequirementsFound = new ArrayList<>();
+        for (int i = 0; i < andGroups.size(); i++) {
+            AndGroup andGroup = andGroups.get(i);
+            if (andGroup.isYearRequirement()) {
+                yearRequirementsFound.add((SingleAndGroup) andGroup);
+            }
+        }
+        boolean allYearRequirements = numberOfYearRequirements == yearRequirementsFound.size() &&
+                numberOfYearRequirements == andGroups.size();
+        if (allYearRequirements) {
+            andGroups.removeAll(yearRequirementsFound);
+        } else {
+            int numberOfEmbeddedYearRequirements = 0;
+            for (int i = 0; i < andGroups.size(); i++) {
+                AndGroup andGroup = andGroups.get(i);
+                if (andGroup.onlyContainsYearRequirement(1)) {
+                    numberOfEmbeddedYearRequirements++;
+                } else if (andGroup.onlyContainsYearRequirement(numberOfYearRequirements)) {
+                    andGroup.removeYearRequirements(numberOfYearRequirements);
+                    return;
+                }
+            }
+            if (numberOfEmbeddedYearRequirements == numberOfYearRequirements &&
+                    numberOfEmbeddedYearRequirements == andGroups.size()) {
+                andGroups.stream().forEach(andGroup -> andGroup.removeYearRequirements(1));
+            };
+            ArrayList<AndGroup> emptyGroups = new ArrayList<>();
+            for (int i = 0; i < andGroups.size(); i++) {
+                AndGroup andGroup = andGroups.get(i);
+                if (andGroup.isEmpty()) {
+                    emptyGroups.add(andGroup);
+                }
+            }
+            andGroups.removeAll(emptyGroups);
+        }
+    }
+
     /**
      * Generates the string for an <code>OrGroup</code>.
      * @return String of this object.

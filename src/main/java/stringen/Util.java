@@ -38,8 +38,8 @@ public class Util {
     }
 
     public static void initialiseCap() {
-        for (double i = 5; i >= 0; i = i - 0.1) {
-            CAP.add(String.format("%.1f", i));
+        for (double i = 5; i >= 0; i = i - 0.05) {
+            CAP.add(String.format("%.2f", i));
         }
     }
 
