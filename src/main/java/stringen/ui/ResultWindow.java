@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.Clipboard;
@@ -19,6 +20,9 @@ public class ResultWindow extends ScrollPane {
 
     @FXML
     private Label lengthWarningLabel;
+
+    @FXML
+    private Button backButton;
 
     private String generatedString;
     private MainWindow mainWindow;
@@ -64,6 +68,11 @@ public class ResultWindow extends ScrollPane {
     @FXML
     public void generateAnotherString() {
         mainWindow.refresh();
+    }
+
+    @FXML
+    public void returnToEntryWindow() {
+        // TODO: DO
     }
 
 }
