@@ -86,7 +86,7 @@ public class AndGroup extends Group {
     }
 
     public String generateString() {
-        if (orGroups.size() == 0) {
+        if (StringGenerator.appendOrGroups(orGroups).length() == 0) {
             return "";
         } else if (orGroups.size() == 1) {
             return StringGenerator.appendOrGroups(orGroups);

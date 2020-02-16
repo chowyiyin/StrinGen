@@ -10,6 +10,7 @@ public class LogicManager {
 
     public static final String OPERATOR_AND = " & ";
     public static final String OPERATOR_OR = " | ";
+    public static ArrayList<Cohort> cohorts = new ArrayList<>();
 
     /**
      * Generates string for all cohorts.
@@ -17,6 +18,7 @@ public class LogicManager {
      * @return Output string.
      */
     public static String generateString(ArrayList<Cohort> cohorts, int originalNumberOfCohorts) {
+        LogicManager.cohorts = cohorts;
         if (cohorts.size() == 1) {
             Cohort finalCohort = cohorts.get(0);
             finalCohort.removePureYearRequirements(originalNumberOfCohorts);
@@ -37,7 +39,7 @@ public class LogicManager {
             if (!cohortsYetToBeProcessed.contains(firstCohort) || !cohortsYetToBeProcessed.contains(secondCohort)) {
                 continue;
             }
-            Cohort newCohort = process(cohortPairWithMostSimilarities);
+            Cohort newCohort = process(cohortPairWithMostSimilarities, cohorts);
             newCohorts.add(newCohort);
             string.append(newCohort.generateString());
             cohortsYetToBeProcessed.remove(firstCohort);
@@ -46,23 +48,6 @@ public class LogicManager {
 
         newCohorts.addAll(cohortsYetToBeProcessed);
         return generateString(newCohorts, originalNumberOfCohorts);
-        /*
-        if (hasSimilarities) {
-            return generateString(newCohorts, originalNumberOfCohorts);
-        }
-
-        // generate strings for individual cohorts that are were not processed previously
-        while (cohortsYetToBeProcessed.size() > 0) {
-            Cohort cohort = cohortsYetToBeProcessed.get(0);
-            Cohort newCohort = simplifyCohort(cohort);
-            newCohort.removePureYearRequirements(originalNumberOfCohorts);
-            String cohortString = newCohort.generateString();
-            string = new StringBuilder(StringGenerator.or(string.toString(), StringGenerator.appendBrackets(cohortString)));
-            cohortsYetToBeProcessed.remove(cohort);
-        }
-
-        return string.toString();
-         */
     }
 
     /**
@@ -124,7 +109,7 @@ public class LogicManager {
      * @param pair Pair of cohorts.
      * @return String for the combined cohorts.
      */
-    private static Cohort process(CohortPair pair) {
+    private static Cohort process(CohortPair pair, ArrayList<Cohort> cohorts) {
         // first, remove the whole OrGroups that were identified previously
         ArrayList<OrGroup> identicalRequirements = pair.getSimilarities();
         Cohort firstCohort = simplifyCohort((Cohort) pair.getFirstElement());
@@ -283,7 +268,17 @@ public class LogicManager {
                                                                                AndGroup similarity, Cohort firstCohort, Cohort secondCohort) {
         AndGroup remainingAndGroupInFirstGroup = firstGroup.getRemainingAndGroup(similarity, firstCohort);
         AndGroup remainingAndGroupInSecondGroup = secondGroup.getRemainingAndGroup(similarity, secondCohort);
-        return createGroups(similarity, remainingAndGroupInFirstGroup, remainingAndGroupInSecondGroup);
+        ArrayList<AndGroup> andGroupsForCohorts = new ArrayList<>();
+        andGroupsForCohorts.add(new AndGroup(createGroups(similarity, remainingAndGroupInFirstGroup, remainingAndGroupInSecondGroup)));
+        for (int i = 0; i < cohorts.size(); i++) {
+            Cohort thisCohort = cohorts.get(i);
+            if (!thisCohort.equals(firstCohort) && !thisCohort.equals(secondCohort)) {
+                andGroupsForCohorts.add(thisCohort.getYearRequirementAsAndGroup());
+            }
+        }
+        ArrayList<OrGroup> orGroups = new ArrayList<>();
+        orGroups.add(new OrGroup(andGroupsForCohorts));
+        return orGroups;
     }
 
     /**

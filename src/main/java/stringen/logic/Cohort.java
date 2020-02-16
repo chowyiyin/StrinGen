@@ -77,4 +77,19 @@ public class Cohort {
             orGroups.remove(similarOrGroup);
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        } else if (o instanceof Cohort) {
+            Cohort other = (Cohort) o;
+            return this.orGroups.equals(other.orGroups) &&
+                    this.startYear.equals(other.startYear) &&
+                    this.endYear.equals(other.endYear) &&
+                    this.yearRequirement.equals(other.yearRequirement);
+        } else {
+            return false;
+        }
+    }
 }

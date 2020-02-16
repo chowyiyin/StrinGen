@@ -83,7 +83,7 @@ public class OrGroup extends Group {
      * @return String of this object.
      */
     public String generateString() {
-        if (andGroups.size() == 0) {
+        if (StringGenerator.appendAndGroups(andGroups).length() == 0) {
             return "";
         } else if (andGroups.size() == 1) {
             return StringGenerator.appendAndGroups(andGroups);
