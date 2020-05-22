@@ -1,5 +1,9 @@
 package stringen.ui;
 
+import java.io.IOException;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -15,7 +19,7 @@ public class Main extends Application {
     private static final String APPLICATION_ICON = "/images/logo.png";
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException, InvalidFormatException {
         MainWindow mainWindow = new MainWindow(primaryStage);
         //Set the application icon.
         Image icon = new Image(Main.class.getResourceAsStream(APPLICATION_ICON));

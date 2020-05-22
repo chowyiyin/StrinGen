@@ -1,20 +1,22 @@
 package stringen.logic.requirements;
 
+import java.util.ArrayList;
+
 public class ALevelPrerequisite implements Requirement {
 
     public static String PREFIX = "ASUB_PR";
 
-    private String subject;
+    private String subjectCode;
     private String minimumGrade;
 
-    public ALevelPrerequisite(String subject, String minimumGrade) {
-        this.subject = subject;
+    public ALevelPrerequisite(String subjectCode, String minimumGrade) {
+        this.subjectCode = subjectCode;
         this.minimumGrade = minimumGrade;
     }
 
     @Override
     public String generateString() {
-        return subject + appendSquareBrackets(minimumGrade);
+        return subjectCode + appendSquareBrackets(minimumGrade);
     }
 
     public boolean equals(Object o) {
@@ -23,7 +25,8 @@ public class ALevelPrerequisite implements Requirement {
         } else {
             if (o instanceof ALevelPrerequisite) {
                 ALevelPrerequisite other = (ALevelPrerequisite) o;
-                return minimumGrade.equals(other.minimumGrade);
+                return subjectCode == other.subjectCode &&
+                        minimumGrade.equals(other.minimumGrade);
             } else {
                 return false;
             }
