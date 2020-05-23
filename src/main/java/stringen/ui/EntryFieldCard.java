@@ -519,6 +519,7 @@ public class EntryFieldCard extends HBox {
 
     public void setConjunctionLabel() {
         conjunctionLabel.setText("AND");
+        conjunctionLabel.setId("andLabel");
     }
 
     public void removeConjunctionLabel() {
