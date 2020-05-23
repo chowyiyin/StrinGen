@@ -3,6 +3,8 @@ package stringen.ui;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -71,7 +73,7 @@ public class MainWindow extends Stage {
     /**
      * Initialises required information in {@code Util} and other UI component placeholders.
      */
-    void fillInnerParts() {
+    void fillInnerParts() throws IOException, InvalidFormatException {
         Util.initialise();
         startUp();
     }
@@ -190,6 +192,15 @@ public class MainWindow extends Stage {
             // update delete cohort button
             entryWindows.get(0).removeDeleteCohortButton();
         }
+    }
+
+    /**
+     * Screen changes back to show {@EntryWindow}.
+     */
+    void returnToEntryWindows() {
+        windowPlaceholder.getChildren().remove(resultWindow);
+        windowPlaceholder.getChildren().add(entryWindowPlaceholder);
+        windowPlaceholder.getChildren().add(buttonPlaceholder);
     }
 
     /**

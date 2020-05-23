@@ -11,12 +11,82 @@ public class AndGroup extends Group {
 
     protected AndGroup() {}
 
+    public boolean isYearRequirement() {
+        return false;
+    }
+
+    public void removeYearRequirements(int numberOfYearRequirements) {
+        ArrayList<SingleOrGroup> yearRequirementsFound = new ArrayList<>();
+        for (int i = 0; i < orGroups.size(); i++) {
+            OrGroup orGroup = orGroups.get(i);
+            if (orGroup.isYearRequirement()) {
+                yearRequirementsFound.add((SingleOrGroup) orGroup);
+            }
+        }
+        boolean allYearRequirements = numberOfYearRequirements == yearRequirementsFound.size() &&
+                numberOfYearRequirements == orGroups.size();
+        if (allYearRequirements) {
+            orGroups.removeAll(yearRequirementsFound);
+        } else {
+            int numberOfEmbeddedYearRequirements = 0;
+            for (int i = 0; i < orGroups.size(); i++) {
+                OrGroup orGroup = orGroups.get(i);
+                if (orGroup.onlyContainsYearRequirement(1)) {
+                    numberOfEmbeddedYearRequirements++;
+                } else if (orGroup.onlyContainsYearRequirement(numberOfYearRequirements)) {
+                    orGroup.removeYearRequirements(numberOfYearRequirements);
+                    return;
+                }
+            }
+            if (numberOfEmbeddedYearRequirements == numberOfYearRequirements &&
+                    numberOfEmbeddedYearRequirements == orGroups.size()) {
+                orGroups.stream().forEach(orGroup -> orGroup.removeYearRequirements(1));
+            };
+
+            ArrayList<OrGroup> emptyGroups = new ArrayList<>();
+            for (int i = 0; i < orGroups.size(); i++) {
+                OrGroup orGroup = orGroups.get(i);
+                if (orGroup.isEmpty()) {
+                    emptyGroups.add(orGroup);
+                }
+            }
+            orGroups.removeAll(emptyGroups);
+        }
+    }
+
+    public boolean onlyContainsYearRequirement(int numberOfYearRequirements) {
+        int numberOfYearRequirementsFound = 0;
+        for (int i = 0; i < orGroups.size(); i++) {
+            OrGroup orGroup = orGroups.get(i);
+            if (orGroup.isYearRequirement()) {
+                numberOfYearRequirementsFound++;
+            }
+        }
+        boolean allYearRequirements = numberOfYearRequirements == numberOfYearRequirementsFound &&
+                numberOfYearRequirements == orGroups.size();
+        if (allYearRequirements) {
+            return true;
+        } else {
+            int numberOfEmbeddedYearRequirements = 0;
+            for (int i = 0; i < orGroups.size(); i++) {
+                OrGroup orGroup = orGroups.get(i);
+                if (orGroup.onlyContainsYearRequirement(1)) {
+                    numberOfEmbeddedYearRequirements++;
+                } else if (orGroup.onlyContainsYearRequirement(numberOfYearRequirements)) {
+                    return true;
+                }
+            }
+            return numberOfEmbeddedYearRequirements == numberOfYearRequirements &&
+                    numberOfEmbeddedYearRequirements == orGroups.size();
+        }
+    }
+
     public void addOrGroup(OrGroup orGroup) {
         this.orGroups.add(orGroup);
     }
 
     public String generateString() {
-        if (orGroups.size() == 0) {
+        if (StringGenerator.appendOrGroups(orGroups).length() == 0) {
             return "";
         } else if (orGroups.size() == 1) {
             return StringGenerator.appendOrGroups(orGroups);

@@ -22,7 +22,7 @@ public class ResultWindow extends ScrollPane {
     private Label lengthWarningLabel;
 
     @FXML
-    private Button backButton;
+    private Button editFieldsButton;
 
     private String generatedString;
     private MainWindow mainWindow;
@@ -71,8 +71,8 @@ public class ResultWindow extends ScrollPane {
     }
 
     @FXML
-    public void returnToEntryWindow() {
-        // TODO: DO
+    public void editFields() {
+        mainWindow.returnToEntryWindows();
     }
 
 }

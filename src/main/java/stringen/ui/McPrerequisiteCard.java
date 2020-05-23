@@ -72,7 +72,7 @@ public class McPrerequisiteCard extends RequirementCard {
      * @return The corresponding {@code ModulePrerequisite}.
      */
     public ModulePrerequisite getModule() {
-        return new ModulePrerequisite(moduleCodeField.getText(), ModulePrerequisite.DEFAULT_GRADE);
+        return new ModulePrerequisite(moduleCodeField.getText().toUpperCase(), ModulePrerequisite.DEFAULT_GRADE);
     }
 
     /**

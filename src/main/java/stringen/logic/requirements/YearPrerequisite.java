@@ -6,12 +6,23 @@ public class YearPrerequisite implements Requirement {
 
     public static String PREFIX = "YEAR_PR";
 
-    private String startYear;
-    private String endYear;
+    private String startYear = "";
+    private String endYear = "";
 
     public YearPrerequisite(String startYear, String endYear) {
         this.startYear = startYear;
         this.endYear = endYear;
+    }
+
+    public YearPrerequisite() {
+    }
+
+    public String getStartYear() {
+        return startYear;
+    }
+
+    public String getEndYear() {
+        return endYear;
     }
 
     @Override

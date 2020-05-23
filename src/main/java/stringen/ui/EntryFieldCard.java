@@ -371,7 +371,7 @@ public class EntryFieldCard extends HBox {
         for (int i = 0; i < cardPlaceholder.getChildren().size() - 1; i++) {
             ALevelPrerequisiteCard aLevelPrerequisiteCard = (ALevelPrerequisiteCard) cardPlaceholder
                     .getChildren().get(i);
-            aLevelPrerequisites.add(aLevelPrerequisiteCard.getALevelPrerequisite());
+            aLevelPrerequisites.addAll(aLevelPrerequisiteCard.getALevelPrerequisite());
         }
         return new RequirementList(aLevelPrerequisites, ALevelPrerequisite.PREFIX);
     }
