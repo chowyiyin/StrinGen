@@ -222,7 +222,7 @@ public class EntryWindow extends VBox {
      * Only update the cards if they correspond to the same requirement number.
      */
     private void updateNeighbouringCards(EntryFieldCard toDelete, int cardIndex, EntryFieldCard prevCard, EntryFieldCard nextCard) {
-        if (prevCard != null && prevCard.getRequirementNumber() == toDelete.getRequirementNumber()) {
+        if (prevCard != null && prevCard.getRequirementNumber() == toDelete.getRequirementNumber() - 1) {
             updatePrevCard(toDelete, prevCard);
         }
         if (nextCard != null && nextCard.getRequirementNumber() == toDelete.getRequirementNumber()) {
@@ -303,6 +303,7 @@ public class EntryWindow extends VBox {
         if (toDelete.containsReqButton() && !prevCard.containsReqButton()) {
             prevCard.addReqButton();
         }
+
         if (isOnlyReq(prevCard) && !prevCard.hasReqCards()) {
             prevCard.removeDeleteButton();
         }

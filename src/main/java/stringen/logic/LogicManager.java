@@ -2,7 +2,6 @@ package stringen.logic;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.stream.Collectors;
 
 import stringen.logic.requirements.YearPrerequisite;
 
@@ -47,6 +46,9 @@ public class LogicManager {
         }
 
         newCohorts.addAll(cohortsYetToBeProcessed);
+        for (Cohort cohort: newCohorts) {
+            cohort.simplify(originalNumberOfCohorts);
+        }
         return generateString(newCohorts, originalNumberOfCohorts);
     }
 
@@ -112,16 +114,19 @@ public class LogicManager {
     private static Cohort process(CohortPair pair, ArrayList<Cohort> cohorts) {
         // first, remove the whole OrGroups that were identified previously
         ArrayList<OrGroup> identicalRequirements = pair.getSimilarities();
-        Cohort firstCohort = simplifyCohort((Cohort) pair.getFirstElement());
-        Cohort secondCohort = simplifyCohort((Cohort) pair.getSecondElement());
+        Cohort firstCohort = (Cohort) pair.getFirstElement();
+        Cohort secondCohort = (Cohort) pair.getSecondElement();
         firstCohort.removeOrGroups(identicalRequirements);
         secondCohort.removeOrGroups(identicalRequirements);
+        firstCohort = simplifyCohort(firstCohort);
+        secondCohort = simplifyCohort(secondCohort);
+
 
         ArrayList<OrGroup> firstCohortOrGroups = firstCohort.getOrGroups();
         ArrayList<OrGroup> secondCohortOrGroups = secondCohort.getOrGroups();
-        ArrayList<OrGroupPair> pairsWithSimilarities = findEmbeddedAndGroups(getDistinctGroupPairs(firstCohortOrGroups,
+        OrGroupPair pairWithSimilarities = findEmbeddedAndGroup(getDistinctGroupPairs(firstCohortOrGroups,
                 secondCohortOrGroups));;
-        Cohort dummyCohort = createDummyCohort(firstCohort, secondCohort, pairsWithSimilarities);
+        Cohort dummyCohort = createDummyCohort(firstCohort, secondCohort, pairWithSimilarities);
 
         if (identicalRequirements.size() != 0) {
             ArrayList<AndGroup> andGroupsForOrGroupToContainYearRequirements = new ArrayList<>();
@@ -143,14 +148,12 @@ public class LogicManager {
     /**
      * Finds <code>AndGroup</code>s that are common between <code></code>OrGroupPair</code>s.
      * @param distinctOrGroupPairs Pairs of OrGroups
-     * @return List of <code>OrGroupPair</code>s that have similarities
+     * @return Biggest <code>OrGroupPair</code>s that have similarities
      */
-    private static ArrayList<OrGroupPair> findEmbeddedAndGroups(ArrayList<OrGroupPair> distinctOrGroupPairs) {
+    private static OrGroupPair findEmbeddedAndGroup(ArrayList<OrGroupPair> distinctOrGroupPairs) {
         PriorityQueue<OrGroupPair> sortedGroupsInDecreasingSimilarity =
                 sortGroupPairs(distinctOrGroupPairs);
-
-        ArrayList<OrGroupPair> pairsWithSimilarities = extractPairsWithSimilarities(sortedGroupsInDecreasingSimilarity);
-        return pairsWithSimilarities;
+        return sortedGroupsInDecreasingSimilarity.poll();
     }
 
     /**
@@ -175,20 +178,18 @@ public class LogicManager {
      * that were not part of a pair.
      * @param firstCohort Cohort that contains the first element in each pair.
      * @param secondCohort Cohort that contains the second element in each pair.
-     * @param pairsWithSimilarities <code>OrGroupPair</code>s that have similarities.
+     * @param pairWithSimilarities <code>OrGroupPair</code>s that have similarities.
      * @return New dummy cohort.
      */
-    private static Cohort createDummyCohort(Cohort firstCohort, Cohort secondCohort, ArrayList<OrGroupPair> pairsWithSimilarities) {
+    private static Cohort createDummyCohort(Cohort firstCohort, Cohort secondCohort, OrGroupPair pairWithSimilarities) {
         Cohort dummyCohort = new Cohort();
-        dummyCohort = createNewCohort(firstCohort, secondCohort, pairsWithSimilarities);
+        dummyCohort = createNewCohort(firstCohort, secondCohort, pairWithSimilarities);
 
-        ArrayList<OrGroup> firstElements = (ArrayList<OrGroup>) pairsWithSimilarities.stream().map(
-                orGroupPair -> (OrGroup) orGroupPair.getFirstElement()).collect(Collectors.toList());
-        ArrayList<OrGroup> secondElements = (ArrayList<OrGroup>) pairsWithSimilarities.stream().map(
-                orGroupPair -> (OrGroup) orGroupPair.getSecondElement()).collect(Collectors.toList());
+        OrGroup firstElement = (OrGroup) pairWithSimilarities.getFirstElement();
+        OrGroup secondElement = (OrGroup) pairWithSimilarities.getSecondElement();
         ArrayList<AndGroup> andGroupsForRemainingOrGroups = new ArrayList<>();
-        andGroupsForRemainingOrGroups.add(getRemainingOrGroups(firstCohort, firstElements));
-        andGroupsForRemainingOrGroups.add(getRemainingOrGroups(secondCohort, secondElements));
+        andGroupsForRemainingOrGroups.add(getRemainingOrGroups(firstCohort, firstElement));
+        andGroupsForRemainingOrGroups.add(getRemainingOrGroups(secondCohort, secondElement));
         dummyCohort.addOrGroup(new OrGroup(andGroupsForRemainingOrGroups));
         return simplifyCohort(dummyCohort);
     }
@@ -197,17 +198,14 @@ public class LogicManager {
      * Creates a new cohort to contain the new <code>OrGroup</code>s after similarities are extracted.
      * @param firstCohort First cohort in pair of cohorts.
      * @param secondCohort Second cohort in pair of cohorts.
-     * @param pairsWithSimilarities List of <code>OrGroupPair</code>s that have similarities.
+     * @param pairWithSimilarities code>OrGroupPair</code>s that have similarities.
      * @return New dummy cohort.
      */
     private static Cohort createNewCohort(Cohort firstCohort, Cohort secondCohort,
-                                          ArrayList<OrGroupPair> pairsWithSimilarities) {
+                                          OrGroupPair pairWithSimilarities) {
         Cohort newDummyCohort = new Cohort();
         ArrayList<OrGroup> orGroupsForNewCohort = new ArrayList<>();
-        for (int i = 0; i < pairsWithSimilarities.size(); i++) {
-            OrGroupPair orGroupPair = pairsWithSimilarities.get(i);
-            orGroupsForNewCohort.addAll(createNewOrGroups(orGroupPair, firstCohort, secondCohort));
-        }
+        orGroupsForNewCohort.addAll(createNewOrGroups(pairWithSimilarities, firstCohort, secondCohort));
         newDummyCohort.addOrGroups(orGroupsForNewCohort);
         return newDummyCohort;
     }
@@ -437,15 +435,12 @@ public class LogicManager {
     /**
      * Get the remaining groups that are left in the cohort.
      * @param cohort Cohort that contains <code>OrGroup</code>s.
-     * @param orGroups <code>OrGroup</code>s that were already processed.
+     * @param orGroup <code>OrGroup</code> that was already processed.
      * @return <code>AndGroup</code> of the remaining <code>OrGroup</code>s in the form of an <code>OrGroup</code>.
      */
-    public static AndGroup getRemainingOrGroups(Cohort cohort, ArrayList<OrGroup> orGroups) {
+    public static AndGroup getRemainingOrGroups(Cohort cohort, OrGroup orGroup) {
         ArrayList<OrGroup> orGroupsFromCohort = cohort.getOrGroups();
-        for (int i = 0; i < orGroups.size(); i++) {
-            OrGroup orGroup = orGroups.get(i);
-            orGroupsFromCohort.remove(orGroup);
-        }
+        orGroupsFromCohort.remove(orGroup);
         return new AndGroup(orGroupsFromCohort);
     }
 

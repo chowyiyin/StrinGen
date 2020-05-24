@@ -3,6 +3,9 @@ package stringen.logic;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+import stringen.logic.requirements.Requirement;
+import stringen.logic.requirements.YearPrerequisite;
+
 public class OrGroup extends Group {
 
     private ArrayList<AndGroup> andGroups = new ArrayList<>();
@@ -168,6 +171,22 @@ public class OrGroup extends Group {
 
     public boolean isEmpty() {
         return andGroups.isEmpty();
+    }
+
+    public void simplify(int numberOfYearPrerequisites) {
+        ArrayList<AndGroup> yearRequirementAndGroups = new ArrayList<>();
+        int counter = 0;
+        for (AndGroup andGroup: andGroups) {
+            if (andGroup.isYearRequirement()) {
+                counter++;
+                yearRequirementAndGroups.add(andGroup);
+            } else {
+                andGroup.simplify(numberOfYearPrerequisites);
+            }
+        }
+        if (counter == numberOfYearPrerequisites) {
+            andGroups.removeAll(yearRequirementAndGroups);
+        }
     }
 
     @Override

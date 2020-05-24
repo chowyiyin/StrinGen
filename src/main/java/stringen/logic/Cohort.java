@@ -33,6 +33,12 @@ public class Cohort {
         return new SingleAndGroup(yearRequirement.getRequirement());
     }
 
+    public void simplify(int numberOfYearPrerequisites) {
+        for (OrGroup orGroup: orGroups) {
+            orGroup.simplify(numberOfYearPrerequisites);
+        }
+    }
+
     public void addOrGroups(ArrayList<OrGroup> orGroups) {
         for (int i = 0; i < orGroups.size(); i++) {
             OrGroup orGroup = orGroups.get(i);

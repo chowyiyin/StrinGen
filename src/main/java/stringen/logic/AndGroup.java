@@ -2,6 +2,8 @@ package stringen.logic;
 
 import java.util.ArrayList;
 
+import stringen.logic.requirements.YearPrerequisite;
+
 public class AndGroup extends Group {
     private ArrayList<OrGroup> orGroups = new ArrayList<>();
 
@@ -101,6 +103,12 @@ public class AndGroup extends Group {
 
     public int size() {
         return orGroups.size();
+    }
+
+    public void simplify(int numberOfYearPrerequisites) {
+        for (OrGroup orGroup: orGroups) {
+            orGroup.simplify(numberOfYearPrerequisites);
+        }
     }
 
     /**
