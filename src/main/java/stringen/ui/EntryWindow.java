@@ -222,7 +222,8 @@ public class EntryWindow extends VBox {
      * Only update the cards if they correspond to the same requirement number.
      */
     private void updateNeighbouringCards(EntryFieldCard toDelete, int cardIndex, EntryFieldCard prevCard, EntryFieldCard nextCard) {
-        if (prevCard != null && prevCard.getRequirementNumber() == toDelete.getRequirementNumber() - 1) {
+        if (prevCard != null && (prevCard.getRequirementNumber() == toDelete.getRequirementNumber() - 1 ||
+        prevCard.getRequirementNumber() == toDelete.getRequirementNumber())) {
             updatePrevCard(toDelete, prevCard);
         }
         if (nextCard != null && nextCard.getRequirementNumber() == toDelete.getRequirementNumber()) {
