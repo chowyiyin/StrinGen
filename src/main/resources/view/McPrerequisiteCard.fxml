@@ -8,6 +8,6 @@
    <children>
       <TextField fx:id="mcCountField" prefHeight="36.0" promptText="Enter MC count..." styleClass="enterBox" />
       <TextField fx:id="moduleCodeField" prefHeight="36.0" promptText="Enter module code..." styleClass="enterBox" HBox.hgrow="ALWAYS" />
-      <Button fx:id="orButton" mnemonicParsing="false" onAction="#addNewEntry" prefHeight="36.0" text="add OR" HBox.hgrow="ALWAYS" />
+      <Button fx:id="orButton" mnemonicParsing="false" onAction="#addNewEntry" prefHeight="36.0" text="OR" HBox.hgrow="ALWAYS" />
    </children>
 </fx:root>
